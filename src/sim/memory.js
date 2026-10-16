@@ -1,7 +1,7 @@
 // Карта наблюдений размещена в ОТДЕЛЬНОМ ограниченном накопителе.
 // Весов обучаемой модели пока нет, они не должны делить этот счётчик с картой.
 export const OBS_BYTES=384; // условный сериализованный размер одной записи (тестовый пресет)
-export const MEMORY_CAP_BYTES=49152; // 48 KiB
+export const MEMORY_CAP_BYTES=196608; // 192 KiB: карта заполняется постепенно
 export function createMemory(capacityBytes=MEMORY_CAP_BYTES){
   return {capacityBytes,cells:new Map(),lost:0,totalSeen:0};
 }

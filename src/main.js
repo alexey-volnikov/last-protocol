@@ -12,7 +12,7 @@ function updateUI(){
   $('modeBadge').style.color=s.mode==='ACTIVE'?'#73c79b':'#eeb36b';
   $('batteryTxt').textContent=`${s.batteryPct.toFixed(1)}%`;setBar('batteryBar',s.batteryPct);
   $('memoryTxt').textContent=`${s.memoryPct}%`;setBar('memoryBar',s.memoryPct);
-  $('memoryDetail').textContent=`48 KiB · ${s.knownTiles} записей · удалено ${s.lost}`;
+  $('memoryDetail').textContent=`192 KiB · ${s.knownTiles} записей · удалено ${s.lost}`;
   $('sunTxt').textContent=`${Math.round(s.sun*100)}%`;setBar('sunBar',s.sun*100);
   $('tempTxt').textContent=`${Math.round(s.temp)}°`;
   $('distanceTxt').textContent=s.distance.toFixed(1);

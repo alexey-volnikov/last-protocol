@@ -8,7 +8,7 @@ export const STEP_SECONDS=2;
 function makeRover(world){
   const {x,y}=world.home;
   return {x,y,estimatedX:x,estimatedY:y,heading:-.3,
-    capacityWh:36,batteryWh:27,bodyTempC:-10,mode:'ACTIVE',steps:0,scans:0,travelM:0,
+    capacityWh:36,batteryWh:27,bodyTempC:-10,mode:'ACTIVE',offReason:null,steps:0,scans:0,travelM:0,
     memory:createMemory(),lastLidar:[],brain:{wanderHeading:-.3},lastObservation:null,lastAction:null,
     mission:{rememberedHome:{x,y}},
     generation:1,modelVersion:'baseline-heuristic-v0',storageLoss:0};
@@ -35,15 +35,20 @@ export function step(sim,dt=STEP_SECONDS){
   // Упрощённая теплоёмкость корпуса: источник ≠ моментальная температура батареи.
   rover.bodyTempC += (surf-rover.bodyTempC) * Math.min(.1,dt/3600);
   if(rover.mode==='HIBERNATING'){
+    // В тестовой модели внешнее Солнце постепенно прогревает неподвижный корпус.
+    rover.bodyTempC+=sun*70*dt/700;
     rover.batteryWh=Math.min(rover.capacityWh,rover.batteryWh+12*sun*dt/3600);
-    if(rover.batteryWh>=rover.capacityWh*.7 && rover.bodyTempC>-70){
-      rover.mode='ACTIVE';addEvent(sim,'Питание восстановлено до 70%. Ровер пробудился.');
+    const mustReach70=rover.offReason==='EMPTY';
+    const needed=mustReach70?.7:.1;
+    if(rover.batteryWh>=rover.capacityWh*needed && rover.bodyTempC>-55){
+      rover.mode='ACTIVE';rover.offReason=null;
+      addEvent(sim,mustReach70?'Питание восстановлено до 70%. Ровер пробудился.':'Корпус согрелся. Ровер возобновил работу.');
     }
     rover.lastAction={type:'sleep',reason:'Полное отключение; пассивная зарядка'};
     return sim;
   }
   // При сильном холоде, который модель пока не позволяет преодолеть, включается защита.
-  if(rover.bodyTempC< -70){rover.mode='HIBERNATING';addEvent(sim,'Критический холод: система ушла в спячку.');return sim;}
+  if(rover.bodyTempC< -70){rover.mode='HIBERNATING';rover.offReason='COLD';addEvent(sim,'Критический холод: система ушла в спячку.');return sim;}
   const scan=sim.tick%3===0;
   const obs=sampleSensors(world,rover,sim.time,{scan});
   rover.lastObservation=obs;
@@ -83,7 +88,7 @@ export function step(sim,dt=STEP_SECONDS){
   rover.batteryWh=Math.max(0,Math.min(rover.capacityWh,rover.batteryWh+(solarWatts-watts)*dt/3600));
   rover.steps++;
   if(rover.batteryWh<=0){
-    rover.mode='HIBERNATING';addEvent(sim,'Аккумулятор разряжен: полное отключение до 70%.');
+    rover.mode='HIBERNATING';rover.offReason='EMPTY';addEvent(sim,'Аккумулятор разряжен: полное отключение до 70%.');
   }
   // Маяк базы восстанавливает абсолютную точку привязки только поблизости.
   if(Math.hypot(rover.x-world.home.x,rover.y-world.home.y)<2.5){

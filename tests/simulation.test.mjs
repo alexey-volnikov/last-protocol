@@ -35,7 +35,7 @@ test('bounded memory evicts old observations without exceeding capacity',()=>{
 
 test('complete discharge stops active operation; reboots at 70%, not at 69%',()=>{
   const s=createSimulation(42);
-  s.rover.mode='HIBERNATING';
+  s.rover.mode='HIBERNATING';s.rover.offReason='EMPTY';
   s.rover.batteryWh=s.rover.capacityWh*.69;
   s.time=448;
   step(s,2);
@@ -46,7 +46,7 @@ test('complete discharge stops active operation; reboots at 70%, not at 69%',()=
 
 test('without light, an empty rover cannot magically recharge',()=>{
   const s=createSimulation(42);
-  s.rover.mode='HIBERNATING';s.rover.batteryWh=0;
+  s.rover.mode='HIBERNATING';s.rover.offReason='EMPTY';s.rover.batteryWh=0;
   s.time=1400; // night of accelerated laboratory cycle
   for(let i=0;i<50;i++)step(s,2);
   assert.equal(s.rover.batteryWh,0);
@@ -58,4 +58,15 @@ test('same seed and steps produce identical trajectory and battery',()=>{
   for(let i=0;i<100;i++){step(a,2);step(b,2);}
   for(const key of ['x','y','heading','batteryWh','bodyTempC','mode','travelM']) assert.equal(a.rover[key],b.rover[key],key);
   assert.deepEqual(a.events,b.events);
+});
+
+
+test('warming after cold shutdown does not require 70% if battery never reached zero',()=>{
+  const s=createSimulation(42);
+  s.rover.mode='HIBERNATING';s.rover.offReason='COLD';
+  s.rover.batteryWh=s.rover.capacityWh*.4;
+  s.rover.bodyTempC=-54;
+  s.time=448;
+  step(s,2);
+  assert.equal(s.rover.mode,'ACTIVE');
 });
