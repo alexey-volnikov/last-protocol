@@ -51,22 +51,32 @@ export function createNeuralController({model=null,seed=71,learning=true,epsilon
 }
 export function createQController({model=null,seed=71,learning=true,epsilon=.12}={},spec){
   const random=makeRandom(seed);
+  const training={rate:.003,every:4,batchSize:8,preservePending:true,history:false,...spec.training};
+  const historyRandom=makeRandom(seed^0x64A17),recentCapacity=training.history?REPLAY_CAPACITY/2:REPLAY_CAPACITY;
   const architecture={inputs:spec.inputs,hidden:32,outputs:5};
   if(model&&(model.schema_version!==spec.schema||model.policy!==spec.id||!Number.isSafeInteger(model.updates)||model.updates<0))throw new Error('Несовместимый формат мозга или режим опыта');
   const meta=model?.meta?structuredClone(model.meta):null;
   let network=model?QNetwork.load(model.network,architecture):new QNetwork(spec.inputs,32,5,random);
   let target=QNetwork.load(network.save(),architecture);
-  const replay=[];
-  let replayIndex=0,lastAction=-1,chosen=0,updates=model?.updates||0,transitions=0,lastReward=0,lastComponents={},qValues=[];
+  const replay=[],history=[];
+  let replayIndex=0,historySeen=0,replayTerminals=0,lastAction=-1,chosen=0,updates=model?.updates||0,transitions=0,lastReward=0,lastComponents={},qValues=[];
   let pending=null,chosenInput=null; // Опыт при потере питания; обучение только после пробуждения.
   function learn(item){
-    replay[replayIndex]=item;replayIndex=(replayIndex+1)%REPLAY_CAPACITY;
+    const displaced=replay[replayIndex];
+    if(displaced)replayTerminals-=Number(displaced.done);
+    replay[replayIndex]=item;replayTerminals+=Number(item.done);replayIndex=(replayIndex+1)%recentCapacity;
+    if(displaced&&training.history){
+      historySeen++;
+      const slot=history.length<recentCapacity?history.length:Math.floor(historyRandom()*historySeen);
+      if(slot<recentCapacity){if(history[slot])replayTerminals-=Number(history[slot].done);history[slot]=displaced;replayTerminals+=Number(displaced.done);}
+    }
     transitions++;
-    if(transitions%4!==0||replay.length<16)return;
-    for(let b=0;b<8;b++){
-      const e=replay[Math.floor(random()*replay.length)];
+    const size=replay.length+history.length;
+    if(transitions%training.every!==0||size<16)return;
+    for(let b=0;b<training.batchSize;b++){
+      const slot=Math.floor(random()*size),e=slot<replay.length?replay[slot]:history[slot-replay.length];
       const nextQ=target.forward(e.next).q;
-      network.train(e.x,e.action,e.reward+(e.done?0:GAMMA*Math.max(...nextQ)));
+      network.train(e.x,e.action,e.reward+(e.done?0:GAMMA*Math.max(...nextQ)),training.rate);
     }
     updates++;
     if(updates%100===0)target=QNetwork.load(network.save(),architecture);
@@ -88,15 +98,16 @@ export function createQController({model=null,seed=71,learning=true,epsilon=.12}
       const reward=spec.reward(before,after,feedback);lastReward=reward.total;lastComponents=reward.components;
       if(!learning)return;
       const item={x:chosenInput.slice(),action:chosen,reward:reward.total,
-        next:spec.encode(after,chosen),done:spec.terminal(feedback)};
+        next:spec.encode(after,chosen),done:Boolean(spec.terminal(feedback))};
       if(feedback.shutdown)pending=item;
       else learn(item);
     },
     setExploration(value){epsilon=clamp(value,0,1);},
     setLearning(value){learning=Boolean(value);},
-    newTrial(){lastAction=-1;pending=null;},
+    newTrial(){lastAction=-1;if(!training.preservePending)pending=null;},
     finishLabTrial(){if(pending&&learning){learn(pending);pending=null;}},
-    info(){return {id:spec.id,updates,replaySize:replay.length,replayCapacity:REPLAY_CAPACITY,
+    info(){return {id:spec.id,updates,replaySize:replay.length+history.length,replayCapacity:REPLAY_CAPACITY,
+      replayTerminals,historySize:history.length,deferredFailure:Boolean(pending),training:{...training},
       learning,epsilon,lastReward,components:{...lastComponents},qValues:[...qValues],lastAction};},
     save(){return {schema_version:spec.schema,policy:spec.id,updates,network:network.save(),...(meta?{meta:structuredClone(meta)}:{})};}
   };

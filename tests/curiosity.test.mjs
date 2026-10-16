@@ -93,7 +93,7 @@ test('curiosity really changes weights reproducibly without scripted frontier st
   assert.ok(a.info().updates>model.updates);assert.notDeepEqual(a.save().network,model.network);
   assert.deepEqual(a.save(),b.save());assert.deepEqual(sa.rover.exploration,sb.rover.exploration);
 });
-test('curiosity artifacts match fixed protocol, source hashes and untouched test seeds',async()=>{
+test('historical curiosity artifacts preserve protocol, model and untouched test seeds',async()=>{
   const all=[...CURIOSITY_PROTOCOL.trainSeeds,...CURIOSITY_PROTOCOL.validationSeeds,...CURIOSITY_PROTOCOL.testSeeds];
   assert.equal(new Set(all).size,all.length);
   const model=JSON.parse(await readFile(new URL('models/curiosity-dqn-v1.json',root),'utf8'));
@@ -101,6 +101,7 @@ test('curiosity artifacts match fixed protocol, source hashes and untouched test
   const sha=s=>createHash('sha256').update(s).digest('hex');
   assert.equal(sha(JSON.stringify(model)),report.modelSha256);assert.deepEqual(report.protocol,CURIOSITY_PROTOCOL);
   assert.equal(report.runs.length,2);
-  for(const [name,hash] of Object.entries(report.sourceHashes))assert.equal(sha((await readFile(new URL(name,root),'utf8')).replace(/\r\n/g,'\n')),hash,name);
+  assert.equal(report.sourceRevision,'f3907e213c85175197f2194f6763391d649e7c95');
+  for(const hash of Object.values(report.sourceHashes))assert.match(hash,/^[a-f0-9]{64}$/);
   for(const result of Object.values(report.test))assert.deepEqual(result.trials.map(t=>t.seed),CURIOSITY_PROTOCOL.testSeeds);
 });

@@ -1,0 +1,4627 @@
+{
+  "schema_version": 1,
+  "stage": "diagnose",
+  "protocol": {
+    "id": "online-audit-v1",
+    "resets": 6,
+    "steps": 2400,
+    "lifeSteps": 43200,
+    "window": 300,
+    "diagnostic": {
+      "maps": [
+        4233,
+        42
+      ],
+      "seeds": [
+        71
+      ]
+    },
+    "validation": {
+      "maps": [
+        10001,
+        10002,
+        10003
+      ],
+      "seeds": [
+        71,
+        909
+      ]
+    },
+    "test": {
+      "maps": [
+        11001,
+        11002,
+        11003,
+        11004
+      ],
+      "seeds": [
+        73,
+        917
+      ]
+    }
+  },
+  "settings": {
+    "legacy": {
+      "preservePending": false
+    },
+    "pending": {
+      "preservePending": true
+    },
+    "slow": {
+      "preservePending": true,
+      "rate": 0.0003
+    },
+    "slower": {
+      "preservePending": true,
+      "rate": 0.0001
+    },
+    "history": {
+      "preservePending": true,
+      "history": true
+    },
+    "historySlow": {
+      "preservePending": true,
+      "history": true,
+      "rate": 0.0003
+    },
+    "historySlower": {
+      "preservePending": true,
+      "history": true,
+      "rate": 0.0001
+    }
+  },
+  "modelSha256": "9fd0a2e503f38ac3093a6f2c99c865eb62f642fe754ec16debd16b394168c306",
+  "selected": "history",
+  "results": {
+    "legacy": {
+      "summary": {
+        "cases": 2,
+        "badWindows": 31,
+        "spinWindows": 21,
+        "stalledWindows": 28,
+        "lateVisited": 32,
+        "lateObserved": 399.5,
+        "resetShutdowns": 12,
+        "resetCollisions": 24,
+        "resetMeanDistance": 30.68532076463953,
+        "lifeVisited": 53,
+        "lifeObserved": 528.5,
+        "lifeShutdowns": 4,
+        "lifeCollisions": 0,
+        "lifeMeanDistance": 59.10563972777298,
+        "deferredDropped": 10
+      },
+      "cases": [
+        {
+          "map": 4233,
+          "seed": 71,
+          "variant": "legacy",
+          "learning": true,
+          "deferredBeforeReset": 5,
+          "deferredDropped": 5,
+          "restarts": [
+            {
+              "distance": 47.17496853367439,
+              "visited": 50,
+              "observed": 548,
+              "shutdowns": 1,
+              "collisions": 0,
+              "energyWh": 30.6943203925968,
+              "activeSeconds": 3612,
+              "sleepSeconds": 1188,
+              "samples": 56,
+              "candidate": false,
+              "updates": 125709,
+              "replaySize": 512,
+              "replayTerminals": 0,
+              "historySize": 0,
+              "deferredFailure": true,
+              "maxTurnStreak": 49,
+              "actions": {
+                "move": 556,
+                "turn": 755,
+                "wait": 439,
+                "sample": 56
+              },
+              "rewards": {
+                "move": {
+                  "count": 556,
+                  "total": -15.576568842883407,
+                  "curiosity": 8.729999999999995,
+                  "shutdown": -8,
+                  "collision": 0
+                },
+                "wait": {
+                  "count": 439,
+                  "total": -6.998022638980151,
+                  "curiosity": 2.1899999999999995,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "turn": {
+                  "count": 755,
+                  "total": -14.713046577980526,
+                  "curiosity": 2.6999999999999975,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "sample": {
+                  "count": 56,
+                  "total": -3.521990980710038,
+                  "curiosity": 0.06,
+                  "shutdown": 0,
+                  "collision": 0
+                }
+              },
+              "early": {
+                "time": 745,
+                "active": 300,
+                "distance": 9.248149401642992,
+                "observed": 246,
+                "visited": 12,
+                "actions": {
+                  "move": 111,
+                  "turn": 75,
+                  "wait": 111,
+                  "sample": 3
+                },
+                "spin": false,
+                "stalled": false,
+                "bad": false
+              },
+              "spinWindows": 0,
+              "stalledWindows": 0,
+              "badWindows": 0,
+              "windowCount": 8,
+              "examples": [
+                {
+                  "time": 4345,
+                  "active": 6,
+                  "distance": 0.27000000000001023,
+                  "observed": 1,
+                  "visited": 0,
+                  "actions": {
+                    "move": 3,
+                    "turn": 3,
+                    "wait": 0,
+                    "sample": 0
+                  },
+                  "spin": false,
+                  "stalled": false,
+                  "bad": false
+                }
+              ]
+            },
+            {
+              "distance": 45.00000000000045,
+              "visited": 30,
+              "observed": 335,
+              "shutdowns": 1,
+              "collisions": 0,
+              "energyWh": 31.1672222222225,
+              "activeSeconds": 3750,
+              "sleepSeconds": 1050,
+              "samples": 35,
+              "candidate": false,
+              "updates": 126177,
+              "replaySize": 512,
+              "replayTerminals": 0,
+              "historySize": 0,
+              "deferredFailure": true,
+              "maxTurnStreak": 67,
+              "actions": {
+                "move": 500,
+                "turn": 995,
+                "wait": 345,
+                "sample": 35
+              },
+              "rewards": {
+                "move": {
+                  "count": 500,
+                  "total": -10.16954732620026,
+                  "curiosity": 4.109999999999998,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "wait": {
+                  "count": 345,
+                  "total": -13.109891105938463,
+                  "curiosity": 2.099999999999999,
+                  "shutdown": -8,
+                  "collision": 0
+                },
+                "turn": {
+                  "count": 995,
+                  "total": -22.32795526448218,
+                  "curiosity": 1.1400000000000003,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "sample": {
+                  "count": 35,
+                  "total": -1.1821071304381787,
+                  "curiosity": 0,
+                  "shutdown": 0,
+                  "collision": 0
+                }
+              },
+              "early": {
+                "time": 745,
+                "active": 300,
+                "distance": 18.08999999999998,
+                "observed": 294,
+                "visited": 19,
+                "actions": {
+                  "move": 201,
+                  "turn": 45,
+                  "wait": 49,
+                  "sample": 5
+                },
+                "spin": false,
+                "stalled": false,
+                "bad": false
+              },
+              "spinWindows": 1,
+              "stalledWindows": 1,
+              "badWindows": 1,
+              "windowCount": 8,
+              "examples": [
+                {
+                  "time": 2545,
+                  "active": 300,
+                  "distance": 0.5399999999999991,
+                  "observed": 0,
+                  "visited": 0,
+                  "actions": {
+                    "move": 6,
+                    "turn": 257,
+                    "wait": 19,
+                    "sample": 18
+                  },
+                  "spin": true,
+                  "stalled": true,
+                  "bad": true
+                },
+                {
+                  "time": 4345,
+                  "active": 75,
+                  "distance": 0.09000000000000341,
+                  "observed": 0,
+                  "visited": 0,
+                  "actions": {
+                    "move": 1,
+                    "turn": 37,
+                    "wait": 36,
+                    "sample": 1
+                  },
+                  "spin": false,
+                  "stalled": false,
+                  "bad": false
+                }
+              ]
+            },
+            {
+              "distance": 21.959999999999972,
+              "visited": 17,
+              "observed": 268,
+              "shutdowns": 1,
+              "collisions": 0,
+              "energyWh": 32.61288888888937,
+              "activeSeconds": 4492,
+              "sleepSeconds": 308,
+              "samples": 46,
+              "candidate": false,
+              "updates": 126739,
+              "replaySize": 512,
+              "replayTerminals": 0,
+              "historySize": 0,
+              "deferredFailure": true,
+              "maxTurnStreak": 39,
+              "actions": {
+                "move": 244,
+                "turn": 1174,
+                "wait": 782,
+                "sample": 46
+              },
+              "rewards": {
+                "turn": {
+                  "count": 1174,
+                  "total": -33.31965860445352,
+                  "curiosity": 2.2500000000000004,
+                  "shutdown": -8,
+                  "collision": 0
+                },
+                "wait": {
+                  "count": 782,
+                  "total": -14.346709076234575,
+                  "curiosity": 2.2199999999999998,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "move": {
+                  "count": 244,
+                  "total": -6.143890931958542,
+                  "curiosity": 0.9600000000000002,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "sample": {
+                  "count": 46,
+                  "total": -4.497101571763303,
+                  "curiosity": 0.06,
+                  "shutdown": 0,
+                  "collision": 0
+                }
+              },
+              "early": {
+                "time": 745,
+                "active": 300,
+                "distance": 2.3400000000000003,
+                "observed": 197,
+                "visited": 3,
+                "actions": {
+                  "move": 26,
+                  "turn": 117,
+                  "wait": 131,
+                  "sample": 26
+                },
+                "spin": false,
+                "stalled": false,
+                "bad": false
+              },
+              "spinWindows": 1,
+              "stalledWindows": 4,
+              "badWindows": 4,
+              "windowCount": 8,
+              "examples": [
+                {
+                  "time": 4345,
+                  "active": 300,
+                  "distance": 0.629999999999999,
+                  "observed": 1,
+                  "visited": 0,
+                  "actions": {
+                    "move": 7,
+                    "turn": 240,
+                    "wait": 51,
+                    "sample": 2
+                  },
+                  "spin": true,
+                  "stalled": true,
+                  "bad": true
+                },
+                {
+                  "time": 1345,
+                  "active": 300,
+                  "distance": 0.2699999999999996,
+                  "observed": 2,
+                  "visited": 0,
+                  "actions": {
+                    "move": 3,
+                    "turn": 108,
+                    "wait": 184,
+                    "sample": 5
+                  },
+                  "spin": false,
+                  "stalled": true,
+                  "bad": true
+                },
+                {
+                  "time": 4945,
+                  "active": 146,
+                  "distance": 6.299999999999992,
+                  "observed": 22,
+                  "visited": 5,
+                  "actions": {
+                    "move": 70,
+                    "turn": 73,
+                    "wait": 1,
+                    "sample": 2
+                  },
+                  "spin": false,
+                  "stalled": false,
+                  "bad": false
+                }
+              ]
+            },
+            {
+              "distance": 18.82752712899007,
+              "visited": 21,
+              "observed": 325,
+              "shutdowns": 1,
+              "collisions": 12,
+              "energyWh": 32.61152677696215,
+              "activeSeconds": 4454,
+              "sleepSeconds": 346,
+              "samples": 36,
+              "candidate": false,
+              "updates": 127295,
+              "replaySize": 512,
+              "replayTerminals": 0,
+              "historySize": 0,
+              "deferredFailure": true,
+              "maxTurnStreak": 85,
+              "actions": {
+                "move": 224,
+                "turn": 1328,
+                "wait": 639,
+                "sample": 36
+              },
+              "rewards": {
+                "turn": {
+                  "count": 1328,
+                  "total": -29.230494327099255,
+                  "curiosity": 2.1599999999999993,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "wait": {
+                  "count": 639,
+                  "total": -19.108975239307686,
+                  "curiosity": 2.369999999999999,
+                  "shutdown": -8,
+                  "collision": 0
+                },
+                "sample": {
+                  "count": 36,
+                  "total": -2.281853507821632,
+                  "curiosity": 0.12,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "move": {
+                  "count": 224,
+                  "total": -8.36214533789945,
+                  "curiosity": 2.5500000000000003,
+                  "shutdown": 0,
+                  "collision": -4.2
+                }
+              },
+              "early": {
+                "time": 745,
+                "active": 300,
+                "distance": 0.27,
+                "observed": 173,
+                "visited": 0,
+                "actions": {
+                  "move": 3,
+                  "turn": 139,
+                  "wait": 153,
+                  "sample": 5
+                },
+                "spin": false,
+                "stalled": false,
+                "bad": false
+              },
+              "spinWindows": 2,
+              "stalledWindows": 2,
+              "badWindows": 3,
+              "windowCount": 8,
+              "examples": [
+                {
+                  "time": 3745,
+                  "active": 300,
+                  "distance": 0.7199999999999989,
+                  "observed": 2,
+                  "visited": 1,
+                  "actions": {
+                    "move": 19,
+                    "turn": 241,
+                    "wait": 38,
+                    "sample": 2
+                  },
+                  "spin": true,
+                  "stalled": false,
+                  "bad": true
+                },
+                {
+                  "time": 4345,
+                  "active": 300,
+                  "distance": 0.17999999999999972,
+                  "observed": 3,
+                  "visited": 0,
+                  "actions": {
+                    "move": 2,
+                    "turn": 285,
+                    "wait": 12,
+                    "sample": 1
+                  },
+                  "spin": true,
+                  "stalled": true,
+                  "bad": true
+                },
+                {
+                  "time": 4945,
+                  "active": 127,
+                  "distance": 0,
+                  "observed": 0,
+                  "visited": 0,
+                  "actions": {
+                    "move": 0,
+                    "turn": 73,
+                    "wait": 54,
+                    "sample": 0
+                  },
+                  "spin": false,
+                  "stalled": true,
+                  "bad": true
+                }
+              ]
+            },
+            {
+              "distance": 13.883482197650466,
+              "visited": 13,
+              "observed": 248,
+              "shutdowns": 1,
+              "collisions": 0,
+              "energyWh": 32.33658787965982,
+              "activeSeconds": 4282,
+              "sleepSeconds": 518,
+              "samples": 16,
+              "candidate": false,
+              "updates": 127830,
+              "replaySize": 512,
+              "replayTerminals": 0,
+              "historySize": 0,
+              "deferredFailure": true,
+              "maxTurnStreak": 146,
+              "actions": {
+                "move": 158,
+                "turn": 1810,
+                "wait": 157,
+                "sample": 16
+              },
+              "rewards": {
+                "turn": {
+                  "count": 1810,
+                  "total": -38.14170903368642,
+                  "curiosity": 3.7199999999999966,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "move": {
+                  "count": 158,
+                  "total": -11.753053924134399,
+                  "curiosity": 1.05,
+                  "shutdown": -8,
+                  "collision": 0
+                },
+                "wait": {
+                  "count": 157,
+                  "total": -3.231928542645462,
+                  "curiosity": 0.15,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "sample": {
+                  "count": 16,
+                  "total": -0.9737925560196885,
+                  "curiosity": 0.03,
+                  "shutdown": 0,
+                  "collision": 0
+                }
+              },
+              "early": {
+                "time": 745,
+                "active": 300,
+                "distance": 0.18,
+                "observed": 173,
+                "visited": 0,
+                "actions": {
+                  "move": 2,
+                  "turn": 296,
+                  "wait": 2,
+                  "sample": 0
+                },
+                "spin": true,
+                "stalled": false,
+                "bad": true
+              },
+              "spinWindows": 5,
+              "stalledWindows": 4,
+              "badWindows": 5,
+              "windowCount": 8,
+              "examples": [
+                {
+                  "time": 745,
+                  "active": 300,
+                  "distance": 0.18,
+                  "observed": 173,
+                  "visited": 0,
+                  "actions": {
+                    "move": 2,
+                    "turn": 296,
+                    "wait": 2,
+                    "sample": 0
+                  },
+                  "spin": true,
+                  "stalled": false,
+                  "bad": true
+                },
+                {
+                  "time": 1345,
+                  "active": 300,
+                  "distance": 0.35999999999999993,
+                  "observed": 0,
+                  "visited": 0,
+                  "actions": {
+                    "move": 4,
+                    "turn": 288,
+                    "wait": 7,
+                    "sample": 1
+                  },
+                  "spin": true,
+                  "stalled": true,
+                  "bad": true
+                },
+                {
+                  "time": 4945,
+                  "active": 41,
+                  "distance": 2.6755610094854614,
+                  "observed": 3,
+                  "visited": 3,
+                  "actions": {
+                    "move": 33,
+                    "turn": 5,
+                    "wait": 3,
+                    "sample": 0
+                  },
+                  "spin": false,
+                  "stalled": false,
+                  "bad": false
+                }
+              ]
+            },
+            {
+              "distance": 27.854408911237588,
+              "visited": 28,
+              "observed": 388,
+              "shutdowns": 1,
+              "collisions": 6,
+              "energyWh": 31.375811248979907,
+              "activeSeconds": 4124,
+              "sleepSeconds": 676,
+              "samples": 100,
+              "candidate": false,
+              "updates": 128345,
+              "replaySize": 512,
+              "replayTerminals": 0,
+              "historySize": 0,
+              "deferredFailure": true,
+              "maxTurnStreak": 26,
+              "actions": {
+                "move": 319,
+                "turn": 986,
+                "wait": 657,
+                "sample": 100
+              },
+              "rewards": {
+                "turn": {
+                  "count": 986,
+                  "total": -29.798662074200458,
+                  "curiosity": 1.3200000000000005,
+                  "shutdown": -8,
+                  "collision": 0
+                },
+                "wait": {
+                  "count": 657,
+                  "total": -10.471884525095884,
+                  "curiosity": 3.419999999999998,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "move": {
+                  "count": 319,
+                  "total": -7.342017785101962,
+                  "curiosity": 4.08,
+                  "shutdown": 0,
+                  "collision": -2.1
+                },
+                "sample": {
+                  "count": 100,
+                  "total": -8.833227380749273,
+                  "curiosity": 0.12,
+                  "shutdown": 0,
+                  "collision": 0
+                }
+              },
+              "early": {
+                "time": 745,
+                "active": 300,
+                "distance": 7.919999999999992,
+                "observed": 263,
+                "visited": 10,
+                "actions": {
+                  "move": 88,
+                  "turn": 56,
+                  "wait": 152,
+                  "sample": 4
+                },
+                "spin": false,
+                "stalled": false,
+                "bad": false
+              },
+              "spinWindows": 1,
+              "stalledWindows": 1,
+              "badWindows": 1,
+              "windowCount": 8,
+              "examples": [
+                {
+                  "time": 4345,
+                  "active": 262,
+                  "distance": 0.2699999999999996,
+                  "observed": 3,
+                  "visited": 0,
+                  "actions": {
+                    "move": 3,
+                    "turn": 201,
+                    "wait": 53,
+                    "sample": 5
+                  },
+                  "spin": true,
+                  "stalled": true,
+                  "bad": true
+                }
+              ]
+            }
+          ],
+          "life": {
+            "distance": 79.77473012859707,
+            "visited": 60,
+            "observed": 575,
+            "shutdowns": 3,
+            "collisions": 0,
+            "energyWh": 87.18252544001575,
+            "activeSeconds": 11016,
+            "sleepSeconds": 75384,
+            "samples": 101,
+            "candidate": false,
+            "updates": 126634,
+            "replaySize": 512,
+            "replayTerminals": 0,
+            "historySize": 0,
+            "deferredFailure": true,
+            "maxTurnStreak": 83,
+            "actions": {
+              "move": 1060,
+              "turn": 3023,
+              "wait": 1324,
+              "sample": 101
+            },
+            "rewards": {
+              "move": {
+                "count": 1060,
+                "total": -30.216112021232565,
+                "curiosity": 8.999999999999993,
+                "shutdown": -8,
+                "collision": 0
+              },
+              "wait": {
+                "count": 1324,
+                "total": -33.08978748298536,
+                "curiosity": 2.3999999999999986,
+                "shutdown": -8,
+                "collision": 0
+              },
+              "turn": {
+                "count": 3023,
+                "total": -75.36555853293876,
+                "curiosity": 2.999999999999997,
+                "shutdown": -8,
+                "collision": 0
+              },
+              "sample": {
+                "count": 101,
+                "total": -8.186931768787044,
+                "curiosity": 0.09,
+                "shutdown": 0,
+                "collision": 0
+              }
+            },
+            "early": {
+              "time": 745,
+              "active": 300,
+              "distance": 9.248149401642992,
+              "observed": 246,
+              "visited": 12,
+              "actions": {
+                "move": 111,
+                "turn": 75,
+                "wait": 111,
+                "sample": 3
+              },
+              "spin": false,
+              "stalled": false,
+              "bad": false
+            },
+            "spinWindows": 3,
+            "stalledWindows": 4,
+            "badWindows": 4,
+            "windowCount": 144,
+            "examples": [
+              {
+                "time": 56545,
+                "active": 300,
+                "distance": 0.24620359873750886,
+                "observed": 0,
+                "visited": 0,
+                "actions": {
+                  "move": 6,
+                  "turn": 277,
+                  "wait": 15,
+                  "sample": 2
+                },
+                "spin": true,
+                "stalled": true,
+                "bad": true
+              },
+              {
+                "time": 55345,
+                "active": 300,
+                "distance": 0.9854684530205304,
+                "observed": 1,
+                "visited": 0,
+                "actions": {
+                  "move": 14,
+                  "turn": 117,
+                  "wait": 165,
+                  "sample": 4
+                },
+                "spin": false,
+                "stalled": true,
+                "bad": true
+              },
+              {
+                "time": 58345,
+                "active": 246,
+                "distance": 0.5334411305979359,
+                "observed": 0,
+                "visited": 0,
+                "actions": {
+                  "move": 13,
+                  "turn": 189,
+                  "wait": 42,
+                  "sample": 2
+                },
+                "spin": true,
+                "stalled": true,
+                "bad": true
+              }
+            ]
+          }
+        },
+        {
+          "map": 42,
+          "seed": 71,
+          "variant": "legacy",
+          "learning": true,
+          "deferredBeforeReset": 5,
+          "deferredDropped": 5,
+          "restarts": [
+            {
+              "distance": 38.436549326948885,
+              "visited": 46,
+              "observed": 482,
+              "shutdowns": 1,
+              "collisions": 0,
+              "energyWh": 28.981237873553958,
+              "activeSeconds": 3280,
+              "sleepSeconds": 1520,
+              "samples": 17,
+              "candidate": false,
+              "updates": 125667,
+              "replaySize": 512,
+              "replayTerminals": 0,
+              "historySize": 0,
+              "deferredFailure": true,
+              "maxTurnStreak": 49,
+              "actions": {
+                "move": 534,
+                "turn": 749,
+                "wait": 340,
+                "sample": 17
+              },
+              "rewards": {
+                "move": {
+                  "count": 534,
+                  "total": -8.22306946414901,
+                  "curiosity": 7.560000000000004,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "turn": {
+                  "count": 749,
+                  "total": -23.440918772894825,
+                  "curiosity": 2.729999999999997,
+                  "shutdown": -8,
+                  "collision": 0
+                },
+                "wait": {
+                  "count": 340,
+                  "total": -5.857364178397861,
+                  "curiosity": 1.5300000000000002,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "sample": {
+                  "count": 17,
+                  "total": 0.7330654485933337,
+                  "curiosity": 0,
+                  "shutdown": 0,
+                  "collision": 0
+                }
+              },
+              "early": {
+                "time": 745,
+                "active": 300,
+                "distance": 12.742475317132508,
+                "observed": 281,
+                "visited": 16,
+                "actions": {
+                  "move": 183,
+                  "turn": 67,
+                  "wait": 47,
+                  "sample": 3
+                },
+                "spin": false,
+                "stalled": false,
+                "bad": false
+              },
+              "spinWindows": 0,
+              "stalledWindows": 0,
+              "badWindows": 0,
+              "windowCount": 8,
+              "examples": [
+                {
+                  "time": 3745,
+                  "active": 140,
+                  "distance": 3.924536900294406,
+                  "observed": 22,
+                  "visited": 4,
+                  "actions": {
+                    "move": 78,
+                    "turn": 17,
+                    "wait": 42,
+                    "sample": 3
+                  },
+                  "spin": false,
+                  "stalled": false,
+                  "bad": false
+                }
+              ]
+            },
+            {
+              "distance": 18.60078757654458,
+              "visited": 19,
+              "observed": 311,
+              "shutdowns": 1,
+              "collisions": 6,
+              "energyWh": 30.659213980728946,
+              "activeSeconds": 4446,
+              "sleepSeconds": 354,
+              "samples": 79,
+              "candidate": false,
+              "updates": 126223,
+              "replaySize": 512,
+              "replayTerminals": 0,
+              "historySize": 0,
+              "deferredFailure": true,
+              "maxTurnStreak": 34,
+              "actions": {
+                "move": 214,
+                "turn": 663,
+                "wait": 1267,
+                "sample": 79
+              },
+              "rewards": {
+                "move": {
+                  "count": 214,
+                  "total": -5.544571753764965,
+                  "curiosity": 2.6999999999999984,
+                  "shutdown": 0,
+                  "collision": -2.1
+                },
+                "sample": {
+                  "count": 79,
+                  "total": -5.828402718504955,
+                  "curiosity": 0.4800000000000001,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "turn": {
+                  "count": 663,
+                  "total": -14.891953774194231,
+                  "curiosity": 0.7200000000000002,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "wait": {
+                  "count": 1267,
+                  "total": -33.0993510045589,
+                  "curiosity": 2.729999999999999,
+                  "shutdown": -8,
+                  "collision": 0
+                }
+              },
+              "early": {
+                "time": 745,
+                "active": 300,
+                "distance": 4.943947651328752,
+                "observed": 215,
+                "visited": 7,
+                "actions": {
+                  "move": 56,
+                  "turn": 119,
+                  "wait": 91,
+                  "sample": 34
+                },
+                "spin": false,
+                "stalled": false,
+                "bad": false
+              },
+              "spinWindows": 0,
+              "stalledWindows": 4,
+              "badWindows": 4,
+              "windowCount": 8,
+              "examples": [
+                {
+                  "time": 2545,
+                  "active": 300,
+                  "distance": 0.08999999999999986,
+                  "observed": 3,
+                  "visited": 0,
+                  "actions": {
+                    "move": 1,
+                    "turn": 190,
+                    "wait": 106,
+                    "sample": 3
+                  },
+                  "spin": false,
+                  "stalled": true,
+                  "bad": true
+                },
+                {
+                  "time": 4945,
+                  "active": 123,
+                  "distance": 0.2699999999999996,
+                  "observed": 2,
+                  "visited": 0,
+                  "actions": {
+                    "move": 3,
+                    "turn": 25,
+                    "wait": 94,
+                    "sample": 1
+                  },
+                  "spin": false,
+                  "stalled": true,
+                  "bad": true
+                }
+              ]
+            },
+            {
+              "distance": 14.932900490482995,
+              "visited": 16,
+              "observed": 278,
+              "shutdowns": 1,
+              "collisions": 0,
+              "energyWh": 31.586066039940643,
+              "activeSeconds": 4092,
+              "sleepSeconds": 708,
+              "samples": 22,
+              "candidate": false,
+              "updates": 126734,
+              "replaySize": 512,
+              "replayTerminals": 0,
+              "historySize": 0,
+              "deferredFailure": true,
+              "maxTurnStreak": 88,
+              "actions": {
+                "move": 200,
+                "turn": 1639,
+                "wait": 185,
+                "sample": 22
+              },
+              "rewards": {
+                "turn": {
+                  "count": 1639,
+                  "total": -35.789464277434156,
+                  "curiosity": 3.1799999999999975,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "wait": {
+                  "count": 185,
+                  "total": -2.8938203888291816,
+                  "curiosity": 1.08,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "move": {
+                  "count": 200,
+                  "total": -4.971443162706694,
+                  "curiosity": 1.3800000000000003,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "sample": {
+                  "count": 22,
+                  "total": -9.53551911503958,
+                  "curiosity": 0.03,
+                  "shutdown": -8,
+                  "collision": 0
+                }
+              },
+              "early": {
+                "time": 745,
+                "active": 300,
+                "distance": 0.27,
+                "observed": 175,
+                "visited": 0,
+                "actions": {
+                  "move": 3,
+                  "turn": 254,
+                  "wait": 42,
+                  "sample": 1
+                },
+                "spin": true,
+                "stalled": false,
+                "bad": true
+              },
+              "spinWindows": 4,
+              "stalledWindows": 3,
+              "badWindows": 4,
+              "windowCount": 8,
+              "examples": [
+                {
+                  "time": 745,
+                  "active": 300,
+                  "distance": 0.27,
+                  "observed": 175,
+                  "visited": 0,
+                  "actions": {
+                    "move": 3,
+                    "turn": 254,
+                    "wait": 42,
+                    "sample": 1
+                  },
+                  "spin": true,
+                  "stalled": false,
+                  "bad": true
+                },
+                {
+                  "time": 1345,
+                  "active": 300,
+                  "distance": 0.17999999999999994,
+                  "observed": 0,
+                  "visited": 0,
+                  "actions": {
+                    "move": 2,
+                    "turn": 281,
+                    "wait": 15,
+                    "sample": 2
+                  },
+                  "spin": true,
+                  "stalled": true,
+                  "bad": true
+                },
+                {
+                  "time": 4345,
+                  "active": 246,
+                  "distance": 2.609999999999996,
+                  "observed": 5,
+                  "visited": 2,
+                  "actions": {
+                    "move": 29,
+                    "turn": 177,
+                    "wait": 31,
+                    "sample": 9
+                  },
+                  "spin": false,
+                  "stalled": false,
+                  "bad": false
+                }
+              ]
+            },
+            {
+              "distance": 51.828825845993556,
+              "visited": 51,
+              "observed": 471,
+              "shutdowns": 1,
+              "collisions": 0,
+              "energyWh": 29.69284290776214,
+              "activeSeconds": 3320,
+              "sleepSeconds": 1480,
+              "samples": 81,
+              "candidate": false,
+              "updates": 127149,
+              "replaySize": 512,
+              "replayTerminals": 0,
+              "historySize": 0,
+              "deferredFailure": true,
+              "maxTurnStreak": 15,
+              "actions": {
+                "move": 650,
+                "turn": 370,
+                "wait": 559,
+                "sample": 81
+              },
+              "rewards": {
+                "turn": {
+                  "count": 370,
+                  "total": -7.298154456766492,
+                  "curiosity": 1.2300000000000002,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "move": {
+                  "count": 650,
+                  "total": -10.561241459350367,
+                  "curiosity": 8.79,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "sample": {
+                  "count": 81,
+                  "total": -5.560280993440525,
+                  "curiosity": 0.51,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "wait": {
+                  "count": 559,
+                  "total": -18.8680517743666,
+                  "curiosity": 1.0500000000000003,
+                  "shutdown": -8,
+                  "collision": 0
+                }
+              },
+              "early": {
+                "time": 745,
+                "active": 300,
+                "distance": 9.17999999999999,
+                "observed": 262,
+                "visited": 11,
+                "actions": {
+                  "move": 102,
+                  "turn": 47,
+                  "wait": 129,
+                  "sample": 22
+                },
+                "spin": false,
+                "stalled": false,
+                "bad": false
+              },
+              "spinWindows": 0,
+              "stalledWindows": 1,
+              "badWindows": 1,
+              "windowCount": 8,
+              "examples": [
+                {
+                  "time": 1945,
+                  "active": 300,
+                  "distance": 0.39606983845288113,
+                  "observed": 0,
+                  "visited": 0,
+                  "actions": {
+                    "move": 6,
+                    "turn": 81,
+                    "wait": 210,
+                    "sample": 3
+                  },
+                  "spin": false,
+                  "stalled": true,
+                  "bad": true
+                },
+                {
+                  "time": 3745,
+                  "active": 160,
+                  "distance": 2.6722529112436177,
+                  "observed": 0,
+                  "visited": 0,
+                  "actions": {
+                    "move": 40,
+                    "turn": 89,
+                    "wait": 22,
+                    "sample": 9
+                  },
+                  "spin": false,
+                  "stalled": false,
+                  "bad": false
+                }
+              ]
+            },
+            {
+              "distance": 47.31501694081238,
+              "visited": 52,
+              "observed": 570,
+              "shutdowns": 1,
+              "collisions": 0,
+              "energyWh": 30.100655745473393,
+              "activeSeconds": 3310,
+              "sleepSeconds": 1490,
+              "samples": 14,
+              "candidate": false,
+              "updates": 127562,
+              "replaySize": 512,
+              "replayTerminals": 0,
+              "historySize": 0,
+              "deferredFailure": true,
+              "maxTurnStreak": 64,
+              "actions": {
+                "move": 621,
+                "turn": 734,
+                "wait": 286,
+                "sample": 14
+              },
+              "rewards": {
+                "move": {
+                  "count": 621,
+                  "total": -6.31138374727654,
+                  "curiosity": 11.969999999999988,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "turn": {
+                  "count": 734,
+                  "total": -23.5917561497076,
+                  "curiosity": 2.2199999999999998,
+                  "shutdown": -8,
+                  "collision": 0
+                },
+                "wait": {
+                  "count": 286,
+                  "total": -5.994293780447442,
+                  "curiosity": 0.27,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "sample": {
+                  "count": 14,
+                  "total": -0.6740980370007099,
+                  "curiosity": 0,
+                  "shutdown": 0,
+                  "collision": 0
+                }
+              },
+              "early": {
+                "time": 745,
+                "active": 300,
+                "distance": 18.59803241142272,
+                "observed": 348,
+                "visited": 24,
+                "actions": {
+                  "move": 261,
+                  "turn": 18,
+                  "wait": 19,
+                  "sample": 2
+                },
+                "spin": false,
+                "stalled": false,
+                "bad": false
+              },
+              "spinWindows": 1,
+              "stalledWindows": 1,
+              "badWindows": 1,
+              "windowCount": 8,
+              "examples": [
+                {
+                  "time": 3745,
+                  "active": 155,
+                  "distance": 0.3801492981173027,
+                  "observed": 0,
+                  "visited": 0,
+                  "actions": {
+                    "move": 5,
+                    "turn": 116,
+                    "wait": 32,
+                    "sample": 2
+                  },
+                  "spin": true,
+                  "stalled": true,
+                  "bad": true
+                }
+              ]
+            },
+            {
+              "distance": 22.40938222333906,
+              "visited": 27,
+              "observed": 395,
+              "shutdowns": 1,
+              "collisions": 0,
+              "energyWh": 31.204700769160617,
+              "activeSeconds": 4088,
+              "sleepSeconds": 712,
+              "samples": 34,
+              "candidate": false,
+              "updates": 128073,
+              "replaySize": 512,
+              "replayTerminals": 0,
+              "historySize": 0,
+              "deferredFailure": true,
+              "maxTurnStreak": 78,
+              "actions": {
+                "move": 257,
+                "turn": 1352,
+                "wait": 401,
+                "sample": 34
+              },
+              "rewards": {
+                "move": {
+                  "count": 257,
+                  "total": -10.98869431992412,
+                  "curiosity": 4.680000000000001,
+                  "shutdown": -8,
+                  "collision": 0
+                },
+                "wait": {
+                  "count": 401,
+                  "total": -6.028604824046158,
+                  "curiosity": 2.46,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "turn": {
+                  "count": 1352,
+                  "total": -30.40732592626939,
+                  "curiosity": 1.9200000000000006,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "sample": {
+                  "count": 34,
+                  "total": -1.6141319165689636,
+                  "curiosity": 0.03,
+                  "shutdown": 0,
+                  "collision": 0
+                }
+              },
+              "early": {
+                "time": 745,
+                "active": 300,
+                "distance": 2.2500000000000004,
+                "observed": 191,
+                "visited": 2,
+                "actions": {
+                  "move": 25,
+                  "turn": 135,
+                  "wait": 136,
+                  "sample": 4
+                },
+                "spin": false,
+                "stalled": false,
+                "bad": false
+              },
+              "spinWindows": 3,
+              "stalledWindows": 3,
+              "badWindows": 3,
+              "windowCount": 8,
+              "examples": [
+                {
+                  "time": 1345,
+                  "active": 300,
+                  "distance": 0.2699999999999996,
+                  "observed": 1,
+                  "visited": 0,
+                  "actions": {
+                    "move": 3,
+                    "turn": 216,
+                    "wait": 76,
+                    "sample": 5
+                  },
+                  "spin": true,
+                  "stalled": true,
+                  "bad": true
+                },
+                {
+                  "time": 4345,
+                  "active": 244,
+                  "distance": 9.552348011570693,
+                  "observed": 109,
+                  "visited": 11,
+                  "actions": {
+                    "move": 114,
+                    "turn": 93,
+                    "wait": 30,
+                    "sample": 7
+                  },
+                  "spin": false,
+                  "stalled": false,
+                  "bad": false
+                }
+              ]
+            }
+          ],
+          "life": {
+            "distance": 38.436549326948885,
+            "visited": 46,
+            "observed": 482,
+            "shutdowns": 1,
+            "collisions": 0,
+            "energyWh": 28.981237873553958,
+            "activeSeconds": 3280,
+            "sleepSeconds": 83120,
+            "samples": 17,
+            "candidate": false,
+            "updates": 125667,
+            "replaySize": 512,
+            "replayTerminals": 0,
+            "historySize": 0,
+            "deferredFailure": true,
+            "maxTurnStreak": 49,
+            "actions": {
+              "move": 534,
+              "turn": 749,
+              "wait": 340,
+              "sample": 17
+            },
+            "rewards": {
+              "move": {
+                "count": 534,
+                "total": -8.22306946414901,
+                "curiosity": 7.560000000000004,
+                "shutdown": 0,
+                "collision": 0
+              },
+              "turn": {
+                "count": 749,
+                "total": -23.440918772894825,
+                "curiosity": 2.729999999999997,
+                "shutdown": -8,
+                "collision": 0
+              },
+              "wait": {
+                "count": 340,
+                "total": -5.857364178397861,
+                "curiosity": 1.5300000000000002,
+                "shutdown": 0,
+                "collision": 0
+              },
+              "sample": {
+                "count": 17,
+                "total": 0.7330654485933337,
+                "curiosity": 0,
+                "shutdown": 0,
+                "collision": 0
+              }
+            },
+            "early": {
+              "time": 745,
+              "active": 300,
+              "distance": 12.742475317132508,
+              "observed": 281,
+              "visited": 16,
+              "actions": {
+                "move": 183,
+                "turn": 67,
+                "wait": 47,
+                "sample": 3
+              },
+              "spin": false,
+              "stalled": false,
+              "bad": false
+            },
+            "spinWindows": 0,
+            "stalledWindows": 0,
+            "badWindows": 0,
+            "windowCount": 144,
+            "examples": [
+              {
+                "time": 3745,
+                "active": 140,
+                "distance": 3.924536900294406,
+                "observed": 22,
+                "visited": 4,
+                "actions": {
+                  "move": 78,
+                  "turn": 17,
+                  "wait": 42,
+                  "sample": 3
+                },
+                "spin": false,
+                "stalled": false,
+                "bad": false
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "pending": {
+      "summary": {
+        "cases": 2,
+        "badWindows": 23,
+        "spinWindows": 12,
+        "stalledWindows": 20,
+        "lateVisited": 22.5,
+        "lateObserved": 337.8333333333333,
+        "resetShutdowns": 12,
+        "resetCollisions": 5,
+        "resetMeanDistance": 30.480273990559727,
+        "lifeVisited": 53,
+        "lifeObserved": 528.5,
+        "lifeShutdowns": 4,
+        "lifeCollisions": 0,
+        "lifeMeanDistance": 59.10563972777298,
+        "deferredDropped": 0
+      },
+      "cases": [
+        {
+          "map": 4233,
+          "seed": 71,
+          "variant": "pending",
+          "learning": true,
+          "deferredBeforeReset": 5,
+          "deferredDropped": 0,
+          "restarts": [
+            {
+              "distance": 47.17496853367439,
+              "visited": 50,
+              "observed": 548,
+              "shutdowns": 1,
+              "collisions": 0,
+              "energyWh": 30.6943203925968,
+              "activeSeconds": 3612,
+              "sleepSeconds": 1188,
+              "samples": 56,
+              "candidate": false,
+              "updates": 125709,
+              "replaySize": 512,
+              "replayTerminals": 0,
+              "historySize": 0,
+              "deferredFailure": true,
+              "maxTurnStreak": 49,
+              "actions": {
+                "move": 556,
+                "turn": 755,
+                "wait": 439,
+                "sample": 56
+              },
+              "rewards": {
+                "move": {
+                  "count": 556,
+                  "total": -15.576568842883407,
+                  "curiosity": 8.729999999999995,
+                  "shutdown": -8,
+                  "collision": 0
+                },
+                "wait": {
+                  "count": 439,
+                  "total": -6.998022638980151,
+                  "curiosity": 2.1899999999999995,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "turn": {
+                  "count": 755,
+                  "total": -14.713046577980526,
+                  "curiosity": 2.6999999999999975,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "sample": {
+                  "count": 56,
+                  "total": -3.521990980710038,
+                  "curiosity": 0.06,
+                  "shutdown": 0,
+                  "collision": 0
+                }
+              },
+              "early": {
+                "time": 745,
+                "active": 300,
+                "distance": 9.248149401642992,
+                "observed": 246,
+                "visited": 12,
+                "actions": {
+                  "move": 111,
+                  "turn": 75,
+                  "wait": 111,
+                  "sample": 3
+                },
+                "spin": false,
+                "stalled": false,
+                "bad": false
+              },
+              "spinWindows": 0,
+              "stalledWindows": 0,
+              "badWindows": 0,
+              "windowCount": 8,
+              "examples": [
+                {
+                  "time": 4345,
+                  "active": 6,
+                  "distance": 0.27000000000001023,
+                  "observed": 1,
+                  "visited": 0,
+                  "actions": {
+                    "move": 3,
+                    "turn": 3,
+                    "wait": 0,
+                    "sample": 0
+                  },
+                  "spin": false,
+                  "stalled": false,
+                  "bad": false
+                }
+              ]
+            },
+            {
+              "distance": 39.08269455082341,
+              "visited": 41,
+              "observed": 463,
+              "shutdowns": 1,
+              "collisions": 0,
+              "energyWh": 31.40140187784159,
+              "activeSeconds": 3836,
+              "sleepSeconds": 964,
+              "samples": 32,
+              "candidate": false,
+              "updates": 126188,
+              "replaySize": 512,
+              "replayTerminals": 0,
+              "historySize": 0,
+              "deferredFailure": true,
+              "maxTurnStreak": 90,
+              "actions": {
+                "move": 445,
+                "turn": 1119,
+                "wait": 322,
+                "sample": 32
+              },
+              "rewards": {
+                "move": {
+                  "count": 445,
+                  "total": -6.135519629195193,
+                  "curiosity": 6.569999999999997,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "wait": {
+                  "count": 322,
+                  "total": -3.719553213977246,
+                  "curiosity": 2.789999999999998,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "turn": {
+                  "count": 1119,
+                  "total": -32.55198869174741,
+                  "curiosity": 1.8000000000000003,
+                  "shutdown": -8,
+                  "collision": 0
+                },
+                "sample": {
+                  "count": 32,
+                  "total": -1.1882402976239277,
+                  "curiosity": 0.03,
+                  "shutdown": 0,
+                  "collision": 0
+                }
+              },
+              "early": {
+                "time": 745,
+                "active": 300,
+                "distance": 11.002694550823174,
+                "observed": 260,
+                "visited": 13,
+                "actions": {
+                  "move": 133,
+                  "turn": 63,
+                  "wait": 99,
+                  "sample": 5
+                },
+                "spin": false,
+                "stalled": false,
+                "bad": false
+              },
+              "spinWindows": 2,
+              "stalledWindows": 2,
+              "badWindows": 2,
+              "windowCount": 8,
+              "examples": [
+                {
+                  "time": 3745,
+                  "active": 300,
+                  "distance": 0.18000000000000682,
+                  "observed": 0,
+                  "visited": 0,
+                  "actions": {
+                    "move": 2,
+                    "turn": 293,
+                    "wait": 2,
+                    "sample": 3
+                  },
+                  "spin": true,
+                  "stalled": true,
+                  "bad": true
+                },
+                {
+                  "time": 4345,
+                  "active": 118,
+                  "distance": 0.09000000000000341,
+                  "observed": 0,
+                  "visited": 0,
+                  "actions": {
+                    "move": 1,
+                    "turn": 116,
+                    "wait": 0,
+                    "sample": 1
+                  },
+                  "spin": true,
+                  "stalled": true,
+                  "bad": true
+                }
+              ]
+            },
+            {
+              "distance": 34.68099733351309,
+              "visited": 37,
+              "observed": 365,
+              "shutdowns": 1,
+              "collisions": 0,
+              "energyWh": 31.86752542492198,
+              "activeSeconds": 4078,
+              "sleepSeconds": 722,
+              "samples": 53,
+              "candidate": false,
+              "updates": 126698,
+              "replaySize": 512,
+              "replayTerminals": 0,
+              "historySize": 0,
+              "deferredFailure": true,
+              "maxTurnStreak": 73,
+              "actions": {
+                "move": 403,
+                "turn": 960,
+                "wait": 623,
+                "sample": 53
+              },
+              "rewards": {
+                "move": {
+                  "count": 403,
+                  "total": -6.134783894138479,
+                  "curiosity": 5.100000000000002,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "wait": {
+                  "count": 623,
+                  "total": -18.400601111542308,
+                  "curiosity": 2.67,
+                  "shutdown": -8,
+                  "collision": 0
+                },
+                "turn": {
+                  "count": 960,
+                  "total": -22.282669154744735,
+                  "curiosity": 0.44999999999999996,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "sample": {
+                  "count": 53,
+                  "total": -4.241497929836826,
+                  "curiosity": 0.03,
+                  "shutdown": 0,
+                  "collision": 0
+                }
+              },
+              "early": {
+                "time": 745,
+                "active": 300,
+                "distance": 20.480741467931374,
+                "observed": 304,
+                "visited": 22,
+                "actions": {
+                  "move": 228,
+                  "turn": 21,
+                  "wait": 47,
+                  "sample": 4
+                },
+                "spin": false,
+                "stalled": false,
+                "bad": false
+              },
+              "spinWindows": 2,
+              "stalledWindows": 2,
+              "badWindows": 2,
+              "windowCount": 8,
+              "examples": [
+                {
+                  "time": 3745,
+                  "active": 300,
+                  "distance": 0.20414406469949142,
+                  "observed": 0,
+                  "visited": 0,
+                  "actions": {
+                    "move": 3,
+                    "turn": 287,
+                    "wait": 8,
+                    "sample": 2
+                  },
+                  "spin": true,
+                  "stalled": true,
+                  "bad": true
+                },
+                {
+                  "time": 4345,
+                  "active": 239,
+                  "distance": 0.2260960431329977,
+                  "observed": 0,
+                  "visited": 0,
+                  "actions": {
+                    "move": 3,
+                    "turn": 183,
+                    "wait": 51,
+                    "sample": 2
+                  },
+                  "spin": true,
+                  "stalled": true,
+                  "bad": true
+                }
+              ]
+            },
+            {
+              "distance": 26.936389266842585,
+              "visited": 17,
+              "observed": 257,
+              "shutdowns": 1,
+              "collisions": 0,
+              "energyWh": 32.13871381032596,
+              "activeSeconds": 4322,
+              "sleepSeconds": 478,
+              "samples": 24,
+              "candidate": false,
+              "updates": 127238,
+              "replaySize": 512,
+              "replayTerminals": 0,
+              "historySize": 0,
+              "deferredFailure": true,
+              "maxTurnStreak": 21,
+              "actions": {
+                "move": 316,
+                "turn": 1055,
+                "wait": 766,
+                "sample": 24
+              },
+              "rewards": {
+                "turn": {
+                  "count": 1055,
+                  "total": -22.37491875146338,
+                  "curiosity": 2.2499999999999996,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "wait": {
+                  "count": 766,
+                  "total": -22.94401573819951,
+                  "curiosity": 1.3200000000000003,
+                  "shutdown": -8,
+                  "collision": 0
+                },
+                "move": {
+                  "count": 316,
+                  "total": -7.725088879190914,
+                  "curiosity": 1.4700000000000004,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "sample": {
+                  "count": 24,
+                  "total": 0.29932398271669763,
+                  "curiosity": 0,
+                  "shutdown": 0,
+                  "collision": 0
+                }
+              },
+              "early": {
+                "time": 745,
+                "active": 300,
+                "distance": 4.904408911237616,
+                "observed": 210,
+                "visited": 3,
+                "actions": {
+                  "move": 58,
+                  "turn": 140,
+                  "wait": 99,
+                  "sample": 3
+                },
+                "spin": false,
+                "stalled": false,
+                "bad": false
+              },
+              "spinWindows": 0,
+              "stalledWindows": 1,
+              "badWindows": 1,
+              "windowCount": 8,
+              "examples": [
+                {
+                  "time": 4345,
+                  "active": 300,
+                  "distance": 0.20688178224752463,
+                  "observed": 0,
+                  "visited": 0,
+                  "actions": {
+                    "move": 3,
+                    "turn": 180,
+                    "wait": 115,
+                    "sample": 2
+                  },
+                  "spin": false,
+                  "stalled": true,
+                  "bad": true
+                },
+                {
+                  "time": 4945,
+                  "active": 61,
+                  "distance": 0,
+                  "observed": 0,
+                  "visited": 0,
+                  "actions": {
+                    "move": 0,
+                    "turn": 36,
+                    "wait": 25,
+                    "sample": 0
+                  },
+                  "spin": false,
+                  "stalled": false,
+                  "bad": false
+                }
+              ]
+            },
+            {
+              "distance": 23.48999999999997,
+              "visited": 19,
+              "observed": 303,
+              "shutdowns": 1,
+              "collisions": 0,
+              "energyWh": 32.62138888888917,
+              "activeSeconds": 4510,
+              "sleepSeconds": 290,
+              "samples": 46,
+              "candidate": false,
+              "updates": 127802,
+              "replaySize": 512,
+              "replayTerminals": 0,
+              "historySize": 0,
+              "deferredFailure": true,
+              "maxTurnStreak": 36,
+              "actions": {
+                "move": 261,
+                "turn": 1086,
+                "wait": 862,
+                "sample": 46
+              },
+              "rewards": {
+                "turn": {
+                  "count": 1086,
+                  "total": -23.33306931591479,
+                  "curiosity": 2.3100000000000005,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "wait": {
+                  "count": 862,
+                  "total": -16.21211572340239,
+                  "curiosity": 1.9500000000000002,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "sample": {
+                  "count": 46,
+                  "total": -3.6817582770755157,
+                  "curiosity": 0,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "move": {
+                  "count": 261,
+                  "total": -13.632710877032428,
+                  "curiosity": 2.1599999999999997,
+                  "shutdown": -8,
+                  "collision": 0
+                }
+              },
+              "early": {
+                "time": 745,
+                "active": 300,
+                "distance": 0.27,
+                "observed": 173,
+                "visited": 0,
+                "actions": {
+                  "move": 3,
+                  "turn": 136,
+                  "wait": 157,
+                  "sample": 4
+                },
+                "spin": false,
+                "stalled": false,
+                "bad": false
+              },
+              "spinWindows": 0,
+              "stalledWindows": 2,
+              "badWindows": 2,
+              "windowCount": 8,
+              "examples": [
+                {
+                  "time": 1345,
+                  "active": 300,
+                  "distance": 0.2699999999999999,
+                  "observed": 1,
+                  "visited": 0,
+                  "actions": {
+                    "move": 3,
+                    "turn": 45,
+                    "wait": 252,
+                    "sample": 0
+                  },
+                  "spin": false,
+                  "stalled": true,
+                  "bad": true
+                },
+                {
+                  "time": 4945,
+                  "active": 155,
+                  "distance": 9.269999999999987,
+                  "observed": 72,
+                  "visited": 11,
+                  "actions": {
+                    "move": 103,
+                    "turn": 33,
+                    "wait": 17,
+                    "sample": 2
+                  },
+                  "spin": false,
+                  "stalled": false,
+                  "bad": false
+                }
+              ]
+            },
+            {
+              "distance": 24.56999999999997,
+              "visited": 23,
+              "observed": 330,
+              "shutdowns": 1,
+              "collisions": 0,
+              "energyWh": 32.62183333333349,
+              "activeSeconds": 4618,
+              "sleepSeconds": 182,
+              "samples": 71,
+              "candidate": false,
+              "updates": 128379,
+              "replaySize": 512,
+              "replayTerminals": 0,
+              "historySize": 0,
+              "deferredFailure": true,
+              "maxTurnStreak": 33,
+              "actions": {
+                "move": 273,
+                "turn": 815,
+                "wait": 1150,
+                "sample": 71
+              },
+              "rewards": {
+                "move": {
+                  "count": 273,
+                  "total": -13.475289257047212,
+                  "curiosity": 2.4599999999999995,
+                  "shutdown": -8,
+                  "collision": 0
+                },
+                "wait": {
+                  "count": 1150,
+                  "total": -21.352017966226395,
+                  "curiosity": 3.239999999999996,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "turn": {
+                  "count": 815,
+                  "total": -17.576195877322057,
+                  "curiosity": 1.5000000000000007,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "sample": {
+                  "count": 71,
+                  "total": -5.330443526413972,
+                  "curiosity": 0,
+                  "shutdown": 0,
+                  "collision": 0
+                }
+              },
+              "early": {
+                "time": 745,
+                "active": 300,
+                "distance": 3.9599999999999977,
+                "observed": 201,
+                "visited": 5,
+                "actions": {
+                  "move": 44,
+                  "turn": 73,
+                  "wait": 182,
+                  "sample": 1
+                },
+                "spin": false,
+                "stalled": false,
+                "bad": false
+              },
+              "spinWindows": 1,
+              "stalledWindows": 2,
+              "badWindows": 2,
+              "windowCount": 8,
+              "examples": [
+                {
+                  "time": 4345,
+                  "active": 300,
+                  "distance": 0.9899999999999984,
+                  "observed": 1,
+                  "visited": 0,
+                  "actions": {
+                    "move": 11,
+                    "turn": 237,
+                    "wait": 50,
+                    "sample": 2
+                  },
+                  "spin": true,
+                  "stalled": true,
+                  "bad": true
+                },
+                {
+                  "time": 4945,
+                  "active": 209,
+                  "distance": 0.2699999999999996,
+                  "observed": 0,
+                  "visited": 0,
+                  "actions": {
+                    "move": 3,
+                    "turn": 10,
+                    "wait": 191,
+                    "sample": 5
+                  },
+                  "spin": false,
+                  "stalled": true,
+                  "bad": true
+                }
+              ]
+            }
+          ],
+          "life": {
+            "distance": 79.77473012859707,
+            "visited": 60,
+            "observed": 575,
+            "shutdowns": 3,
+            "collisions": 0,
+            "energyWh": 87.18252544001575,
+            "activeSeconds": 11016,
+            "sleepSeconds": 75384,
+            "samples": 101,
+            "candidate": false,
+            "updates": 126634,
+            "replaySize": 512,
+            "replayTerminals": 0,
+            "historySize": 0,
+            "deferredFailure": true,
+            "maxTurnStreak": 83,
+            "actions": {
+              "move": 1060,
+              "turn": 3023,
+              "wait": 1324,
+              "sample": 101
+            },
+            "rewards": {
+              "move": {
+                "count": 1060,
+                "total": -30.216112021232565,
+                "curiosity": 8.999999999999993,
+                "shutdown": -8,
+                "collision": 0
+              },
+              "wait": {
+                "count": 1324,
+                "total": -33.08978748298536,
+                "curiosity": 2.3999999999999986,
+                "shutdown": -8,
+                "collision": 0
+              },
+              "turn": {
+                "count": 3023,
+                "total": -75.36555853293876,
+                "curiosity": 2.999999999999997,
+                "shutdown": -8,
+                "collision": 0
+              },
+              "sample": {
+                "count": 101,
+                "total": -8.186931768787044,
+                "curiosity": 0.09,
+                "shutdown": 0,
+                "collision": 0
+              }
+            },
+            "early": {
+              "time": 745,
+              "active": 300,
+              "distance": 9.248149401642992,
+              "observed": 246,
+              "visited": 12,
+              "actions": {
+                "move": 111,
+                "turn": 75,
+                "wait": 111,
+                "sample": 3
+              },
+              "spin": false,
+              "stalled": false,
+              "bad": false
+            },
+            "spinWindows": 3,
+            "stalledWindows": 4,
+            "badWindows": 4,
+            "windowCount": 144,
+            "examples": [
+              {
+                "time": 56545,
+                "active": 300,
+                "distance": 0.24620359873750886,
+                "observed": 0,
+                "visited": 0,
+                "actions": {
+                  "move": 6,
+                  "turn": 277,
+                  "wait": 15,
+                  "sample": 2
+                },
+                "spin": true,
+                "stalled": true,
+                "bad": true
+              },
+              {
+                "time": 55345,
+                "active": 300,
+                "distance": 0.9854684530205304,
+                "observed": 1,
+                "visited": 0,
+                "actions": {
+                  "move": 14,
+                  "turn": 117,
+                  "wait": 165,
+                  "sample": 4
+                },
+                "spin": false,
+                "stalled": true,
+                "bad": true
+              },
+              {
+                "time": 58345,
+                "active": 246,
+                "distance": 0.5334411305979359,
+                "observed": 0,
+                "visited": 0,
+                "actions": {
+                  "move": 13,
+                  "turn": 189,
+                  "wait": 42,
+                  "sample": 2
+                },
+                "spin": true,
+                "stalled": true,
+                "bad": true
+              }
+            ]
+          }
+        },
+        {
+          "map": 42,
+          "seed": 71,
+          "variant": "pending",
+          "learning": true,
+          "deferredBeforeReset": 4,
+          "deferredDropped": 0,
+          "restarts": [
+            {
+              "distance": 38.436549326948885,
+              "visited": 46,
+              "observed": 482,
+              "shutdowns": 1,
+              "collisions": 0,
+              "energyWh": 28.981237873553958,
+              "activeSeconds": 3280,
+              "sleepSeconds": 1520,
+              "samples": 17,
+              "candidate": false,
+              "updates": 125667,
+              "replaySize": 512,
+              "replayTerminals": 0,
+              "historySize": 0,
+              "deferredFailure": true,
+              "maxTurnStreak": 49,
+              "actions": {
+                "move": 534,
+                "turn": 749,
+                "wait": 340,
+                "sample": 17
+              },
+              "rewards": {
+                "move": {
+                  "count": 534,
+                  "total": -8.22306946414901,
+                  "curiosity": 7.560000000000004,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "turn": {
+                  "count": 749,
+                  "total": -23.440918772894825,
+                  "curiosity": 2.729999999999997,
+                  "shutdown": -8,
+                  "collision": 0
+                },
+                "wait": {
+                  "count": 340,
+                  "total": -5.857364178397861,
+                  "curiosity": 1.5300000000000002,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "sample": {
+                  "count": 17,
+                  "total": 0.7330654485933337,
+                  "curiosity": 0,
+                  "shutdown": 0,
+                  "collision": 0
+                }
+              },
+              "early": {
+                "time": 745,
+                "active": 300,
+                "distance": 12.742475317132508,
+                "observed": 281,
+                "visited": 16,
+                "actions": {
+                  "move": 183,
+                  "turn": 67,
+                  "wait": 47,
+                  "sample": 3
+                },
+                "spin": false,
+                "stalled": false,
+                "bad": false
+              },
+              "spinWindows": 0,
+              "stalledWindows": 0,
+              "badWindows": 0,
+              "windowCount": 8,
+              "examples": [
+                {
+                  "time": 3745,
+                  "active": 140,
+                  "distance": 3.924536900294406,
+                  "observed": 22,
+                  "visited": 4,
+                  "actions": {
+                    "move": 78,
+                    "turn": 17,
+                    "wait": 42,
+                    "sample": 3
+                  },
+                  "spin": false,
+                  "stalled": false,
+                  "bad": false
+                }
+              ]
+            },
+            {
+              "distance": 25.199999999999967,
+              "visited": 24,
+              "observed": 372,
+              "shutdowns": 1,
+              "collisions": 0,
+              "energyWh": 31.02816666666679,
+              "activeSeconds": 4112,
+              "sleepSeconds": 688,
+              "samples": 69,
+              "candidate": false,
+              "updates": 126181,
+              "replaySize": 512,
+              "replayTerminals": 0,
+              "historySize": 0,
+              "deferredFailure": true,
+              "maxTurnStreak": 18,
+              "actions": {
+                "move": 280,
+                "turn": 1034,
+                "wait": 673,
+                "sample": 69
+              },
+              "rewards": {
+                "move": {
+                  "count": 280,
+                  "total": -5.217849578233249,
+                  "curiosity": 2.9099999999999975,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "sample": {
+                  "count": 69,
+                  "total": -4.440821215708993,
+                  "curiosity": 0.12,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "wait": {
+                  "count": 673,
+                  "total": -11.92319283910122,
+                  "curiosity": 2.5499999999999985,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "turn": {
+                  "count": 1034,
+                  "total": -29.30839465087699,
+                  "curiosity": 3.2099999999999955,
+                  "shutdown": -8,
+                  "collision": 0
+                }
+              },
+              "early": {
+                "time": 745,
+                "active": 300,
+                "distance": 7.109999999999993,
+                "observed": 240,
+                "visited": 8,
+                "actions": {
+                  "move": 79,
+                  "turn": 65,
+                  "wait": 130,
+                  "sample": 26
+                },
+                "spin": false,
+                "stalled": false,
+                "bad": false
+              },
+              "spinWindows": 0,
+              "stalledWindows": 1,
+              "badWindows": 1,
+              "windowCount": 8,
+              "examples": [
+                {
+                  "time": 4345,
+                  "active": 256,
+                  "distance": 0.08999999999999986,
+                  "observed": 2,
+                  "visited": 0,
+                  "actions": {
+                    "move": 1,
+                    "turn": 169,
+                    "wait": 81,
+                    "sample": 5
+                  },
+                  "spin": false,
+                  "stalled": true,
+                  "bad": true
+                }
+              ]
+            },
+            {
+              "distance": 37.481808968815244,
+              "visited": 43,
+              "observed": 485,
+              "shutdowns": 1,
+              "collisions": 3,
+              "energyWh": 29.335573318211438,
+              "activeSeconds": 3586,
+              "sleepSeconds": 1214,
+              "samples": 64,
+              "candidate": false,
+              "updates": 126630,
+              "replaySize": 512,
+              "replayTerminals": 0,
+              "historySize": 0,
+              "deferredFailure": true,
+              "maxTurnStreak": 65,
+              "actions": {
+                "move": 462,
+                "turn": 685,
+                "wait": 582,
+                "sample": 64
+              },
+              "rewards": {
+                "move": {
+                  "count": 462,
+                  "total": -14.36737074643365,
+                  "curiosity": 8.28,
+                  "shutdown": -8,
+                  "collision": -1.0499999999999998
+                },
+                "sample": {
+                  "count": 64,
+                  "total": -4.838697940502162,
+                  "curiosity": 0.18,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "wait": {
+                  "count": 582,
+                  "total": -11.203364310168691,
+                  "curiosity": 1.05,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "turn": {
+                  "count": 685,
+                  "total": -13.897752643721088,
+                  "curiosity": 2.34,
+                  "shutdown": 0,
+                  "collision": 0
+                }
+              },
+              "early": {
+                "time": 745,
+                "active": 300,
+                "distance": 13.745494321224305,
+                "observed": 301,
+                "visited": 18,
+                "actions": {
+                  "move": 158,
+                  "turn": 46,
+                  "wait": 86,
+                  "sample": 10
+                },
+                "spin": false,
+                "stalled": false,
+                "bad": false
+              },
+              "spinWindows": 0,
+              "stalledWindows": 0,
+              "badWindows": 0,
+              "windowCount": 8,
+              "examples": [
+                {
+                  "time": 3745,
+                  "active": 293,
+                  "distance": 6.115477098334129,
+                  "observed": 12,
+                  "visited": 5,
+                  "actions": {
+                    "move": 78,
+                    "turn": 191,
+                    "wait": 10,
+                    "sample": 14
+                  },
+                  "spin": false,
+                  "stalled": false,
+                  "bad": false
+                }
+              ]
+            },
+            {
+              "distance": 20.251159805840867,
+              "visited": 21,
+              "observed": 337,
+              "shutdowns": 1,
+              "collisions": 0,
+              "energyWh": 28.03938203197632,
+              "activeSeconds": 3588,
+              "sleepSeconds": 1210,
+              "samples": 29,
+              "candidate": false,
+              "updates": 127078,
+              "replaySize": 512,
+              "replayTerminals": 0,
+              "historySize": 0,
+              "deferredFailure": false,
+              "maxTurnStreak": 32,
+              "actions": {
+                "move": 264,
+                "turn": 1155,
+                "wait": 346,
+                "sample": 29
+              },
+              "rewards": {
+                "move": {
+                  "count": 264,
+                  "total": -4.2311466533637425,
+                  "curiosity": 3.479999999999998,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "turn": {
+                  "count": 1155,
+                  "total": -24.080844292657204,
+                  "curiosity": 3.8099999999999943,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "wait": {
+                  "count": 346,
+                  "total": -7.66223611653422,
+                  "curiosity": 0.06,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "sample": {
+                  "count": 29,
+                  "total": -1.483873434944807,
+                  "curiosity": 0.06,
+                  "shutdown": 0,
+                  "collision": 0
+                }
+              },
+              "early": {
+                "time": 745,
+                "active": 300,
+                "distance": 13.078179508703146,
+                "observed": 291,
+                "visited": 14,
+                "actions": {
+                  "move": 167,
+                  "turn": 109,
+                  "wait": 22,
+                  "sample": 2
+                },
+                "spin": false,
+                "stalled": false,
+                "bad": false
+              },
+              "spinWindows": 2,
+              "stalledWindows": 1,
+              "badWindows": 3,
+              "windowCount": 8,
+              "examples": [
+                {
+                  "time": 1945,
+                  "active": 300,
+                  "distance": 0.49035039574238937,
+                  "observed": 3,
+                  "visited": 1,
+                  "actions": {
+                    "move": 7,
+                    "turn": 237,
+                    "wait": 53,
+                    "sample": 3
+                  },
+                  "spin": true,
+                  "stalled": false,
+                  "bad": true
+                },
+                {
+                  "time": 3145,
+                  "active": 300,
+                  "distance": 0.6725594244685951,
+                  "observed": 1,
+                  "visited": 0,
+                  "actions": {
+                    "move": 9,
+                    "turn": 199,
+                    "wait": 81,
+                    "sample": 11
+                  },
+                  "spin": false,
+                  "stalled": true,
+                  "bad": true
+                },
+                {
+                  "time": 3745,
+                  "active": 294,
+                  "distance": 2.9157615198441285,
+                  "observed": 17,
+                  "visited": 3,
+                  "actions": {
+                    "move": 40,
+                    "turn": 163,
+                    "wait": 85,
+                    "sample": 6
+                  },
+                  "spin": false,
+                  "stalled": false,
+                  "bad": false
+                }
+              ]
+            },
+            {
+              "distance": 30.3174326439861,
+              "visited": 36,
+              "observed": 462,
+              "shutdowns": 1,
+              "collisions": 0,
+              "energyWh": 28.959597135526927,
+              "activeSeconds": 3494,
+              "sleepSeconds": 1306,
+              "samples": 50,
+              "candidate": false,
+              "updates": 127515,
+              "replaySize": 512,
+              "replayTerminals": 0,
+              "historySize": 0,
+              "deferredFailure": true,
+              "maxTurnStreak": 73,
+              "actions": {
+                "move": 413,
+                "turn": 813,
+                "wait": 471,
+                "sample": 50
+              },
+              "rewards": {
+                "move": {
+                  "count": 413,
+                  "total": -6.24110202087721,
+                  "curiosity": 6.029999999999997,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "turn": {
+                  "count": 813,
+                  "total": -16.163453456556294,
+                  "curiosity": 3.3299999999999987,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "wait": {
+                  "count": 471,
+                  "total": -17.04344321584015,
+                  "curiosity": 1.02,
+                  "shutdown": -8,
+                  "collision": 0
+                },
+                "sample": {
+                  "count": 50,
+                  "total": -3.632670100582562,
+                  "curiosity": 0.78,
+                  "shutdown": 0,
+                  "collision": 0
+                }
+              },
+              "early": {
+                "time": 745,
+                "active": 300,
+                "distance": 8.823233555630399,
+                "observed": 238,
+                "visited": 10,
+                "actions": {
+                  "move": 125,
+                  "turn": 35,
+                  "wait": 119,
+                  "sample": 21
+                },
+                "spin": false,
+                "stalled": false,
+                "bad": false
+              },
+              "spinWindows": 1,
+              "stalledWindows": 0,
+              "badWindows": 1,
+              "windowCount": 8,
+              "examples": [
+                {
+                  "time": 3145,
+                  "active": 300,
+                  "distance": 0.5971632303795928,
+                  "observed": 0,
+                  "visited": 1,
+                  "actions": {
+                    "move": 9,
+                    "turn": 267,
+                    "wait": 23,
+                    "sample": 1
+                  },
+                  "spin": true,
+                  "stalled": false,
+                  "bad": true
+                },
+                {
+                  "time": 3745,
+                  "active": 247,
+                  "distance": 1.0965242195199707,
+                  "observed": 4,
+                  "visited": 1,
+                  "actions": {
+                    "move": 22,
+                    "turn": 123,
+                    "wait": 100,
+                    "sample": 2
+                  },
+                  "spin": false,
+                  "stalled": false,
+                  "bad": false
+                }
+              ]
+            },
+            {
+              "distance": 18.141287456272273,
+              "visited": 19,
+              "observed": 338,
+              "shutdowns": 1,
+              "collisions": 2,
+              "energyWh": 30.413467630232883,
+              "activeSeconds": 4110,
+              "sleepSeconds": 690,
+              "samples": 54,
+              "candidate": false,
+              "updates": 128029,
+              "replaySize": 512,
+              "replayTerminals": 0,
+              "historySize": 0,
+              "deferredFailure": true,
+              "maxTurnStreak": 43,
+              "actions": {
+                "move": 233,
+                "turn": 1013,
+                "wait": 755,
+                "sample": 54
+              },
+              "rewards": {
+                "move": {
+                  "count": 233,
+                  "total": -9.989130845921647,
+                  "curiosity": 5.46,
+                  "shutdown": -8,
+                  "collision": -0.7
+                },
+                "sample": {
+                  "count": 54,
+                  "total": -5.940499137517196,
+                  "curiosity": 0.09,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "wait": {
+                  "count": 755,
+                  "total": -15.491654075752695,
+                  "curiosity": 1.02,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "turn": {
+                  "count": 1013,
+                  "total": -22.564425580906274,
+                  "curiosity": 1.4100000000000004,
+                  "shutdown": 0,
+                  "collision": 0
+                }
+              },
+              "early": {
+                "time": 745,
+                "active": 300,
+                "distance": 13.305045783284369,
+                "observed": 310,
+                "visited": 17,
+                "actions": {
+                  "move": 163,
+                  "turn": 90,
+                  "wait": 31,
+                  "sample": 16
+                },
+                "spin": false,
+                "stalled": false,
+                "bad": false
+              },
+              "spinWindows": 1,
+              "stalledWindows": 5,
+              "badWindows": 5,
+              "windowCount": 8,
+              "examples": [
+                {
+                  "time": 2545,
+                  "active": 300,
+                  "distance": 0.3589955528637656,
+                  "observed": 0,
+                  "visited": 0,
+                  "actions": {
+                    "move": 5,
+                    "turn": 265,
+                    "wait": 28,
+                    "sample": 2
+                  },
+                  "spin": true,
+                  "stalled": true,
+                  "bad": true
+                },
+                {
+                  "time": 1345,
+                  "active": 300,
+                  "distance": 0.7760763606505119,
+                  "observed": 1,
+                  "visited": 0,
+                  "actions": {
+                    "move": 15,
+                    "turn": 106,
+                    "wait": 171,
+                    "sample": 8
+                  },
+                  "spin": false,
+                  "stalled": true,
+                  "bad": true
+                },
+                {
+                  "time": 4345,
+                  "active": 255,
+                  "distance": 3.1267768748916023,
+                  "observed": 27,
+                  "visited": 1,
+                  "actions": {
+                    "move": 40,
+                    "turn": 179,
+                    "wait": 31,
+                    "sample": 5
+                  },
+                  "spin": false,
+                  "stalled": false,
+                  "bad": false
+                }
+              ]
+            }
+          ],
+          "life": {
+            "distance": 38.436549326948885,
+            "visited": 46,
+            "observed": 482,
+            "shutdowns": 1,
+            "collisions": 0,
+            "energyWh": 28.981237873553958,
+            "activeSeconds": 3280,
+            "sleepSeconds": 83120,
+            "samples": 17,
+            "candidate": false,
+            "updates": 125667,
+            "replaySize": 512,
+            "replayTerminals": 0,
+            "historySize": 0,
+            "deferredFailure": true,
+            "maxTurnStreak": 49,
+            "actions": {
+              "move": 534,
+              "turn": 749,
+              "wait": 340,
+              "sample": 17
+            },
+            "rewards": {
+              "move": {
+                "count": 534,
+                "total": -8.22306946414901,
+                "curiosity": 7.560000000000004,
+                "shutdown": 0,
+                "collision": 0
+              },
+              "turn": {
+                "count": 749,
+                "total": -23.440918772894825,
+                "curiosity": 2.729999999999997,
+                "shutdown": -8,
+                "collision": 0
+              },
+              "wait": {
+                "count": 340,
+                "total": -5.857364178397861,
+                "curiosity": 1.5300000000000002,
+                "shutdown": 0,
+                "collision": 0
+              },
+              "sample": {
+                "count": 17,
+                "total": 0.7330654485933337,
+                "curiosity": 0,
+                "shutdown": 0,
+                "collision": 0
+              }
+            },
+            "early": {
+              "time": 745,
+              "active": 300,
+              "distance": 12.742475317132508,
+              "observed": 281,
+              "visited": 16,
+              "actions": {
+                "move": 183,
+                "turn": 67,
+                "wait": 47,
+                "sample": 3
+              },
+              "spin": false,
+              "stalled": false,
+              "bad": false
+            },
+            "spinWindows": 0,
+            "stalledWindows": 0,
+            "badWindows": 0,
+            "windowCount": 144,
+            "examples": [
+              {
+                "time": 3745,
+                "active": 140,
+                "distance": 3.924536900294406,
+                "observed": 22,
+                "visited": 4,
+                "actions": {
+                  "move": 78,
+                  "turn": 17,
+                  "wait": 42,
+                  "sample": 3
+                },
+                "spin": false,
+                "stalled": false,
+                "bad": false
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "history": {
+      "summary": {
+        "cases": 2,
+        "badWindows": 14,
+        "spinWindows": 8,
+        "stalledWindows": 12,
+        "lateVisited": 53.5,
+        "lateObserved": 523.8333333333334,
+        "resetShutdowns": 12,
+        "resetCollisions": 30,
+        "resetMeanDistance": 51.00846966401727,
+        "lifeVisited": 92,
+        "lifeObserved": 757.5,
+        "lifeShutdowns": 6,
+        "lifeCollisions": 1,
+        "lifeMeanDistance": 97.41667935103581,
+        "deferredDropped": 0
+      },
+      "cases": [
+        {
+          "map": 4233,
+          "seed": 71,
+          "variant": "history",
+          "learning": true,
+          "deferredBeforeReset": 5,
+          "deferredDropped": 0,
+          "restarts": [
+            {
+              "distance": 38.36710505955387,
+              "visited": 34,
+              "observed": 413,
+              "shutdowns": 1,
+              "collisions": 1,
+              "energyWh": 31.9710424325915,
+              "activeSeconds": 4030,
+              "sleepSeconds": 770,
+              "samples": 24,
+              "candidate": false,
+              "updates": 125761,
+              "replaySize": 512,
+              "replayTerminals": 0,
+              "historySize": 256,
+              "deferredFailure": true,
+              "maxTurnStreak": 71,
+              "actions": {
+                "move": 440,
+                "turn": 999,
+                "wait": 552,
+                "sample": 24
+              },
+              "rewards": {
+                "move": {
+                  "count": 440,
+                  "total": -16.23974052617379,
+                  "curiosity": 4.739999999999997,
+                  "shutdown": -8,
+                  "collision": -0.35
+                },
+                "wait": {
+                  "count": 552,
+                  "total": -9.084745793083414,
+                  "curiosity": 2.5499999999999985,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "turn": {
+                  "count": 999,
+                  "total": -21.254680313771683,
+                  "curiosity": 2.279999999999999,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "sample": {
+                  "count": 24,
+                  "total": -0.739789982135288,
+                  "curiosity": 0.06,
+                  "shutdown": 0,
+                  "collision": 0
+                }
+              },
+              "early": {
+                "time": 745,
+                "active": 300,
+                "distance": 9.248149401642992,
+                "observed": 246,
+                "visited": 12,
+                "actions": {
+                  "move": 111,
+                  "turn": 76,
+                  "wait": 110,
+                  "sample": 3
+                },
+                "spin": false,
+                "stalled": false,
+                "bad": false
+              },
+              "spinWindows": 1,
+              "stalledWindows": 1,
+              "badWindows": 1,
+              "windowCount": 8,
+              "examples": [
+                {
+                  "time": 3745,
+                  "active": 300,
+                  "distance": 0.6300000000000239,
+                  "observed": 4,
+                  "visited": 0,
+                  "actions": {
+                    "move": 8,
+                    "turn": 230,
+                    "wait": 57,
+                    "sample": 5
+                  },
+                  "spin": true,
+                  "stalled": true,
+                  "bad": true
+                },
+                {
+                  "time": 4345,
+                  "active": 215,
+                  "distance": 2.8003891230031854,
+                  "observed": 31,
+                  "visited": 4,
+                  "actions": {
+                    "move": 33,
+                    "turn": 131,
+                    "wait": 46,
+                    "sample": 5
+                  },
+                  "spin": false,
+                  "stalled": false,
+                  "bad": false
+                }
+              ]
+            },
+            {
+              "distance": 48.46032656668979,
+              "visited": 52,
+              "observed": 537,
+              "shutdowns": 1,
+              "collisions": 0,
+              "energyWh": 30.931872582617736,
+              "activeSeconds": 3676,
+              "sleepSeconds": 1124,
+              "samples": 67,
+              "candidate": false,
+              "updates": 126221,
+              "replaySize": 512,
+              "replayTerminals": 0,
+              "historySize": 256,
+              "deferredFailure": true,
+              "maxTurnStreak": 36,
+              "actions": {
+                "move": 547,
+                "turn": 774,
+                "wait": 450,
+                "sample": 67
+              },
+              "rewards": {
+                "move": {
+                  "count": 547,
+                  "total": -8.131861852004306,
+                  "curiosity": 7.5,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "wait": {
+                  "count": 450,
+                  "total": -6.981419489326742,
+                  "curiosity": 2.6399999999999997,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "turn": {
+                  "count": 774,
+                  "total": -22.613773111521905,
+                  "curiosity": 3.209999999999998,
+                  "shutdown": -8,
+                  "collision": 0
+                },
+                "sample": {
+                  "count": 67,
+                  "total": -5.988358189549755,
+                  "curiosity": 0.06,
+                  "shutdown": 0,
+                  "collision": 0
+                }
+              },
+              "early": {
+                "time": 745,
+                "active": 300,
+                "distance": 16.55999999999998,
+                "observed": 295,
+                "visited": 20,
+                "actions": {
+                  "move": 184,
+                  "turn": 67,
+                  "wait": 48,
+                  "sample": 1
+                },
+                "spin": false,
+                "stalled": false,
+                "bad": false
+              },
+              "spinWindows": 0,
+              "stalledWindows": 0,
+              "badWindows": 0,
+              "windowCount": 8,
+              "examples": [
+                {
+                  "time": 4345,
+                  "active": 38,
+                  "distance": 0.27000000000001023,
+                  "observed": 4,
+                  "visited": 0,
+                  "actions": {
+                    "move": 3,
+                    "turn": 33,
+                    "wait": 1,
+                    "sample": 1
+                  },
+                  "spin": false,
+                  "stalled": false,
+                  "bad": false
+                }
+              ]
+            },
+            {
+              "distance": 58.502386268101716,
+              "visited": 61,
+              "observed": 477,
+              "shutdowns": 1,
+              "collisions": 0,
+              "energyWh": 30.510744999222045,
+              "activeSeconds": 3406,
+              "sleepSeconds": 1394,
+              "samples": 56,
+              "candidate": false,
+              "updates": 126646,
+              "replaySize": 512,
+              "replayTerminals": 0,
+              "historySize": 256,
+              "deferredFailure": true,
+              "maxTurnStreak": 40,
+              "actions": {
+                "move": 652,
+                "turn": 689,
+                "wait": 306,
+                "sample": 56
+              },
+              "rewards": {
+                "move": {
+                  "count": 652,
+                  "total": -11.244880136316008,
+                  "curiosity": 7.560000000000001,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "wait": {
+                  "count": 306,
+                  "total": -4.365532213925794,
+                  "curiosity": 1.9200000000000002,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "turn": {
+                  "count": 689,
+                  "total": -22.042382406672715,
+                  "curiosity": 2.0700000000000003,
+                  "shutdown": -8,
+                  "collision": 0
+                },
+                "sample": {
+                  "count": 56,
+                  "total": -3.1308774638554953,
+                  "curiosity": 0.06,
+                  "shutdown": 0,
+                  "collision": 0
+                }
+              },
+              "early": {
+                "time": 745,
+                "active": 300,
+                "distance": 20.11259513775987,
+                "observed": 307,
+                "visited": 19,
+                "actions": {
+                  "move": 225,
+                  "turn": 21,
+                  "wait": 51,
+                  "sample": 3
+                },
+                "spin": false,
+                "stalled": false,
+                "bad": false
+              },
+              "spinWindows": 0,
+              "stalledWindows": 0,
+              "badWindows": 0,
+              "windowCount": 8,
+              "examples": [
+                {
+                  "time": 3745,
+                  "active": 203,
+                  "distance": 2.5200000000000955,
+                  "observed": 10,
+                  "visited": 2,
+                  "actions": {
+                    "move": 28,
+                    "turn": 123,
+                    "wait": 38,
+                    "sample": 14
+                  },
+                  "spin": false,
+                  "stalled": false,
+                  "bad": false
+                }
+              ]
+            },
+            {
+              "distance": 66.27886940844778,
+              "visited": 60,
+              "observed": 495,
+              "shutdowns": 1,
+              "collisions": 0,
+              "energyWh": 30.673549298839657,
+              "activeSeconds": 3230,
+              "sleepSeconds": 1570,
+              "samples": 39,
+              "candidate": false,
+              "updates": 127050,
+              "replaySize": 512,
+              "replayTerminals": 0,
+              "historySize": 256,
+              "deferredFailure": true,
+              "maxTurnStreak": 28,
+              "actions": {
+                "move": 766,
+                "turn": 595,
+                "wait": 215,
+                "sample": 39
+              },
+              "rewards": {
+                "move": {
+                  "count": 766,
+                  "total": -15.103817769681424,
+                  "curiosity": 7.050000000000002,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "wait": {
+                  "count": 215,
+                  "total": -1.911319501159337,
+                  "curiosity": 2.399999999999999,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "turn": {
+                  "count": 595,
+                  "total": -18.880641013632108,
+                  "curiosity": 2.7299999999999995,
+                  "shutdown": -8,
+                  "collision": 0
+                },
+                "sample": {
+                  "count": 39,
+                  "total": -1.3065514917668226,
+                  "curiosity": 0,
+                  "shutdown": 0,
+                  "collision": 0
+                }
+              },
+              "early": {
+                "time": 745,
+                "active": 300,
+                "distance": 16.57148293586277,
+                "observed": 337,
+                "visited": 21,
+                "actions": {
+                  "move": 185,
+                  "turn": 22,
+                  "wait": 90,
+                  "sample": 3
+                },
+                "spin": false,
+                "stalled": false,
+                "bad": false
+              },
+              "spinWindows": 0,
+              "stalledWindows": 0,
+              "badWindows": 0,
+              "windowCount": 8,
+              "examples": [
+                {
+                  "time": 3745,
+                  "active": 115,
+                  "distance": 4.3028165823532945,
+                  "observed": 1,
+                  "visited": 3,
+                  "actions": {
+                    "move": 64,
+                    "turn": 38,
+                    "wait": 12,
+                    "sample": 1
+                  },
+                  "spin": false,
+                  "stalled": false,
+                  "bad": false
+                }
+              ]
+            },
+            {
+              "distance": 43.44877813647541,
+              "visited": 48,
+              "observed": 446,
+              "shutdowns": 1,
+              "collisions": 0,
+              "energyWh": 31.542067213714883,
+              "activeSeconds": 3870,
+              "sleepSeconds": 930,
+              "samples": 87,
+              "candidate": false,
+              "updates": 127534,
+              "replaySize": 512,
+              "replayTerminals": 0,
+              "historySize": 256,
+              "deferredFailure": true,
+              "maxTurnStreak": 37,
+              "actions": {
+                "move": 498,
+                "turn": 758,
+                "wait": 592,
+                "sample": 87
+              },
+              "rewards": {
+                "move": {
+                  "count": 498,
+                  "total": -6.929989152578336,
+                  "curiosity": 7.139999999999999,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "sample": {
+                  "count": 87,
+                  "total": -7.784015328013173,
+                  "curiosity": 0.3600000000000001,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "turn": {
+                  "count": 758,
+                  "total": -23.534162638757632,
+                  "curiosity": 2.3399999999999985,
+                  "shutdown": -8,
+                  "collision": 0
+                },
+                "wait": {
+                  "count": 592,
+                  "total": -11.955868622901093,
+                  "curiosity": 0.7800000000000001,
+                  "shutdown": 0,
+                  "collision": 0
+                }
+              },
+              "early": {
+                "time": 745,
+                "active": 300,
+                "distance": 18.809999999999977,
+                "observed": 306,
+                "visited": 23,
+                "actions": {
+                  "move": 209,
+                  "turn": 56,
+                  "wait": 12,
+                  "sample": 23
+                },
+                "spin": false,
+                "stalled": false,
+                "bad": false
+              },
+              "spinWindows": 2,
+              "stalledWindows": 2,
+              "badWindows": 3,
+              "windowCount": 8,
+              "examples": [
+                {
+                  "time": 2545,
+                  "active": 300,
+                  "distance": 0.8100000000000307,
+                  "observed": 6,
+                  "visited": 0,
+                  "actions": {
+                    "move": 9,
+                    "turn": 221,
+                    "wait": 62,
+                    "sample": 8
+                  },
+                  "spin": true,
+                  "stalled": false,
+                  "bad": true
+                },
+                {
+                  "time": 3745,
+                  "active": 300,
+                  "distance": 0.36000000000001364,
+                  "observed": 0,
+                  "visited": 0,
+                  "actions": {
+                    "move": 4,
+                    "turn": 83,
+                    "wait": 183,
+                    "sample": 30
+                  },
+                  "spin": false,
+                  "stalled": true,
+                  "bad": true
+                },
+                {
+                  "time": 4345,
+                  "active": 135,
+                  "distance": 0.5400000000000205,
+                  "observed": 0,
+                  "visited": 0,
+                  "actions": {
+                    "move": 6,
+                    "turn": 100,
+                    "wait": 27,
+                    "sample": 2
+                  },
+                  "spin": true,
+                  "stalled": true,
+                  "bad": true
+                }
+              ]
+            },
+            {
+              "distance": 51.82121756383687,
+              "visited": 51,
+              "observed": 496,
+              "shutdowns": 1,
+              "collisions": 0,
+              "energyWh": 30.700832931316185,
+              "activeSeconds": 3506,
+              "sleepSeconds": 1294,
+              "samples": 66,
+              "candidate": false,
+              "updates": 127972,
+              "replaySize": 512,
+              "replayTerminals": 0,
+              "historySize": 256,
+              "deferredFailure": true,
+              "maxTurnStreak": 23,
+              "actions": {
+                "move": 595,
+                "turn": 774,
+                "wait": 318,
+                "sample": 66
+              },
+              "rewards": {
+                "move": {
+                  "count": 595,
+                  "total": -10.749311627721415,
+                  "curiosity": 6.45,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "turn": {
+                  "count": 774,
+                  "total": -20.85201781683287,
+                  "curiosity": 5.069999999999996,
+                  "shutdown": -8,
+                  "collision": 0
+                },
+                "wait": {
+                  "count": 318,
+                  "total": -6.334583949059197,
+                  "curiosity": 0.42000000000000004,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "sample": {
+                  "count": 66,
+                  "total": -4.561991448971797,
+                  "curiosity": 0.27,
+                  "shutdown": 0,
+                  "collision": 0
+                }
+              },
+              "early": {
+                "time": 745,
+                "active": 300,
+                "distance": 11.616673211382553,
+                "observed": 278,
+                "visited": 11,
+                "actions": {
+                  "move": 133,
+                  "turn": 143,
+                  "wait": 21,
+                  "sample": 3
+                },
+                "spin": false,
+                "stalled": false,
+                "bad": false
+              },
+              "spinWindows": 0,
+              "stalledWindows": 0,
+              "badWindows": 0,
+              "windowCount": 8,
+              "examples": [
+                {
+                  "time": 3745,
+                  "active": 253,
+                  "distance": 7.370974264195404,
+                  "observed": 71,
+                  "visited": 8,
+                  "actions": {
+                    "move": 92,
+                    "turn": 136,
+                    "wait": 19,
+                    "sample": 6
+                  },
+                  "spin": false,
+                  "stalled": false,
+                  "bad": false
+                }
+              ]
+            }
+          ],
+          "life": {
+            "distance": 115.40139712997163,
+            "visited": 98,
+            "observed": 694,
+            "shutdowns": 3,
+            "collisions": 1,
+            "energyWh": 88.2910088298154,
+            "activeSeconds": 10590,
+            "sleepSeconds": 75810,
+            "samples": 106,
+            "candidate": false,
+            "updates": 126581,
+            "replaySize": 512,
+            "replayTerminals": 0,
+            "historySize": 256,
+            "deferredFailure": true,
+            "maxTurnStreak": 71,
+            "actions": {
+              "move": 1339,
+              "turn": 2546,
+              "wait": 1304,
+              "sample": 106
+            },
+            "rewards": {
+              "move": {
+                "count": 1339,
+                "total": -37.572998597043785,
+                "curiosity": 9.719999999999992,
+                "shutdown": -8,
+                "collision": -0.35
+              },
+              "wait": {
+                "count": 1304,
+                "total": -24.381964516421696,
+                "curiosity": 3.2399999999999958,
+                "shutdown": 0,
+                "collision": 0
+              },
+              "turn": {
+                "count": 2546,
+                "total": -63.04248992975433,
+                "curiosity": 5.039999999999996,
+                "shutdown": -8,
+                "collision": 0
+              },
+              "sample": {
+                "count": 106,
+                "total": -14.796872624132202,
+                "curiosity": 0.06,
+                "shutdown": -8,
+                "collision": 0
+              }
+            },
+            "early": {
+              "time": 745,
+              "active": 300,
+              "distance": 9.248149401642992,
+              "observed": 246,
+              "visited": 12,
+              "actions": {
+                "move": 111,
+                "turn": 76,
+                "wait": 110,
+                "sample": 3
+              },
+              "spin": false,
+              "stalled": false,
+              "bad": false
+            },
+            "spinWindows": 1,
+            "stalledWindows": 1,
+            "badWindows": 1,
+            "windowCount": 144,
+            "examples": [
+              {
+                "time": 3745,
+                "active": 300,
+                "distance": 0.6300000000000239,
+                "observed": 4,
+                "visited": 0,
+                "actions": {
+                  "move": 8,
+                  "turn": 230,
+                  "wait": 57,
+                  "sample": 5
+                },
+                "spin": true,
+                "stalled": true,
+                "bad": true
+              },
+              {
+                "time": 69145,
+                "active": 37,
+                "distance": 0,
+                "observed": 0,
+                "visited": 0,
+                "actions": {
+                  "move": 0,
+                  "turn": 26,
+                  "wait": 11,
+                  "sample": 0
+                },
+                "spin": false,
+                "stalled": false,
+                "bad": false
+              }
+            ]
+          }
+        },
+        {
+          "map": 42,
+          "seed": 71,
+          "variant": "history",
+          "learning": true,
+          "deferredBeforeReset": 5,
+          "deferredDropped": 0,
+          "restarts": [
+            {
+              "distance": 41.23200017786734,
+              "visited": 49,
+              "observed": 511,
+              "shutdowns": 1,
+              "collisions": 0,
+              "energyWh": 29.288748147600316,
+              "activeSeconds": 3234,
+              "sleepSeconds": 1566,
+              "samples": 52,
+              "candidate": false,
+              "updates": 125662,
+              "replaySize": 512,
+              "replayTerminals": 0,
+              "historySize": 256,
+              "deferredFailure": true,
+              "maxTurnStreak": 17,
+              "actions": {
+                "move": 585,
+                "turn": 581,
+                "wait": 399,
+                "sample": 52
+              },
+              "rewards": {
+                "move": {
+                  "count": 585,
+                  "total": -9.020980235119467,
+                  "curiosity": 8.339999999999998,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "turn": {
+                  "count": 581,
+                  "total": -10.542776431692564,
+                  "curiosity": 3.2699999999999965,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "wait": {
+                  "count": 399,
+                  "total": -15.844414066072527,
+                  "curiosity": 1.02,
+                  "shutdown": -8,
+                  "collision": 0
+                },
+                "sample": {
+                  "count": 52,
+                  "total": -3.522405807670736,
+                  "curiosity": 0.06,
+                  "shutdown": 0,
+                  "collision": 0
+                }
+              },
+              "early": {
+                "time": 745,
+                "active": 300,
+                "distance": 12.742475317132508,
+                "observed": 275,
+                "visited": 16,
+                "actions": {
+                  "move": 183,
+                  "turn": 66,
+                  "wait": 48,
+                  "sample": 3
+                },
+                "spin": false,
+                "stalled": false,
+                "bad": false
+              },
+              "spinWindows": 0,
+              "stalledWindows": 0,
+              "badWindows": 0,
+              "windowCount": 8,
+              "examples": [
+                {
+                  "time": 3745,
+                  "active": 117,
+                  "distance": 0.5400000000000205,
+                  "observed": 1,
+                  "visited": 1,
+                  "actions": {
+                    "move": 6,
+                    "turn": 58,
+                    "wait": 52,
+                    "sample": 1
+                  },
+                  "spin": false,
+                  "stalled": false,
+                  "bad": false
+                }
+              ]
+            },
+            {
+              "distance": 35.70017280289849,
+              "visited": 45,
+              "observed": 553,
+              "shutdowns": 1,
+              "collisions": 1,
+              "energyWh": 30.68308247549098,
+              "activeSeconds": 3830,
+              "sleepSeconds": 970,
+              "samples": 65,
+              "candidate": false,
+              "updates": 126140,
+              "replaySize": 512,
+              "replayTerminals": 0,
+              "historySize": 256,
+              "deferredFailure": true,
+              "maxTurnStreak": 135,
+              "actions": {
+                "move": 432,
+                "turn": 795,
+                "wait": 623,
+                "sample": 65
+              },
+              "rewards": {
+                "move": {
+                  "count": 432,
+                  "total": -1.0072429346761176,
+                  "curiosity": 11.819999999999988,
+                  "shutdown": 0,
+                  "collision": -0.35
+                },
+                "sample": {
+                  "count": 65,
+                  "total": -4.926823086544623,
+                  "curiosity": 0.27,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "turn": {
+                  "count": 795,
+                  "total": -24.333177961920136,
+                  "curiosity": 2.28,
+                  "shutdown": -8,
+                  "collision": 0
+                },
+                "wait": {
+                  "count": 623,
+                  "total": -12.85500020702336,
+                  "curiosity": 0.33000000000000007,
+                  "shutdown": 0,
+                  "collision": 0
+                }
+              },
+              "early": {
+                "time": 745,
+                "active": 300,
+                "distance": 17.08489119769055,
+                "observed": 337,
+                "visited": 20,
+                "actions": {
+                  "move": 204,
+                  "turn": 52,
+                  "wait": 38,
+                  "sample": 6
+                },
+                "spin": false,
+                "stalled": false,
+                "bad": false
+              },
+              "spinWindows": 1,
+              "stalledWindows": 1,
+              "badWindows": 2,
+              "windowCount": 8,
+              "examples": [
+                {
+                  "time": 3145,
+                  "active": 300,
+                  "distance": 0.4581316013265173,
+                  "observed": 5,
+                  "visited": 0,
+                  "actions": {
+                    "move": 7,
+                    "turn": 286,
+                    "wait": 3,
+                    "sample": 4
+                  },
+                  "spin": true,
+                  "stalled": false,
+                  "bad": true
+                },
+                {
+                  "time": 1345,
+                  "active": 300,
+                  "distance": 0.05878049544029551,
+                  "observed": 2,
+                  "visited": 0,
+                  "actions": {
+                    "move": 1,
+                    "turn": 7,
+                    "wait": 289,
+                    "sample": 3
+                  },
+                  "spin": false,
+                  "stalled": true,
+                  "bad": true
+                },
+                {
+                  "time": 4345,
+                  "active": 115,
+                  "distance": 1.7100000000000648,
+                  "observed": 6,
+                  "visited": 2,
+                  "actions": {
+                    "move": 19,
+                    "turn": 69,
+                    "wait": 17,
+                    "sample": 10
+                  },
+                  "spin": false,
+                  "stalled": false,
+                  "bad": false
+                }
+              ]
+            },
+            {
+              "distance": 61.85568423563418,
+              "visited": 67,
+              "observed": 630,
+              "shutdowns": 1,
+              "collisions": 26,
+              "energyWh": 29.437937448536044,
+              "activeSeconds": 2944,
+              "sleepSeconds": 1856,
+              "samples": 67,
+              "candidate": false,
+              "updates": 126508,
+              "replaySize": 512,
+              "replayTerminals": 0,
+              "historySize": 256,
+              "deferredFailure": true,
+              "maxTurnStreak": 98,
+              "actions": {
+                "move": 765,
+                "turn": 498,
+                "wait": 142,
+                "sample": 67
+              },
+              "rewards": {
+                "move": {
+                  "count": 765,
+                  "total": -24.003153813848645,
+                  "curiosity": 14.819999999999988,
+                  "shutdown": -8,
+                  "collision": -9.099999999999996
+                },
+                "turn": {
+                  "count": 498,
+                  "total": -9.500319311776444,
+                  "curiosity": 1.8300000000000005,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "sample": {
+                  "count": 67,
+                  "total": -6.719524963420427,
+                  "curiosity": 0.03,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "wait": {
+                  "count": 142,
+                  "total": -2.6923681717626926,
+                  "curiosity": 0.32999999999999996,
+                  "shutdown": 0,
+                  "collision": 0
+                }
+              },
+              "early": {
+                "time": 745,
+                "active": 300,
+                "distance": 13.013728950276212,
+                "observed": 298,
+                "visited": 16,
+                "actions": {
+                  "move": 153,
+                  "turn": 142,
+                  "wait": 3,
+                  "sample": 2
+                },
+                "spin": false,
+                "stalled": false,
+                "bad": false
+              },
+              "spinWindows": 0,
+              "stalledWindows": 0,
+              "badWindows": 0,
+              "windowCount": 8,
+              "examples": [
+                {
+                  "time": 3145,
+                  "active": 272,
+                  "distance": 14.190504288361026,
+                  "observed": 34,
+                  "visited": 14,
+                  "actions": {
+                    "move": 174,
+                    "turn": 91,
+                    "wait": 2,
+                    "sample": 5
+                  },
+                  "spin": false,
+                  "stalled": false,
+                  "bad": false
+                }
+              ]
+            },
+            {
+              "distance": 72.57248167604432,
+              "visited": 76,
+              "observed": 649,
+              "shutdowns": 1,
+              "collisions": 0,
+              "energyWh": 29.80940048733656,
+              "activeSeconds": 2846,
+              "sleepSeconds": 1954,
+              "samples": 39,
+              "candidate": false,
+              "updates": 126864,
+              "replaySize": 512,
+              "replayTerminals": 0,
+              "historySize": 256,
+              "deferredFailure": true,
+              "maxTurnStreak": 22,
+              "actions": {
+                "move": 872,
+                "turn": 404,
+                "wait": 108,
+                "sample": 39
+              },
+              "rewards": {
+                "move": {
+                  "count": 872,
+                  "total": -20.08049049205807,
+                  "curiosity": 13.199999999999978,
+                  "shutdown": -8,
+                  "collision": 0
+                },
+                "sample": {
+                  "count": 39,
+                  "total": -0.10869621019141024,
+                  "curiosity": 0.42000000000000004,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "turn": {
+                  "count": 404,
+                  "total": -6.354227637960004,
+                  "curiosity": 3.06,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "wait": {
+                  "count": 108,
+                  "total": -2.028969793036905,
+                  "curiosity": 0.21,
+                  "shutdown": 0,
+                  "collision": 0
+                }
+              },
+              "early": {
+                "time": 745,
+                "active": 300,
+                "distance": 24.135735473931597,
+                "observed": 447,
+                "visited": 30,
+                "actions": {
+                  "move": 274,
+                  "turn": 10,
+                  "wait": 5,
+                  "sample": 11
+                },
+                "spin": false,
+                "stalled": false,
+                "bad": false
+              },
+              "spinWindows": 0,
+              "stalledWindows": 0,
+              "badWindows": 0,
+              "windowCount": 8,
+              "examples": [
+                {
+                  "time": 3145,
+                  "active": 223,
+                  "distance": 13.124383455498204,
+                  "observed": 84,
+                  "visited": 15,
+                  "actions": {
+                    "move": 164,
+                    "turn": 52,
+                    "wait": 5,
+                    "sample": 2
+                  },
+                  "spin": false,
+                  "stalled": false,
+                  "bad": false
+                }
+              ]
+            },
+            {
+              "distance": 40.9866683669521,
+              "visited": 43,
+              "observed": 601,
+              "shutdowns": 1,
+              "collisions": 1,
+              "energyWh": 29.358720458081653,
+              "activeSeconds": 3356,
+              "sleepSeconds": 1444,
+              "samples": 42,
+              "candidate": false,
+              "updates": 127284,
+              "replaySize": 512,
+              "replayTerminals": 0,
+              "historySize": 256,
+              "deferredFailure": true,
+              "maxTurnStreak": 73,
+              "actions": {
+                "move": 516,
+                "turn": 840,
+                "wait": 280,
+                "sample": 42
+              },
+              "rewards": {
+                "move": {
+                  "count": 516,
+                  "total": -3.8249573152409795,
+                  "curiosity": 11.609999999999992,
+                  "shutdown": 0,
+                  "collision": -0.35
+                },
+                "sample": {
+                  "count": 42,
+                  "total": -2.7038823658076905,
+                  "curiosity": 0.99,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "turn": {
+                  "count": 840,
+                  "total": -25.04428996349705,
+                  "curiosity": 2.6099999999999994,
+                  "shutdown": -8,
+                  "collision": 0
+                },
+                "wait": {
+                  "count": 280,
+                  "total": -5.776653448114455,
+                  "curiosity": 0.24,
+                  "shutdown": 0,
+                  "collision": 0
+                }
+              },
+              "early": {
+                "time": 745,
+                "active": 300,
+                "distance": 14.327196442290996,
+                "observed": 341,
+                "visited": 17,
+                "actions": {
+                  "move": 160,
+                  "turn": 119,
+                  "wait": 4,
+                  "sample": 17
+                },
+                "spin": false,
+                "stalled": false,
+                "bad": false
+              },
+              "spinWindows": 2,
+              "stalledWindows": 2,
+              "badWindows": 2,
+              "windowCount": 8,
+              "examples": [
+                {
+                  "time": 1945,
+                  "active": 300,
+                  "distance": 0.5025937740092843,
+                  "observed": 0,
+                  "visited": 0,
+                  "actions": {
+                    "move": 7,
+                    "turn": 233,
+                    "wait": 53,
+                    "sample": 7
+                  },
+                  "spin": true,
+                  "stalled": true,
+                  "bad": true
+                },
+                {
+                  "time": 3745,
+                  "active": 178,
+                  "distance": 0.5350600102348864,
+                  "observed": 1,
+                  "visited": 0,
+                  "actions": {
+                    "move": 8,
+                    "turn": 167,
+                    "wait": 2,
+                    "sample": 1
+                  },
+                  "spin": true,
+                  "stalled": true,
+                  "bad": true
+                }
+              ]
+            },
+            {
+              "distance": 52.8759457057055,
+              "visited": 43,
+              "observed": 456,
+              "shutdowns": 1,
+              "collisions": 1,
+              "energyWh": 29.366982857980176,
+              "activeSeconds": 3044,
+              "sleepSeconds": 1756,
+              "samples": 14,
+              "candidate": false,
+              "updates": 127664,
+              "replaySize": 512,
+              "replayTerminals": 0,
+              "historySize": 256,
+              "deferredFailure": true,
+              "maxTurnStreak": 72,
+              "actions": {
+                "move": 660,
+                "turn": 773,
+                "wait": 75,
+                "sample": 14
+              },
+              "rewards": {
+                "move": {
+                  "count": 660,
+                  "total": -8.080478113971514,
+                  "curiosity": 10.919999999999987,
+                  "shutdown": 0,
+                  "collision": -0.35
+                },
+                "wait": {
+                  "count": 75,
+                  "total": -1.540854950855762,
+                  "curiosity": 0,
+                  "shutdown": 0,
+                  "collision": 0
+                },
+                "turn": {
+                  "count": 773,
+                  "total": -25.202176942887,
+                  "curiosity": 0.8700000000000001,
+                  "shutdown": -8,
+                  "collision": 0
+                },
+                "sample": {
+                  "count": 14,
+                  "total": -1.118174373149372,
+                  "curiosity": 0,
+                  "shutdown": 0,
+                  "collision": 0
+                }
+              },
+              "early": {
+                "time": 745,
+                "active": 300,
+                "distance": 21.01128535444035,
+                "observed": 376,
+                "visited": 25,
+                "actions": {
+                  "move": 274,
+                  "turn": 17,
+                  "wait": 9,
+                  "sample": 0
+                },
+                "spin": false,
+                "stalled": false,
+                "bad": false
+              },
+              "spinWindows": 0,
+              "stalledWindows": 0,
+              "badWindows": 0,
+              "windowCount": 8,
+              "examples": [
+                {
+                  "time": 3745,
+                  "active": 22,
+                  "distance": 0.09000000000000341,
+                  "observed": 0,
+                  "visited": 0,
+                  "actions": {
+                    "move": 1,
+                    "turn": 18,
+                    "wait": 1,
+                    "sample": 2
+                  },
+                  "spin": false,
+                  "stalled": false,
+                  "bad": false
+                }
+              ]
+            }
+          ],
+          "life": {
+            "distance": 79.4319615721,
+            "visited": 86,
+            "observed": 821,
+            "shutdowns": 3,
+            "collisions": 0,
+            "energyWh": 87.27207562537112,
+            "activeSeconds": 10820,
+            "sleepSeconds": 75580,
+            "samples": 167,
+            "candidate": false,
+            "updates": 126610,
+            "replaySize": 512,
+            "replayTerminals": 0,
+            "historySize": 256,
+            "deferredFailure": true,
+            "maxTurnStreak": 101,
+            "actions": {
+              "move": 1057,
+              "turn": 2654,
+              "wait": 1532,
+              "sample": 167
+            },
+            "rewards": {
+              "move": {
+                "count": 1057,
+                "total": -17.522240696408662,
+                "curiosity": 13.79999999999998,
+                "shutdown": 0,
+                "collision": 0
+              },
+              "turn": {
+                "count": 2654,
+                "total": -56.5026909159466,
+                "curiosity": 6.2700000000000005,
+                "shutdown": 0,
+                "collision": 0
+              },
+              "wait": {
+                "count": 1532,
+                "total": -55.26557346066918,
+                "curiosity": 1.8000000000000005,
+                "shutdown": -24,
+                "collision": 0
+              },
+              "sample": {
+                "count": 167,
+                "total": -16.948823173220937,
+                "curiosity": 0.12,
+                "shutdown": 0,
+                "collision": 0
+              }
+            },
+            "early": {
+              "time": 745,
+              "active": 300,
+              "distance": 12.742475317132508,
+              "observed": 275,
+              "visited": 16,
+              "actions": {
+                "move": 183,
+                "turn": 66,
+                "wait": 48,
+                "sample": 3
+              },
+              "spin": false,
+              "stalled": false,
+              "bad": false
+            },
+            "spinWindows": 1,
+            "stalledWindows": 5,
+            "badWindows": 5,
+            "windowCount": 144,
+            "examples": [
+              {
+                "time": 37945,
+                "active": 238,
+                "distance": 0.36000000000001364,
+                "observed": 3,
+                "visited": 0,
+                "actions": {
+                  "move": 4,
+                  "turn": 194,
+                  "wait": 37,
+                  "sample": 3
+                },
+                "spin": true,
+                "stalled": true,
+                "bad": true
+              },
+              {
+                "time": 66145,
+                "active": 214,
+                "distance": 0.27000000000001023,
+                "observed": 0,
+                "visited": 0,
+                "actions": {
+                  "move": 3,
+                  "turn": 43,
+                  "wait": 166,
+                  "sample": 2
+                },
+                "spin": false,
+                "stalled": true,
+                "bad": true
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "sourceHashes": {
+    "src/agent/controller.js": "aad1dab614a722ca788d665f79185447b6f390dc2170ba3bc0727bb195814daa",
+    "src/agent/network.js": "51d98b81ed702bc3ab3042367f476b10022bec9cddf9f088ed97130e7f1c3628",
+    "src/agent/curiosity-controller.js": "c4b9e05d20a31b3c11d3ae9e4c1440628cd074bed324fff0a9cacd9e5c95389f",
+    "src/agent/deposit-controller.js": "8d720638fa90d6866855a5ad07dd742236dea7ca4b4970fa5cd90e7523c7457c",
+    "src/sim/engine.js": "3c9da4b34a650fa0d6af8798b746fa0d5cef265ad1cdce0242c9722b3fca1687",
+    "src/sim/sensors.js": "65369a662191c98089aeade674b8d3a851d0daf257a77c140c0baa51c7c353f9",
+    "src/sim/exploration.js": "e51126540280ccd4af61a7466e4ea63f31bb46be0b376c5ba85c9a0ac7c3b099",
+    "src/sim/world.js": "bd3f008fdd29b60c09056e4592da24a91a2f58fb5b31a04704abec8877e6dd58",
+    "src/sim/memory.js": "535dd2bc14145049519acea0f567e3e297f0ff4401ea816de382004f0aebe3f4",
+    "src/sim/survey.js": "85e751c36511175d146b4378dac929389cc2591404d8837a376582a1d87ff029",
+    "src/lab/online-audit.js": "e7c51a199db39d3c7004854520307b5d180d8ac04e1a89737a2c4dc22a6a3ace",
+    "experiments/audit-online.mjs": "bf949f8ceeaac9bc1e9a202636a055620f679304bd6f21fb0fc71cf0c2cf9346"
+  },
+  "rawDetails": {
+    "path": "runs/online-audit-diagnose-full.json",
+    "sha256": "14f268ab1968573d9ede4db4241ecd1352f2b98964b1a67c78206531efb0dac1",
+    "scope": "Local detailed window log; intentionally excluded from Git"
+  }
+}

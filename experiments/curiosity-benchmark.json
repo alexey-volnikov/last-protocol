@@ -1,5 +1,7 @@
 {
   "schema_version": 1,
+  "sourceRevision": "f3907e213c85175197f2194f6763391d649e7c95",
+  "sourceHashScope": "Historical 0.3.0 sources at sourceRevision; frozen evaluation, not online stability",
   "kind": "curiosity-lab-v1: fixed-horizon sensing and power comparison",
   "runtime": "v24.14.0",
   "protocol": {

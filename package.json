@@ -11,6 +11,9 @@
     "train:deposit": "node experiments/train-deposit.mjs",
     "benchmark:deposit": "node experiments/train-deposit.mjs --evaluate",
     "train:curiosity": "node experiments/train-curiosity.mjs",
-    "benchmark:curiosity": "node experiments/train-curiosity.mjs --evaluate"
+    "benchmark:curiosity": "node experiments/train-curiosity.mjs --evaluate",
+    "audit:online": "node experiments/audit-online.mjs --stage=validate",
+    "audit:online:known": "node experiments/audit-online.mjs --stage=diagnose",
+    "audit:online:test": "node experiments/audit-online.mjs --stage=test"
   }
 }
