@@ -3,14 +3,16 @@ import {LAB_DAY_SECONDS,SURFACE_PRESET,DEPOSIT_PRESET} from './sim/world.js';
 import {drawWorld} from './ui/renderer.js';
 import {createNeuralController} from './agent/controller.js';
 import {createDepositController,transferSurfaceModel} from './agent/deposit-controller.js';
+import {createCuriosityController,transferDepositModel,CURIOSITY_EXPERIMENT} from './agent/curiosity-controller.js';
 const $=id=>document.getElementById(id);
 const profiles={
   [SURFACE_PRESET]:{key:'last-protocol-water-dqn-v1',file:'water-dqn-v1',report:'water-benchmark',create:createNeuralController},
-  [DEPOSIT_PRESET]:{key:'last-protocol-deposit-dqn-v1',file:'deposit-dqn-v1',report:'deposit-benchmark',create:createDepositController}
+  [DEPOSIT_PRESET]:{key:'last-protocol-deposit-dqn-v1',file:'deposit-dqn-v1',report:'deposit-benchmark',create:createDepositController},
+  [CURIOSITY_EXPERIMENT]:{key:'last-protocol-curiosity-dqn-v1',file:'curiosity-dqn-v1',report:'curiosity-benchmark',create:createCuriosityController,world:DEPOSIT_PRESET}
 };
-let preset=DEPOSIT_PRESET,brain=createDepositController({seed:71,epsilon:.06}),worker=null;
+let preset=CURIOSITY_EXPERIMENT,brain=createCuriosityController({seed:71,epsilon:.06}),worker=null;
 const brains=new Map();
-let seed=42,sim=createSimulation(seed,{controller:brain,preset}),paused=false,speed=20,mapMode='memory',accumulator=0,last=performance.now(),lastUI=0,lastSave=0;
+let seed=42,sim=createSimulation(seed,{controller:brain,preset:DEPOSIT_PRESET,curiosity:true}),paused=false,speed=20,mapMode='memory',accumulator=0,last=performance.now(),lastUI=0,lastSave=0;
 const canvas=$('worldCanvas');
 function persistBrain(){try{localStorage.setItem(profiles[preset].key,JSON.stringify(brain.save()));}catch{$('trainingStatus').textContent='Автосохранение недоступно. Можно скачать мозг кнопкой ниже.';}}
 function setPaused(value){paused=value;$('pauseBtn').textContent=paused?'▶ Продолжить':'Ⅱ Пауза';}
@@ -18,8 +20,8 @@ function setBar(id,val){$(id).style.width=`${Math.min(100,Math.max(0,val))}%`;}
 function timeStr(seconds){const s=Math.floor(seconds);return [Math.floor(s/3600),Math.floor(s%3600/60),s%60].map(x=>String(x).padStart(2,'0')).join(':');}
 function updateUI(){
   const s=status(sim),r=sim.rover;
-  $('labTitle').textContent=sim.survey?'По следам — к большому пласту.':'Поверхностный лёд: малый опыт.';
-  $('labEyebrow').textContent=sim.survey?'ОПЫТ LP-045 / 046 · ДЛИТЕЛЬНАЯ РАЗВЕДКА':'ОПЫТ LP-003 · ЕДИНИЧНАЯ ПРОБА';
+  $('labTitle').textContent=sim.rover.exploration?'Новые данные. Новые пути.':sim.survey?'По следам — к большому пласту.':'Поверхностный лёд: малый опыт.';
+  $('labEyebrow').textContent=sim.rover.exploration?'ОПЫТ LP-028 · ЛЮБОПЫТСТВО И РАЗВЕДКА':sim.survey?'ОПЫТ LP-045 / 046 · ДЛИТЕЛЬНАЯ РАЗВЕДКА':'ОПЫТ LP-003 · ЕДИНИЧНАЯ ПРОБА';
   $('modeBadge').textContent=s.mode;
   $('modeBadge').style.color=s.mode==='ACTIVE'?'#73c79b':'#eeb36b';
   $('batteryTxt').textContent=`${s.batteryPct.toFixed(1)}%`;setBar('batteryBar',s.batteryPct);
@@ -35,6 +37,20 @@ function updateUI(){
   $('timeDisplay').textContent=`T+${timeStr(s.time)}`;
   $('seedShow').textContent=seed;
   const neural=Boolean(sim.controller),info=s.controller;
+  $('curiosityPanel').hidden=!sim.rover.exploration;
+  if(sim.rover.exploration){
+    const e=s.exploration;
+    $('newDataTxt').textContent=e?`+${e.lastGain}`:'—';
+    $('observedTxt').textContent=e?.uniqueObserved??0;
+    $('curiosityDetail').textContent=`Посещено клеток: ${e?.uniqueVisited??1} · бонус за шаг: ${(info.components?.curiosity||0).toFixed(3)} · отпечатки 2 KiB отдельно от карты`;
+    $('noveltyDirections').replaceChildren(...Array.from({length:12},(_,i)=>{
+      const d=e?.directions[i],bar=document.createElement('div');
+      bar.className='novelty-column';bar.title=`${i*30}° от курса: ${d?.available?`${Math.round(d.unknown*100)}% ещё не знакомо`:'нет измерений'}`;
+      const fill=document.createElement('span');fill.style.height=`${d?.available?Math.max(2,d.unknown*100):0}%`;
+      const label=document.createElement('small');label.textContent=i%3===0?`${i*30}°`:'';
+      bar.append(fill,label);return bar;
+    }));
+  }
   $('runState').textContent=paused?'ПАУЗА':sim.survey?'ДЛИТЕЛЬНАЯ РАЗВЕДКА':sim.water.found?'ВОДА ПОДТВЕРЖДЕНА':'СИМУЛЯЦИЯ АКТИВНА';
   $('policyCaption').textContent=neural?'ЛОКАЛЬНАЯ НЕЙРОСЕТЬ / Q-LEARNING':'ЭВРИСТИКА / БЕЗ ОБУЧЕНИЯ';
   $('brainDetail').textContent=neural?`Мозг E${info.updates} · буфер опыта ${info.replaySize}/${info.replayCapacity} · оценка за шаг ${info.lastReward.toFixed(3)}`:'Исходные правила возврата. Пробы льда этот алгоритм не выбирает.';
@@ -83,7 +99,7 @@ function frame(now){
   if(now-lastSave>10000){persistBrain();lastSave=now;}
   requestAnimationFrame(frame);
 }
-function restart(s){persistBrain();seed=s;brain.newTrial();sim=createSimulation(s,{controller:$('controllerMode').value==='neural'?brain:null,preset});accumulator=0;updateUI();drawWorld(canvas,sim,mapMode);}
+function restart(s){persistBrain();seed=s;brain.newTrial();sim=createSimulation(s,{controller:$('controllerMode').value==='neural'?brain:null,preset:profiles[preset].world||preset,curiosity:preset===CURIOSITY_EXPERIMENT});accumulator=0;updateUI();drawWorld(canvas,sim,mapMode);}
 $('pauseBtn').addEventListener('click',()=>{setPaused(!paused);updateUI();});
 $('stepBtn').addEventListener('click',()=>{setPaused(true);step(sim,STEP_SECONDS);updateUI();});
 $('resetBtn').addEventListener('click',()=>restart(seed));
@@ -136,7 +152,7 @@ $('trainBtn').addEventListener('click',()=>{
   worker.onmessage=event=>{
     if(worker!==currentWorker)return;
     const p=event.data;
-    if(p.type==='progress')$('trainingStatus').textContent=`LAB ${p.episode}/${p.total} · ${preset===DEPOSIT_PRESET?'кандидатов':'находок'}: ${p.successes} · мозг E${p.updates}`;
+    if(p.type==='progress')$('trainingStatus').textContent=`LAB ${p.episode}/${p.total} · ${preset===SURFACE_PRESET?'находок':'кандидатов'}: ${p.successes}${p.observed!=null?` · новых клеток в среднем ${p.observed.toFixed(0)}`:''} · мозг E${p.updates}`;
     else if(p.type==='done'){
       brain=profiles[preset].create({model:p.model,seed:71,learning:$('learningToggle').checked,epsilon:.06});
       if($('controllerMode').value==='neural')sim.controller=brain;
@@ -150,13 +166,13 @@ $('trainBtn').addEventListener('click',()=>{
 function finishTraining(){worker?.terminate();worker=null;$('trainBtn').disabled=false;$('brainFile').disabled=false;$('restoreBrainBtn').disabled=false;$('cancelTrainingBtn').hidden=true;updateUI();}
 $('cancelTrainingBtn').addEventListener('click',()=>{finishTraining();$('trainingStatus').textContent='Обучение остановлено. Текущий мозг и ровер сохранены.';});
 $('exportBtn').addEventListener('click',()=>{
-  const report={schema_version:3,kind:'summary-and-model-not-replay',simulator:SIM_VERSION,preset,policy:sim.controller?.id||'baseline-heuristic-v0',seed,sim_time_seconds:sim.time,status:status(sim),water:sim.water,
+  const report={schema_version:4,kind:'summary-and-model-not-replay',simulator:SIM_VERSION,experiment:preset,preset:sim.world.preset,policy:sim.controller?.id||'baseline-heuristic-v0',seed,sim_time_seconds:sim.time,status:status(sim),water:sim.water,
     survey:sim.survey?{summary:status(sim).survey,probes:sim.survey.probes,confirmedAt:sim.survey.confirmedAt}:null,model:brain.save(),events:[...sim.events].reverse(),worldSize:{w:sim.world.w,h:sim.world.h},
     note:'Лабораторная физика и условные единицы. Это сводка текущего запуска, не полный replay.'};
   download(report,`last-protocol-seed-${seed}.json`);
 });
 async function loadBrain(profile){
-  const config=profiles[profile],options={seed:71,learning:$('learningToggle').checked,epsilon:profile===DEPOSIT_PRESET?.06:.03};
+  const config=profiles[profile],options={seed:71,learning:$('learningToggle').checked,epsilon:profile===SURFACE_PRESET?.03:.06};
   try{
     const saved=JSON.parse(localStorage.getItem(config.key));
     if(saved){const loaded=config.create({...options,model:saved});$('trainingStatus').textContent='Загружен ваш сохранённый мозг этого опыта. Мир запущен заново как LAB-опыт.';return loaded;}
@@ -164,9 +180,16 @@ async function loadBrain(profile){
   try{
     const response=await fetch(`./models/${config.file}.json`,{cache:'no-store'});
     if(response.ok){const model=await response.json(),loaded=config.create({...options,model});
-      $('trainingStatus').textContent=profile===DEPOSIT_PRESET&&model.updates===model.meta?.pretrainingUpdates?
+      $('trainingStatus').textContent=profile===CURIOSITY_EXPERIMENT?
+        'Локальный мозг опыта «Любопытство» загружен. Оценки новизны получены из собственных сканов, выбор действий делает сеть.':profile===DEPOSIT_PRESET&&model.updates===model.meta?.pretrainingUpdates?
         'Перенесён навык малого опыта. Новый навык поиска по концентрации пока не подтверждён.':'Комплектный локальный мозг загружен. Поиск пласта не гарантирован.';return loaded;}
   }catch{}
+  if(profile===CURIOSITY_EXPERIMENT){
+    try{
+      const response=await fetch('./models/deposit-dqn-v1.json');
+      if(response.ok){$('trainingStatus').textContent='Исходный перенос: новые входы любопытства ещё предстоит обучить.';return config.create({...options,model:transferDepositModel(await response.json())});}
+    }catch{}
+  }
   if(profile===DEPOSIT_PRESET){
     try{
       const response=await fetch('./models/water-dqn-v1.json');
@@ -180,7 +203,8 @@ async function showBenchmark(){
   try{
     const response=await fetch(`./experiments/${profiles[preset].report}.json`,{cache:'no-store'});
     if(response.ok){const report=await response.json();
-      $('benchmarkStatus').textContent=preset===DEPOSIT_PRESET?
+      $('benchmarkStatus').textContent=preset===CURIOSITY_EXPERIMENT?
+        `На ${report.test.trained.total} новых картах: наблюдено в среднем ${report.test.trained.observed.toFixed(0)} клеток, до обучения ${report.test.transferred.observed.toFixed(0)}; посещено ${report.test.trained.visited.toFixed(1)} против ${report.test.transferred.visited.toFixed(1)}. Отключений всего ${report.test.trained.trials.reduce((n,t)=>n+t.shutdowns,0)} против ${report.test.transferred.trials.reduce((n,t)=>n+t.shutdowns,0)}. Столкновений стало больше; безопасная разведка ещё не освоена. Кандидатов пласта: ${report.test.trained.candidates}/${report.test.trained.total}.` :preset===DEPOSIT_PRESET?
         `Кандидатов на новых картах: ${report.test.trained.candidates}/${report.test.trained.total}. Две тренировки не улучшили проверку; комплектный мозг оставлен исходным переносом. Навык долгой разведки пока не освоен.`:
         `Малый опыт: ${report.test.trained.found}/${report.test.trained.total} карт; до обучения: ${report.test.untrained.found}/${report.test.untrained.total}. Это не поиск большого пласта.`;
     }

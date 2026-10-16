@@ -1,5 +1,6 @@
 import {sunlightAt,surfaceTempC,tileAt,DEPOSIT_PRESET} from './world.js';
 import {remember} from './memory.js';
+import {markObserved,explorationReading} from './exploration.js';
 export const LIDAR_RAYS=12;
 export const LIDAR_RANGE=7; // клетки = условные метры для первой лаборатории
 export const SPECTRAL_RANGE=4; // LAB: видимый поверхностный лёд; не поиск подземной воды.
@@ -32,6 +33,7 @@ export function sampleSensors(world,rover,time,{scan=true}={}){
     reading.survey={...(rover.surveySummary||{lastConcentration:null,bestConcentration:0,concentrationDelta:0,uniqueProbes:0,richCount:0,confirmed:false})};
   }
   if(scan){
+    const observedBefore=rover.exploration?.uniqueObserved||0;
     rover.lastSurfaceIce=reading.surfaceIce;rover.scanX=rover.x;rover.scanY=rover.y;
     if(deposit)rover.lastSurfaceConcentration=reading.surfaceConcentration;
     let evicted=0;
@@ -44,6 +46,7 @@ export function sampleSensors(world,rover,time,{scan=true}={}){
         const tx=rover.x+dx*d,ty=rover.y+dy*d;
         const t=tileAt(world,tx,ty);
         if(!t){distance=d;hit=true;break;}
+        if(rover.exploration)markObserved(rover.exploration,rover.estimatedX+dx*d,rover.estimatedY+dy*d);
         const record={rock:t.rock,crater:t.crater,rim:t.rim,seenAt:time};
         if(d<=SPECTRAL_RANGE&&spectrum&&(!deposit||!t.rock)){
           record.ice=t.ice;
@@ -57,11 +60,13 @@ export function sampleSensors(world,rover,time,{scan=true}={}){
     }
     reading.lidar=rays; reading.scanFresh=true; reading.evicted=evicted;
     rover.lastLidar=rays;
+    if(rover.exploration){rover.exploration.lastGain=rover.exploration.uniqueObserved-observedBefore;rover.exploration.scans++;}
   }
   // Только записи реально измеренных участков, исчезают при вытеснении карты.
   reading.waterReadings=[...rover.memory.cells.values()].filter(c=>c.ice&&c.waterPosition)
     .map(c=>({...c.waterPosition,...(deposit?{concentration:c.iceFraction}: {})})).sort((a,b)=>Math.hypot(a.x-rover.estimatedX,a.y-rover.estimatedY)-Math.hypot(b.x-rover.estimatedX,b.y-rover.estimatedY)).slice(0,8);
   reading.lidar=reading.lidar.map(ray=>({...ray}));
+  if(rover.exploration)reading.exploration=explorationReading(rover.exploration,reading.odometry,reading.lidar);
   // Маяк базы физически ограничен радиусом, а не всеведущими координатами.
   const baseDistance=Math.hypot(rover.x-world.home.x,rover.y-world.home.y);
   if(baseDistance<9){

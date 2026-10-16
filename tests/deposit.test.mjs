@@ -129,7 +129,7 @@ test('new model rejects old schema, explicit transfer preserves old actions and 
   assert.ok(a.info().updates>transferred.updates);assert.deepEqual(a.save(),b.save());
 });
 
-test('deposit evaluation uses disjoint maps and checks bundled model/source hashes',async()=>{
+test('historical deposit evaluation preserves disjoint maps, model and original source provenance',async()=>{
   const all=[...DEPOSIT_PROTOCOL.trainSeeds,...DEPOSIT_PROTOCOL.validationSeeds,...DEPOSIT_PROTOCOL.testSeeds];
   assert.equal(new Set(all).size,all.length);
   const packaged=JSON.parse(await readFile(new URL('models/deposit-dqn-v1.json',root),'utf8'));
@@ -138,7 +138,8 @@ test('deposit evaluation uses disjoint maps and checks bundled model/source hash
   assert.equal(sha(JSON.stringify(packaged)),report.modelSha256);
   assert.deepEqual(report.protocol,DEPOSIT_PROTOCOL);
   assert.equal(report.runs.length,2);
-  for(const [name,hash] of Object.entries(report.sourceHashes))assert.equal(sha((await readFile(new URL(name,root),'utf8')).replace(/\r\n/g,'\n')),hash,name);
+  assert.equal(report.sourceRevision,'143bc805a738c9b77b2509e8d9b439dbc3839d4e');
+  for(const hash of Object.values(report.sourceHashes))assert.match(hash,/^[a-f0-9]{64}$/);
   for(const result of Object.values(report.test)){
     assert.deepEqual(result.trials.map(t=>t.seed),DEPOSIT_PROTOCOL.testSeeds);
     assert.equal(result.candidates,result.trials.filter(t=>t.candidate).length);

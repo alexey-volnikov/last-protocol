@@ -1,7 +1,7 @@
 {
   "name": "last-protocol",
   "private": true,
-  "version": "0.2.0",
+  "version": "0.3.0",
   "type": "module",
   "scripts": {
     "dev": "node dev-server.mjs",
@@ -9,6 +9,8 @@
     "train:water": "node experiments/train-water.mjs",
     "benchmark:water": "node experiments/train-water.mjs --evaluate",
     "train:deposit": "node experiments/train-deposit.mjs",
-    "benchmark:deposit": "node experiments/train-deposit.mjs --evaluate"
+    "benchmark:deposit": "node experiments/train-deposit.mjs --evaluate",
+    "train:curiosity": "node experiments/train-curiosity.mjs",
+    "benchmark:curiosity": "node experiments/train-curiosity.mjs --evaluate"
   }
 }

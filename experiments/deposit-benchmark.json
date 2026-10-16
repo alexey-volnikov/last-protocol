@@ -1,5 +1,7 @@
 {
   "schema_version": 1,
+  "sourceRevision": "143bc805a738c9b77b2509e8d9b439dbc3839d4e",
+  "sourceHashScope": "Canonical LF source at sourceRevision; historical 0.2.0 training, not current expanded sources",
   "kind": "deposit-lab-v1: limited-horizon trials, not full lifetime",
   "runtime": "v24.14.0",
   "protocol": {

@@ -11,3 +11,4 @@ __pycache__/
 experiments/runs/
 experiments/water-evaluation.json
 experiments/deposit-evaluation.json
+experiments/curiosity-evaluation.json

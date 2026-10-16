@@ -3,7 +3,8 @@ import {createSurvey,registerProbe,surveySummary} from './survey.js';
 import {createMemory,memoryPercent,remember} from './memory.js';
 import {sampleSensors} from './sensors.js';
 import {chooseBaselineAction} from './policy.js';
-export const SIM_VERSION='0.2.0';
+import {createExploration,markVisited} from './exploration.js';
+export const SIM_VERSION='0.3.0';
 export const STEP_SECONDS=2;
 
 function makeRover(world){
@@ -14,11 +15,12 @@ function makeRover(world){
     mission:{rememberedHome:{x,y}},
     generation:1,modelVersion:'baseline-heuristic-v0',storageLoss:0};
 }
-export function createSimulation(seed=42,{controller=null,preset=SURFACE_PRESET}={}){
+export function createSimulation(seed=42,{controller=null,preset=SURFACE_PRESET,curiosity=false}={}){
   const world=createWorld(seed,{preset});
   const rover=makeRover(world);
+  if(curiosity){rover.exploration=createExploration();markVisited(rover.exploration,rover.estimatedX,rover.estimatedY);}
   const sim={world,rover,controller,preset,survey:preset===DEPOSIT_PRESET?createSurvey():null,time:145,events:[],tick:0,water:{found:false,sample:null},
-    stats:{collisions:0,evictions:0,distance:0,samples:0,shutdowns:0,activeSeconds:0,sleepSeconds:0},lastEvent:'Капсула раскрыта. Ровер активирован.'};
+    stats:{collisions:0,evictions:0,distance:0,samples:0,shutdowns:0,activeSeconds:0,sleepSeconds:0,energySpentWh:0},lastEvent:'Капсула раскрыта. Ровер активирован.'};
   if(controller)rover.modelVersion=controller.id;
   addEvent(sim,sim.lastEvent);
   remember(rover.memory,rover.x,rover.y,{rock:false,crater:0,rim:0,seenAt:sim.time});
@@ -58,12 +60,14 @@ export function step(sim,dt=STEP_SECONDS){
     addEvent(sim,rover.offReason==='COLD'?'Критический холод: система ушла в спячку.':'Питание отключено до восстановления 70%.');return sim;
   }
   const batteryBefore=rover.batteryWh,uniqueBefore=rover.memory.uniqueSeen;
+  const curious=Boolean(rover.exploration),knowledgeBefore=rover.exploration?.uniqueObserved||0;
   sim.stats.activeSeconds+=dt;
   const controllerLearning=Boolean(sim.controller?.info?.().learning);
-  const scan=sim.tick%3===0&&(!sim.survey||rover.batteryWh>=(3.6+2.2+(controllerLearning?4:0)+(rover.spectrometerEnabled===false?5.5:11.5))*dt/3600);
-  const obs=sampleSensors(world,rover,sim.time,{scan});
+  const sensorWatts=rover.spectrometerEnabled===false?5.5:11.5;
+  const scan=sim.tick%3===0&&(!sim.survey||rover.batteryWh>=(3.6+2.2+(curious?.4:0)+(controllerLearning?4:0)+sensorWatts)*dt/3600);
+  const obs=sampleSensors(world,rover,sim.time,{scan:scan&&!curious});
   rover.lastObservation=obs;
-  if(scan)rover.scans++;
+  if(scan&&!curious)rover.scans++;
   if(obs.evicted>0){
     sim.stats.evictions+=obs.evicted;
     if(sim.tick%24===0)addEvent(sim,'Накопитель переполнен: старые клетки карты удалены.');
@@ -74,7 +78,7 @@ export function step(sim,dt=STEP_SECONDS){
   rover.lastAction=action;
   rover.contact=false;rover.sampleResult=null;
   const learning=controllerLearning;
-  let watts=3.6+2.2+(learning?4:0)+(scan?(rover.spectrometerEnabled===false?5.5:11.5):0); // LAB-стоимости
+  let watts=3.6+2.2+(curious?.4:0)+(learning?4:0)+(scan?sensorWatts:0); // LAB-стоимости
   let newWater=false;
   let surveyFeedback={newSurvey:false,newRich:false,newDeposit:false,sampleConcentration:null};
   if(action.type==='turn'){
@@ -117,8 +121,11 @@ export function step(sim,dt=STEP_SECONDS){
   }
   // Нагреватель при низкой температуре тоже расходует электричество.
   if(rover.bodyTempC< -30){watts+=7;rover.bodyTempC+=dt*.009;}
+  const postScan=curious&&scan&&batteryBefore>=watts*dt/3600;
+  if(curious&&scan&&!postScan)watts-=sensorWatts;
   const solarWatts=12*sun;
   const energySpentWh=watts*dt/3600;
+  sim.stats.energySpentWh+=energySpentWh;
   rover.batteryWh=Math.max(0,Math.min(rover.capacityWh,rover.batteryWh+(solarWatts-watts)*dt/3600));
   rover.steps++;
   if(rover.batteryWh<=0){
@@ -130,11 +137,18 @@ export function step(sim,dt=STEP_SECONDS){
     rover.estimatedX=rover.x;rover.estimatedY=rover.y;
   }
   rover.energyDeltaWh=rover.batteryWh-batteryBefore;
+  if(curious)markVisited(rover.exploration,rover.estimatedX,rover.estimatedY);
+  const after=sampleSensors(world,rover,sim.time,{scan:postScan&&rover.mode==='ACTIVE'});
+  if(curious){
+    rover.lastObservation=after;
+    if(after.scanFresh){rover.scans++;sim.stats.evictions+=after.evicted||0;}
+  }
   sim.lastFeedback={newWater,collision:rover.contact,shutdown:rover.mode==='HIBERNATING',sampleAttempt:action.type==='sample',
-    newCells:rover.memory.uniqueSeen-uniqueBefore,energySpentWh,...surveyFeedback};
+    newCells:rover.memory.uniqueSeen-uniqueBefore,energySpentWh,...surveyFeedback,
+    ...(curious?{newKnowledge:rover.exploration.uniqueObserved-knowledgeBefore}:{})};
   // Контроллер видит только копии показаний/результатов. Физика никогда не пишет в мозг.
   if(sim.controller?.observe)sim.controller.observe({before:structuredClone(obs),
-    after:sampleSensors(world,rover,sim.time,{scan:false}),feedback:{...sim.lastFeedback}});
+    after:structuredClone(after),feedback:{...sim.lastFeedback}});
   return sim;
 }
 export function status(sim){
@@ -143,6 +157,7 @@ export function status(sim){
     memoryPct:memoryPercent(r.memory),knownTiles:r.memory.cells.size,lost:r.memory.lost,time:sim.time,mode:r.mode,
     distance:r.travelM,collisions:sim.stats.collisions,scans:r.scans,waterFound:sim.water.found,samples:sim.stats.samples,
     shutdowns:sim.stats.shutdowns,survey:sim.survey?surveySummary(sim.survey):null,activeSeconds:sim.stats.activeSeconds,sleepSeconds:sim.stats.sleepSeconds,
+    exploration:r.lastObservation?.exploration?structuredClone(r.lastObservation.exploration):null,energySpentWh:sim.stats.energySpentWh,
     controller:sim.controller?.info?.()||{id:'baseline-heuristic-v0',learning:false,updates:0},
     action:r.lastAction?.reason||'Ожидание'};
 }

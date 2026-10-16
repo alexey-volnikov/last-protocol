@@ -6,3 +6,5 @@
 
 @media(max-width:1310px){.protocol-summary,.expedition-events{grid-column:1}.experiment-settings{grid-column:2;grid-row:1 / span 2}.experiment-settings>.lower{margin-top:0;border-top:0;padding-top:0}.rightpanel>.quote{grid-column:1/-1}.expedition-events .events{max-height:300px}}
 @media(max-width:820px){.experiment-settings>.lower{margin-top:25px;border-top:1px solid #2a3945;padding-top:17px}}
+
+.novelty-directions{display:flex;gap:7px;height:92px;margin:20px 0 28px;padding:0 4px;border-bottom:1px solid #314859;align-items:flex-end}.novelty-column{position:relative;flex:1;height:100%;display:flex;align-items:flex-end;background:#15232d}.novelty-column>span{display:block;width:100%;background:#6eafc7;min-height:0;transition:height .15s}.novelty-column>small{position:absolute;top:100%;margin-top:6px;font:500 9px monospace;color:#7896a5}
