@@ -46,9 +46,16 @@ export function rewardFor(before,after,feedback){
   return {total:Object.values(components).reduce((a,b)=>a+b,0),components};
 }
 export function createNeuralController({model=null,seed=71,learning=true,epsilon=.12}={}){
+  return createQController({model,seed,learning,epsilon},{id:POLICY_ID,schema:MODEL_SCHEMA,inputs:29,
+    encode:encodeObservation,reward:rewardFor,terminal:f=>f.newWater||f.shutdown});
+}
+export function createQController({model=null,seed=71,learning=true,epsilon=.12}={},spec){
   const random=makeRandom(seed);
-  let network=model?loadModel(model):new QNetwork(29,32,5,random);
-  let target=QNetwork.load(network.save());
+  const architecture={inputs:spec.inputs,hidden:32,outputs:5};
+  if(model&&(model.schema_version!==spec.schema||model.policy!==spec.id||!Number.isSafeInteger(model.updates)||model.updates<0))throw new Error('Несовместимый формат мозга или режим опыта');
+  const meta=model?.meta?structuredClone(model.meta):null;
+  let network=model?QNetwork.load(model.network,architecture):new QNetwork(spec.inputs,32,5,random);
+  let target=QNetwork.load(network.save(),architecture);
   const replay=[];
   let replayIndex=0,lastAction=-1,chosen=0,updates=model?.updates||0,transitions=0,lastReward=0,lastComponents={},qValues=[];
   let pending=null,chosenInput=null; // Опыт при потере питания; обучение только после пробуждения.
@@ -62,13 +69,13 @@ export function createNeuralController({model=null,seed=71,learning=true,epsilon
       network.train(e.x,e.action,e.reward+(e.done?0:GAMMA*Math.max(...nextQ)));
     }
     updates++;
-    if(updates%100===0)target=QNetwork.load(network.save());
+    if(updates%100===0)target=QNetwork.load(network.save(),architecture);
   }
   return {
-    id:POLICY_ID,
+    id:spec.id,
     act(obs){
       if(pending&&learning){learn(pending);pending=null;}
-      const x=encodeObservation(obs,lastAction);
+      const x=spec.encode(obs,lastAction);
       chosenInput=x;
       qValues=network.forward(x).q;
       chosen=learning&&random()<epsilon?Math.floor(random()*5):qValues.indexOf(Math.max(...qValues));
@@ -78,10 +85,10 @@ export function createNeuralController({model=null,seed=71,learning=true,epsilon
         {type:name,reason:{move:'Сеть: движение',wait:'Сеть: ожидание',sample:'Сеть: анализ пробы'}[name]};
     },
     observe({before,after,feedback}){
-      const reward=rewardFor(before,after,feedback);lastReward=reward.total;lastComponents=reward.components;
+      const reward=spec.reward(before,after,feedback);lastReward=reward.total;lastComponents=reward.components;
       if(!learning)return;
       const item={x:chosenInput.slice(),action:chosen,reward:reward.total,
-        next:encodeObservation(after,chosen),done:feedback.newWater||feedback.shutdown};
+        next:spec.encode(after,chosen),done:spec.terminal(feedback)};
       if(feedback.shutdown)pending=item;
       else learn(item);
     },
@@ -89,12 +96,8 @@ export function createNeuralController({model=null,seed=71,learning=true,epsilon
     setLearning(value){learning=Boolean(value);},
     newTrial(){lastAction=-1;pending=null;},
     finishLabTrial(){if(pending&&learning){learn(pending);pending=null;}},
-    info(){return {id:POLICY_ID,updates,replaySize:replay.length,replayCapacity:REPLAY_CAPACITY,
+    info(){return {id:spec.id,updates,replaySize:replay.length,replayCapacity:REPLAY_CAPACITY,
       learning,epsilon,lastReward,components:{...lastComponents},qValues:[...qValues],lastAction};},
-    save(){return {schema_version:MODEL_SCHEMA,policy:POLICY_ID,updates,network:network.save()};}
+    save(){return {schema_version:spec.schema,policy:spec.id,updates,network:network.save(),...(meta?{meta:structuredClone(meta)}:{})};}
   };
-}
-function loadModel(model){
-  if(model.schema_version!==MODEL_SCHEMA||model.policy!==POLICY_ID||!Number.isSafeInteger(model.updates)||model.updates<0)throw new Error('Несовместимый формат мозга');
-  return QNetwork.load(model.network);
 }

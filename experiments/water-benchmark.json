@@ -6162,5 +6162,7 @@
     "LAB resets run on an external computer. They do not respawn the live rover.",
     "Original baseline has no sampling action; random and untrained networks have the same actions as the trained network.",
     "Water search only; return, repair and safe long-term survival are not proven."
-  ]
+  ],
+  "sourceRevision": "66557bca1fe522121f74767d62cc953ce6426a63",
+  "sourceHashScope": "Training-time source revision, not current expanded sources; see Git history"
 }

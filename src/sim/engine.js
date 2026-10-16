@@ -1,8 +1,9 @@
-import {createWorld,sunlightAt,surfaceTempC,tileAt} from './world.js';
+import {createWorld,sunlightAt,surfaceTempC,tileAt,SURFACE_PRESET,DEPOSIT_PRESET} from './world.js';
+import {createSurvey,registerProbe,surveySummary} from './survey.js';
 import {createMemory,memoryPercent,remember} from './memory.js';
 import {sampleSensors} from './sensors.js';
 import {chooseBaselineAction} from './policy.js';
-export const SIM_VERSION='0.1.0';
+export const SIM_VERSION='0.2.0';
 export const STEP_SECONDS=2;
 
 function makeRover(world){
@@ -13,11 +14,11 @@ function makeRover(world){
     mission:{rememberedHome:{x,y}},
     generation:1,modelVersion:'baseline-heuristic-v0',storageLoss:0};
 }
-export function createSimulation(seed=42,{controller=null}={}){
-  const world=createWorld(seed);
+export function createSimulation(seed=42,{controller=null,preset=SURFACE_PRESET}={}){
+  const world=createWorld(seed,{preset});
   const rover=makeRover(world);
-  const sim={world,rover,controller,time:145,events:[],tick:0,water:{found:false,sample:null},
-    stats:{collisions:0,evictions:0,distance:0,samples:0,shutdowns:0},lastEvent:'Капсула раскрыта. Ровер активирован.'};
+  const sim={world,rover,controller,preset,survey:preset===DEPOSIT_PRESET?createSurvey():null,time:145,events:[],tick:0,water:{found:false,sample:null},
+    stats:{collisions:0,evictions:0,distance:0,samples:0,shutdowns:0,activeSeconds:0,sleepSeconds:0},lastEvent:'Капсула раскрыта. Ровер активирован.'};
   if(controller)rover.modelVersion=controller.id;
   addEvent(sim,sim.lastEvent);
   remember(rover.memory,rover.x,rover.y,{rock:false,crater:0,rim:0,seenAt:sim.time});
@@ -38,6 +39,7 @@ export function step(sim,dt=STEP_SECONDS){
   // Упрощённая теплоёмкость корпуса: источник ≠ моментальная температура батареи.
   rover.bodyTempC += (surf-rover.bodyTempC) * Math.min(.1,dt/3600);
   if(rover.mode==='HIBERNATING'){
+    sim.stats.sleepSeconds+=dt;
     // В тестовой модели внешнее Солнце постепенно прогревает неподвижный корпус.
     rover.bodyTempC+=sun*70*dt/700;
     rover.batteryWh=Math.min(rover.capacityWh,rover.batteryWh+12*sun*dt/3600);
@@ -56,7 +58,9 @@ export function step(sim,dt=STEP_SECONDS){
     addEvent(sim,rover.offReason==='COLD'?'Критический холод: система ушла в спячку.':'Питание отключено до восстановления 70%.');return sim;
   }
   const batteryBefore=rover.batteryWh,uniqueBefore=rover.memory.uniqueSeen;
-  const scan=sim.tick%3===0;
+  sim.stats.activeSeconds+=dt;
+  const controllerLearning=Boolean(sim.controller?.info?.().learning);
+  const scan=sim.tick%3===0&&(!sim.survey||rover.batteryWh>=(3.6+2.2+(controllerLearning?4:0)+(rover.spectrometerEnabled===false?5.5:11.5))*dt/3600);
   const obs=sampleSensors(world,rover,sim.time,{scan});
   rover.lastObservation=obs;
   if(scan)rover.scans++;
@@ -69,9 +73,10 @@ export function step(sim,dt=STEP_SECONDS){
   if(action.type==='turn')action.amount=Number.isFinite(action.amount)?Math.max(-.28,Math.min(.28,action.amount)):0;
   rover.lastAction=action;
   rover.contact=false;rover.sampleResult=null;
-  const learning=Boolean(sim.controller?.info?.().learning);
-  let watts=3.6+2.2+(learning?4:0)+(scan?11.5:0); // электроника + CPU + обучение + лидар/спектрометр
+  const learning=controllerLearning;
+  let watts=3.6+2.2+(learning?4:0)+(scan?(rover.spectrometerEnabled===false?5.5:11.5):0); // LAB-стоимости
   let newWater=false;
+  let surveyFeedback={newSurvey:false,newRich:false,newDeposit:false,sampleConcentration:null};
   if(action.type==='turn'){
     rover.heading+=action.amount;watts+=7;
   } else if(action.type==='move'){
@@ -95,11 +100,19 @@ export function step(sim,dt=STEP_SECONDS){
     }
   } else if(action.type==='sample'){
     watts+=18;sim.stats.samples++;
-    rover.sampleResult=rover.batteryWh>=watts*dt/3600&&Boolean(tileAt(world,rover.x,rover.y)?.ice);
+    const powered=rover.batteryWh>=watts*dt/3600;
+    const sampledCell=tileAt(world,rover.x,rover.y);
+    rover.sampleResult=powered&&Boolean(sim.survey?(sampledCell?.iceFraction||0)>=.025:sampledCell?.ice);
+    if(sim.survey&&powered&&sampledCell){
+      surveyFeedback=registerProbe(sim.survey,{x:rover.estimatedX,y:rover.estimatedY,concentration:sampledCell.iceFraction,time:sim.time},[Math.floor(rover.x),Math.floor(rover.y)]);
+      rover.surveySummary=surveySummary(sim.survey);
+      if(surveyFeedback.newDeposit)addEvent(sim,'КАНДИДАТ КРУПНОГО ИСТОЧНИКА: три разнесённые богатые пробы. Разведка продолжается.');
+      else if(surveyFeedback.newSurvey)addEvent(sim,`Новая проба: ${(sampledCell.iceFraction*100).toFixed(1)}% льда. Разведка продолжается.`);
+    }
     if(rover.sampleResult&&!sim.water.found){
       newWater=true;sim.water.found=true;
       sim.water.sample={x:rover.estimatedX,y:rover.estimatedY,time:sim.time,kind:'surface-water-ice',method:'LAB contact sample'};
-      addEvent(sim,'ВОДЯНОЙ ЛЁД ПОДТВЕРЖДЁН: положительная контактная проба.');
+      if(!sim.survey)addEvent(sim,'ВОДЯНОЙ ЛЁД ПОДТВЕРЖДЁН: положительная контактная проба.');
     }
   }
   // Нагреватель при низкой температуре тоже расходует электричество.
@@ -118,7 +131,7 @@ export function step(sim,dt=STEP_SECONDS){
   }
   rover.energyDeltaWh=rover.batteryWh-batteryBefore;
   sim.lastFeedback={newWater,collision:rover.contact,shutdown:rover.mode==='HIBERNATING',sampleAttempt:action.type==='sample',
-    newCells:rover.memory.uniqueSeen-uniqueBefore,energySpentWh};
+    newCells:rover.memory.uniqueSeen-uniqueBefore,energySpentWh,...surveyFeedback};
   // Контроллер видит только копии показаний/результатов. Физика никогда не пишет в мозг.
   if(sim.controller?.observe)sim.controller.observe({before:structuredClone(obs),
     after:sampleSensors(world,rover,sim.time,{scan:false}),feedback:{...sim.lastFeedback}});
@@ -129,6 +142,7 @@ export function status(sim){
   return {sun:sunlightAt(sim.world,r.x,r.y,sim.time),temp:r.bodyTempC,batteryPct:r.batteryWh/r.capacityWh*100,
     memoryPct:memoryPercent(r.memory),knownTiles:r.memory.cells.size,lost:r.memory.lost,time:sim.time,mode:r.mode,
     distance:r.travelM,collisions:sim.stats.collisions,scans:r.scans,waterFound:sim.water.found,samples:sim.stats.samples,
-    shutdowns:sim.stats.shutdowns,controller:sim.controller?.info?.()||{id:'baseline-heuristic-v0',learning:false,updates:0},
+    shutdowns:sim.stats.shutdowns,survey:sim.survey?surveySummary(sim.survey):null,activeSeconds:sim.stats.activeSeconds,sleepSeconds:sim.stats.sleepSeconds,
+    controller:sim.controller?.info?.()||{id:'baseline-heuristic-v0',learning:false,updates:0},
     action:r.lastAction?.reason||'Ожидание'};
 }

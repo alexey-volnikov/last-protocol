@@ -8,6 +8,7 @@ function fillCell(ctx,x,y,cell,brightness,known){
   const g=Math.max(13,Math.round((colorBase+5+crater*-17+rim*18+brightness*16)));
   const b=Math.max(19,Math.round((colorBase+10+crater*-12+rim*14+brightness*15)));
   ctx.fillStyle=`rgb(${r},${g},${b})`;ctx.fillRect(x*TW,y*TW,TW,TW);
+  if(known&&cell?.iceFraction>0){ctx.fillStyle=`rgba(86,186,211,${Math.min(.8,cell.iceFraction*.8)})`;ctx.fillRect(x*TW,y*TW,TW,TW);}
   ctx.strokeStyle=known?'rgba(145,165,177,0.035)':'rgba(130,155,177,0.015)';ctx.strokeRect(x*TW+.5,y*TW+.5,TW,TW);
   if(rock){ctx.fillStyle=known?'#899199':'#52606d';ctx.beginPath();ctx.ellipse((x+.5)*TW,(y+.5)*TW,5,3.5,.5,0,Math.PI*2);ctx.fill();ctx.fillStyle='#384755';ctx.fillRect((x+.48)*TW,(y+.42)*TW,4,3);}
   if(cell?.ice && known){ctx.fillStyle='#7cdeeb';ctx.beginPath();ctx.moveTo(x*TW+8,y*TW+3);ctx.lineTo(x*TW+13,y*TW+8);ctx.lineTo(x*TW+8,y*TW+13);ctx.lineTo(x*TW+3,y*TW+8);ctx.closePath();ctx.fill();}
@@ -57,10 +58,17 @@ export function drawWorld(canvas,sim,mapMode='memory'){
     }
   }
   drawRover(ctx,rover.x,rover.y,rover.heading);
-  if(sim.water.found){
+  if(sim.water.found&&!sim.survey){
     const p=sim.water.sample;ctx.strokeStyle='#84efcd';ctx.lineWidth=2;
     ctx.beginPath();ctx.arc(p.x*TW,p.y*TW,23,0,Math.PI*2);ctx.stroke();
     ctx.fillStyle='#b5f5e5';ctx.font='bold 12px monospace';ctx.fillText('H₂O ✓',p.x*TW+27,p.y*TW-10);
+  }
+  if(sim.survey){
+    for(const p of sim.survey.probes){ctx.fillStyle=p.concentration>=.65?'#b7f5db':'#e6c184';ctx.beginPath();ctx.arc(p.x*TW,p.y*TW,3,0,Math.PI*2);ctx.fill();}
+    if(mapMode==='truth'&&world.deposit){
+      const d=world.deposit;ctx.strokeStyle='#83cfdf90';ctx.setLineDash([4,5]);ctx.beginPath();ctx.ellipse(d.x*TW,d.y*TW,d.rx*TW,d.ry*TW,0,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);
+      ctx.fillStyle='#a7d9e5';ctx.font='11px monospace';ctx.fillText('ПЛАСТ / DEV',d.x*TW-35,d.y*TW-10);
+    }
   }
   const gradient=ctx.createLinearGradient(0,0,canvas.width,0);
   gradient.addColorStop(0,'#0f182900');gradient.addColorStop(1,'#0308131b');

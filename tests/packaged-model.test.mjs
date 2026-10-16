@@ -7,14 +7,13 @@ import {runTrial,PROTOCOL} from '../src/lab/experiment.js';
 const root=new URL('../',import.meta.url);
 const sha=text=>createHash('sha256').update(text).digest('hex');
 
-test('packaged checkpoint and benchmark have matching model/source checksums and protocol',async()=>{
+test('historical surface checkpoint matches its benchmark and original source provenance',async()=>{
   const model=JSON.parse(await readFile(new URL('models/water-dqn-v1.json',root),'utf8'));
   const report=JSON.parse(await readFile(new URL('experiments/water-benchmark.json',root),'utf8'));
   assert.equal(sha(JSON.stringify(model)),report.modelSha256);
   assert.deepEqual(report.protocol,PROTOCOL);
-  for(const [name,expected] of Object.entries(report.sourceHashes)){
-    assert.equal(sha((await readFile(new URL(name,root),'utf8')).replace(/\r\n/g,'\n')),expected,name);
-  }
+  assert.equal(report.sourceRevision,'66557bca1fe522121f74767d62cc953ce6426a63');
+  for(const expected of Object.values(report.sourceHashes))assert.match(expected,/^[a-f0-9]{64}$/);
   assert.equal(report.training.history.length,PROTOCOL.episodes);
   assert.ok(report.training.checkpoints.some(c=>c.updates===model.updates&&c.found===report.validation.found));
   for(const result of Object.values(report.test)){

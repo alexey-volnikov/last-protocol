@@ -34,9 +34,9 @@ export class QNetwork{
     this.b2[action]-=rate*error;
   }
   save(){return {inputs:this.inputs,hidden:this.hidden,outputs:this.outputs,w1:[...this.w1],b1:[...this.b1],w2:[...this.w2],b2:[...this.b2]};}
-  static load(data){
+  static load(data,expected={inputs:29,hidden:32,outputs:5}){
     const {inputs,hidden,outputs}=data||{};
-    if(inputs!==29||hidden!==32||outputs!==5)throw new Error('Несовместимая архитектура модели');
+    if(inputs!==expected.inputs||hidden!==expected.hidden||outputs!==expected.outputs)throw new Error('Несовместимая архитектура модели');
     const net=new QNetwork(inputs,hidden,outputs,()=>.5);
     for(const [key,size] of [['w1',inputs*hidden],['b1',hidden],['w2',hidden*outputs],['b2',outputs]]){
       if(!Array.isArray(data[key])||data[key].length!==size||data[key].some(v=>!Number.isFinite(v)||Math.abs(v)>1e4))throw new Error('Повреждённые веса модели');

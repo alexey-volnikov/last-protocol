@@ -10,3 +10,4 @@ __pycache__/
 *.pyc
 experiments/runs/
 experiments/water-evaluation.json
+experiments/deposit-evaluation.json
