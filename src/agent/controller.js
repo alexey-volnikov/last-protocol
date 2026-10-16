@@ -1,0 +1,100 @@
+import {QNetwork} from './network.js';
+import {makeRandom} from './random.js';
+export const MODEL_SCHEMA=1;
+export const POLICY_ID='water-dqn-v1';
+export const ACTIONS=['move','left','right','wait','sample'];
+export const REPLAY_CAPACITY=512; // 512 * (2*29*4 + 16) = 124 KiB логических данных.
+export const GAMMA=.985;
+const clamp=(v,min=-1,max=1)=>Math.max(min,Math.min(max,v));
+
+export function perceivedWater(obs){
+  let nearest=null;
+  for(const p of obs.waterReadings||[]){
+    const dx=p.x-obs.odometry.x,dy=p.y-obs.odometry.y,distance=Math.hypot(dx,dy);
+    if(!nearest||distance<nearest.distance)nearest={distance,angle:Math.atan2(dy,dx)-obs.odometry.heading};
+  }
+  return nearest;
+}
+export function encodeObservation(obs,lastAction=-1){
+  const water=perceivedWater(obs);
+  const x=[water?1:0,water?Math.cos(water.angle):0,water?Math.sin(water.angle):0,
+    water?clamp(water.distance/7,0,1):1,obs.surfaceIce?1:0,
+    clamp(obs.batteryPct/100,0,1),clamp(obs.temperatureC/100),obs.sunlight,
+    obs.contact?1:0,obs.sampleResult===true?1:0,obs.scanFresh?1:0,
+    clamp((obs.energyDeltaWh||0)*100)];
+  for(let i=0;i<12;i++){
+    const angle=obs.odometry.heading+i*Math.PI/6;
+    let best=null,delta=Infinity;
+    for(const ray of obs.lidar||[]){
+      const d=Math.abs(Math.atan2(Math.sin(ray.angle-angle),Math.cos(ray.angle-angle)));
+      if(d<delta){best=ray;delta=d;}
+    }
+    x.push(best?clamp(best.distance/7,0,1):1);
+  }
+  for(let a=0;a<ACTIONS.length;a++)x.push(a===lastAction?1:0);
+  return Float32Array.from(x);
+}
+// Potential-based shaping: только расстояние до уже измеренного пятна, не скрытая карта.
+export function rewardFor(before,after,feedback){
+  const potential=obs=>{const water=perceivedWater(obs);return water?3*(1-clamp(water.distance/7,0,1)):0;};
+  const components={time:-.015,discovery:feedback.newWater?30:0,
+    collision:feedback.collision?-.35:0,shutdown:feedback.shutdown?-8:0,
+    sample:feedback.sampleAttempt&&!feedback.newWater?-.08:0,
+    exploration:Math.min(12,feedback.newCells||0)*.006,
+    energy:-Math.max(0,feedback.energySpentWh||0)*.5,
+    approach:(feedback.newWater?0:GAMMA*potential(after))-potential(before)};
+  return {total:Object.values(components).reduce((a,b)=>a+b,0),components};
+}
+export function createNeuralController({model=null,seed=71,learning=true,epsilon=.12}={}){
+  const random=makeRandom(seed);
+  let network=model?loadModel(model):new QNetwork(29,32,5,random);
+  let target=QNetwork.load(network.save());
+  const replay=[];
+  let replayIndex=0,lastAction=-1,chosen=0,updates=model?.updates||0,transitions=0,lastReward=0,lastComponents={},qValues=[];
+  let pending=null,chosenInput=null; // Опыт при потере питания; обучение только после пробуждения.
+  function learn(item){
+    replay[replayIndex]=item;replayIndex=(replayIndex+1)%REPLAY_CAPACITY;
+    transitions++;
+    if(transitions%4!==0||replay.length<16)return;
+    for(let b=0;b<8;b++){
+      const e=replay[Math.floor(random()*replay.length)];
+      const nextQ=target.forward(e.next).q;
+      network.train(e.x,e.action,e.reward+(e.done?0:GAMMA*Math.max(...nextQ)));
+    }
+    updates++;
+    if(updates%100===0)target=QNetwork.load(network.save());
+  }
+  return {
+    id:POLICY_ID,
+    act(obs){
+      if(pending&&learning){learn(pending);pending=null;}
+      const x=encodeObservation(obs,lastAction);
+      chosenInput=x;
+      qValues=network.forward(x).q;
+      chosen=learning&&random()<epsilon?Math.floor(random()*5):qValues.indexOf(Math.max(...qValues));
+      lastAction=chosen;
+      const name=ACTIONS[chosen];
+      return name==='left'||name==='right'?{type:'turn',amount:name==='left'?-.28:.28,reason:name==='left'?'Сеть: поворот влево':'Сеть: поворот вправо'}:
+        {type:name,reason:{move:'Сеть: движение',wait:'Сеть: ожидание',sample:'Сеть: анализ пробы'}[name]};
+    },
+    observe({before,after,feedback}){
+      const reward=rewardFor(before,after,feedback);lastReward=reward.total;lastComponents=reward.components;
+      if(!learning)return;
+      const item={x:chosenInput.slice(),action:chosen,reward:reward.total,
+        next:encodeObservation(after,chosen),done:feedback.newWater||feedback.shutdown};
+      if(feedback.shutdown)pending=item;
+      else learn(item);
+    },
+    setExploration(value){epsilon=clamp(value,0,1);},
+    setLearning(value){learning=Boolean(value);},
+    newTrial(){lastAction=-1;pending=null;},
+    finishLabTrial(){if(pending&&learning){learn(pending);pending=null;}},
+    info(){return {id:POLICY_ID,updates,replaySize:replay.length,replayCapacity:REPLAY_CAPACITY,
+      learning,epsilon,lastReward,components:{...lastComponents},qValues:[...qValues],lastAction};},
+    save(){return {schema_version:MODEL_SCHEMA,policy:POLICY_ID,updates,network:network.save()};}
+  };
+}
+function loadModel(model){
+  if(model.schema_version!==MODEL_SCHEMA||model.policy!==POLICY_ID||!Number.isSafeInteger(model.updates)||model.updates<0)throw new Error('Несовместимый формат мозга');
+  return QNetwork.load(model.network);
+}

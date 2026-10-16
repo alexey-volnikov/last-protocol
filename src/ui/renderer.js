@@ -10,7 +10,7 @@ function fillCell(ctx,x,y,cell,brightness,known){
   ctx.fillStyle=`rgb(${r},${g},${b})`;ctx.fillRect(x*TW,y*TW,TW,TW);
   ctx.strokeStyle=known?'rgba(145,165,177,0.035)':'rgba(130,155,177,0.015)';ctx.strokeRect(x*TW+.5,y*TW+.5,TW,TW);
   if(rock){ctx.fillStyle=known?'#899199':'#52606d';ctx.beginPath();ctx.ellipse((x+.5)*TW,(y+.5)*TW,5,3.5,.5,0,Math.PI*2);ctx.fill();ctx.fillStyle='#384755';ctx.fillRect((x+.48)*TW,(y+.42)*TW,4,3);}
-  if(cell?.ice && known){ctx.fillStyle='#5ea8c0';ctx.fillRect(x*TW+7,y*TW+6,2,2);}
+  if(cell?.ice && known){ctx.fillStyle='#7cdeeb';ctx.beginPath();ctx.moveTo(x*TW+8,y*TW+3);ctx.lineTo(x*TW+13,y*TW+8);ctx.lineTo(x*TW+8,y*TW+13);ctx.lineTo(x*TW+3,y*TW+8);ctx.closePath();ctx.fill();}
 }
 function drawCapsule(ctx,x,y){
   ctx.save();ctx.translate(x*TW,y*TW);
@@ -57,6 +57,11 @@ export function drawWorld(canvas,sim,mapMode='memory'){
     }
   }
   drawRover(ctx,rover.x,rover.y,rover.heading);
+  if(sim.water.found){
+    const p=sim.water.sample;ctx.strokeStyle='#84efcd';ctx.lineWidth=2;
+    ctx.beginPath();ctx.arc(p.x*TW,p.y*TW,23,0,Math.PI*2);ctx.stroke();
+    ctx.fillStyle='#b5f5e5';ctx.font='bold 12px monospace';ctx.fillText('H₂O ✓',p.x*TW+27,p.y*TW-10);
+  }
   const gradient=ctx.createLinearGradient(0,0,canvas.width,0);
   gradient.addColorStop(0,'#0f182900');gradient.addColorStop(1,'#0308131b');
   ctx.fillStyle=gradient;ctx.fillRect(0,0,canvas.width,canvas.height);

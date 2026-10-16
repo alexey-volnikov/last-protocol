@@ -3,6 +3,7 @@
 export function chooseBaselineAction(obs,brain,mission){
   const pct=obs.batteryPct;
   const pos=obs.odometry;
+  if(obs.contact)brain.wanderHeading=pos.heading+1.05;
   // Объём накопителя провоцирует сокращение исследования/переход к базе.
   const cautious=pct<30 || obs.memoryUsedPct>96;
   let targetAngle=brain.wanderHeading;
