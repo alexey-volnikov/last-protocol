@@ -10,7 +10,7 @@
 <body>
   <main class="shell">
     <header class="topbar">
-      <div class="brand"><span class="brand-icon">☾</span><div><div class="brand-title">LAST<span>PROTOCOL</span><small>LAB / 0.3.1</small></div><div class="brand-sub">ЛУННАЯ АВТОНОМНАЯ ЛАБОРАТОРИЯ</div></div></div>
+      <div class="brand"><span class="brand-icon">☾</span><div><div class="brand-title">LAST<span>PROTOCOL</span><small>LAB / 0.4.0</small></div><div class="brand-sub">ЛУННАЯ АВТОНОМНАЯ ЛАБОРАТОРИЯ</div></div></div>
       <div class="top-right"><span class="tag live" id="runState">СИМУЛЯЦИЯ АКТИВНА</span><span class="tag">ТЕСТОВАЯ ФИЗИКА</span><a class="doc-link" href="./docs/VISION.md" target="_blank" rel="noopener">Концепция ↗</a></div>
     </header>
     <section class="headline">
@@ -26,6 +26,7 @@
         <div class="meter"><div class="rowlabel"><span>☀ ОСВЕЩЁННОСТЬ</span><strong id="sunTxt">0%</strong></div><div class="bar"><div id="sunBar" class="fill light"></div></div><div class="hint">День и тень = выработка энергии</div></div>
         <div class="stats-grid"><div class="stat"><label>ТЕЛО / °C</label><strong id="tempTxt">-10°</strong></div><div class="stat"><label>ПУТЬ / м</label><strong id="distanceTxt">0.0</strong></div><div class="stat"><label>СКАНЫ</label><strong id="scansTxt">0</strong></div><div class="stat"><label>ПОТЕРЯНО ЗАПИСЕЙ</label><strong id="lostTxt">0</strong></div></div>
         <div class="meter"><div class="rowlabel"><span>КОНТАКТЫ С ПРЕГРАДАМИ</span><strong id="collisionTxt">0</strong></div><p class="hint" id="lidarDetail">Лидар ожидает первый оплаченный скан.</p></div>
+        <section id="capsulePanel" class="meter" aria-label="Память о капсуле" hidden><div class="rowlabel"><span>ПАМЯТЬ О КАПСУЛЕ</span></div><strong id="capsuleState">ПОЛОЖЕНИЕ В ПАМЯТИ</strong><p id="capsuleDetail" class="hint"></p><p id="capsuleLosses" class="hint"></p><p class="hint">Запись может вытесниться новыми данными. Разовая оценка −2 за потерю; автоматического возвращения нет.</p></section>
         <div class="panel-heading lower">02 / ПОСЛЕДНЕЕ РЕШЕНИЕ</div><div class="thought"><div class="thought-caption" id="policyCaption">ЛОКАЛЬНАЯ НЕЙРОСЕТЬ</div><p id="actionTxt">Инициализация...</p><div class="hint" id="brainDetail"></div></div>
         <div class="disclaimer">Сеть видит показания приборов и запомненные наблюдения. <b>Скрытая карта ей недоступна.</b> E считает обновления весов. Крупный источник требует разнесённых проб; добыча и ремонт ещё впереди.</div>
         <details class="decision-details"><summary>Оценки действий сети</summary><p id="decisionDetail"></p></details>
@@ -67,7 +68,7 @@
         <section class="experiment-settings">
         <div class="panel-heading lower">05 / МОЗГ И ЭКСПЕРИМЕНТ</div>
         <div class="seed-control">
-          <label for="presetSelect">ЛАБОРАТОРНЫЙ ОПЫТ</label><select id="presetSelect"><option value="curiosity-lab-v1">Далёкий пласт · любопытство</option><option value="motion-lab-v2">Разведка · версия 2</option><option value="motion-lab-v1">Память движения · прежний LAB</option><option value="deposit-lab-v1">Далёкий пласт · прежний мозг</option><option value="surface-water-v1">Единичная проба · малый тест</option></select>
+          <label for="presetSelect">ЛАБОРАТОРНЫЙ ОПЫТ</label><select id="presetSelect"><option value="capsule-memory-lab-v1">Разведка · память капсулы</option><option value="curiosity-lab-v1">Далёкий пласт · любопытство</option><option value="motion-lab-v2">Разведка · версия 2</option><option value="motion-lab-v1">Память движения · прежний LAB</option><option value="deposit-lab-v1">Далёкий пласт · прежний мозг</option><option value="surface-water-v1">Единичная проба · малый тест</option></select>
           <label for="controllerMode">УПРАВЛЕНИЕ</label><select id="controllerMode"><option value="neural">Локальная нейросеть</option><option value="baseline">Исходная эвристика</option></select>
           <label class="check-label"><input type="checkbox" id="learningToggle" checked /> Учиться во время движения</label>
           <label for="seedInput">СИД КАРТЫ</label><input id="seedInput" type="number" value="42" min="1" max="999999" />
@@ -80,7 +81,7 @@
         <div class="quote">Мозг сохраняется отдельно для каждого опыта. LAB-сброс и обновление страницы начинают мир заново. В самой экспедиции спячка сохраняет положение и историю.</div>
       </aside>
     </section>
-    <footer><span>LAST PROTOCOL · ВЕРСИЯ 0.3.1 · ЭКСПЕРИМЕНТАЛЬНЫЙ СТЕНД</span><span>Концентрация, спектрометр и световой цикл — лабораторные приближения.</span></footer>
+    <footer><span>LAST PROTOCOL · ВЕРСИЯ 0.4.0 · ЭКСПЕРИМЕНТАЛЬНЫЙ СТЕНД</span><span>Концентрация, спектрометр и световой цикл — лабораторные приближения.</span></footer>
   </main>
   <script type="module" src="./src/main.js"></script>
 </body>

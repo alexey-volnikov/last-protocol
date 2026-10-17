@@ -2,6 +2,7 @@ import {sunlightAt,surfaceTempC,tileAt,DEPOSIT_PRESET} from './world.js';
 import {remember} from './memory.js';
 import {markObserved,explorationReading} from './exploration.js';
 import {traceLidar,LIDAR_MODE,LEGACY_LIDAR_MODE} from './lidar.js';
+import {recallCapsule} from './capsule-memory.js';
 export const LIDAR_RAYS=12;
 export const LIDAR_RANGE=7; // клетки = условные метры для первой лаборатории
 export const SPECTRAL_RANGE=4; // LAB: видимый поверхностный лёд; не поиск подземной воды.
@@ -65,6 +66,13 @@ export function sampleSensors(world,rover,time,{scan=true}={}){
       }
       rays.push({angle,distance,hit});
     }
+    if(rover.capsuleMemoryEnabled&&rover.capsuleSensorEnabled!==false){
+      const dx=world.home.x-rover.x,dy=world.home.y-rover.y,distance=Math.hypot(dx,dy);
+      if(distance<=LIDAR_RANGE&&!traceLidar(world,rover.x,rover.y,Math.atan2(dy,dx),distance).hit){
+        // Относительное измерение видимой капсулы в системе оценённой одометрии.
+        evicted+=remember(rover.memory,world.home.x,world.home.y,{capsulePosition:{x:rover.estimatedX+dx,y:rover.estimatedY+dy},capsuleSeenAt:time});
+      }
+    }
     reading.lidar=rays; reading.scanFresh=true; reading.evicted=evicted;
     rover.lastLidar=rays;
     rover.lidarMode??=LIDAR_MODE;
@@ -81,5 +89,6 @@ export function sampleSensors(world,rover,time,{scan=true}={}){
     reading.homeBeacon=true;
     reading.homeBearing=Math.atan2(world.home.y-rover.y,world.home.x-rover.x);
   }
+  if(rover.capsuleMemoryEnabled)reading.capsule=recallCapsule(rover.memory,time);
   return reading;
 }

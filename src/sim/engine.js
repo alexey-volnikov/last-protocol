@@ -5,7 +5,8 @@ import {sampleSensors} from './sensors.js';
 import {chooseBaselineAction} from './policy.js';
 import {createExploration,markVisited} from './exploration.js';
 import {LIDAR_MODE,LEGACY_LIDAR_MODE} from './lidar.js';
-export const SIM_VERSION='0.3.1';
+import {recallCapsule} from './capsule-memory.js';
+export const SIM_VERSION='0.4.0';
 export const STEP_SECONDS=2;
 
 function makeRover(world){
@@ -16,17 +17,20 @@ function makeRover(world){
     mission:{rememberedHome:{x,y}},
     generation:1,modelVersion:'baseline-heuristic-v0',storageLoss:0};
 }
-export function createSimulation(seed=42,{controller=null,preset=SURFACE_PRESET,curiosity=false,lidarMode=LIDAR_MODE}={}){
+export function createSimulation(seed=42,{controller=null,preset=SURFACE_PRESET,curiosity=false,lidarMode=LIDAR_MODE,capsuleMemory=false}={}){
   if(![LIDAR_MODE,LEGACY_LIDAR_MODE].includes(lidarMode))throw new Error('Неизвестная версия лидара');
   const world=createWorld(seed,{preset});
   const rover=makeRover(world);
   rover.lidarMode=lidarMode;
+  if(capsuleMemory){rover.capsuleMemoryEnabled=true;delete rover.mission.rememberedHome;}
   if(curiosity){rover.exploration=createExploration();markVisited(rover.exploration,rover.estimatedX,rover.estimatedY);}
   const sim={world,rover,controller,preset,survey:preset===DEPOSIT_PRESET?createSurvey():null,time:145,events:[],tick:0,water:{found:false,sample:null},
     stats:{collisions:0,evictions:0,distance:0,samples:0,shutdowns:0,activeSeconds:0,sleepSeconds:0,energySpentWh:0},lastEvent:'Капсула раскрыта. Ровер активирован.'};
   if(controller)rover.modelVersion=controller.id;
   addEvent(sim,sim.lastEvent);
-  remember(rover.memory,rover.x,rover.y,{rock:false,crater:0,rim:0,seenAt:sim.time});
+  remember(rover.memory,rover.x,rover.y,{rock:false,crater:0,rim:0,seenAt:sim.time,
+    ...(capsuleMemory?{capsulePosition:{x:rover.estimatedX,y:rover.estimatedY},capsuleSeenAt:sim.time}:{})});
+  if(capsuleMemory)sim.capsuleStats={losses:0,reacquired:0,unknownSeconds:0};
   return sim;
 }
 function addEvent(sim,message){
@@ -63,6 +67,7 @@ export function step(sim,dt=STEP_SECONDS){
     addEvent(sim,rover.offReason==='COLD'?'Критический холод: система ушла в спячку.':'Питание отключено до восстановления 70%.');return sim;
   }
   const batteryBefore=rover.batteryWh,uniqueBefore=rover.memory.uniqueSeen;
+  const capsuleBefore=rover.capsuleMemoryEnabled?recallCapsule(rover.memory,sim.time):null;
   const curious=Boolean(rover.exploration),knowledgeBefore=rover.exploration?.uniqueObserved||0;
   sim.stats.activeSeconds+=dt;
   const controllerLearning=Boolean(sim.controller?.info?.().learning);
@@ -142,13 +147,20 @@ export function step(sim,dt=STEP_SECONDS){
   rover.energyDeltaWh=rover.batteryWh-batteryBefore;
   if(curious)markVisited(rover.exploration,rover.estimatedX,rover.estimatedY);
   const after=sampleSensors(world,rover,sim.time,{scan:postScan&&rover.mode==='ACTIVE'});
+  const capsuleLost=Boolean(capsuleBefore?.known&&!after.capsule?.known);
+  if(sim.capsuleStats){
+    if(capsuleLost){sim.capsuleStats.losses++;addEvent(sim,'Запись о положении капсулы вытеснена из памяти.');}
+    if(!capsuleBefore.known&&after.capsule.known){sim.capsuleStats.reacquired++;addEvent(sim,'Капсула измерена заново: положение снова в памяти.');}
+    if(!after.capsule.known)sim.capsuleStats.unknownSeconds+=dt;
+  }
   if(curious){
     rover.lastObservation=after;
     if(after.scanFresh){rover.scans++;sim.stats.evictions+=after.evicted||0;}
   }
   sim.lastFeedback={newWater,collision:rover.contact,shutdown:rover.mode==='HIBERNATING',sampleAttempt:action.type==='sample',
     newCells:rover.memory.uniqueSeen-uniqueBefore,energySpentWh,...surveyFeedback,
-    ...(curious?{newKnowledge:rover.exploration.uniqueObserved-knowledgeBefore}:{})};
+    ...(curious?{newKnowledge:rover.exploration.uniqueObserved-knowledgeBefore}:{}),
+    ...(capsuleBefore?{capsuleLost}:{})};
   // Контроллер видит только копии показаний/результатов. Физика никогда не пишет в мозг.
   if(sim.controller?.observe)sim.controller.observe({before:structuredClone(obs),
     after:structuredClone(after),feedback:{...sim.lastFeedback}});
@@ -158,6 +170,7 @@ export function status(sim){
   const r=sim.rover;
   return {sun:sunlightAt(sim.world,r.x,r.y,sim.time),temp:r.bodyTempC,batteryPct:r.batteryWh/r.capacityWh*100,
     lidarMode:r.lidarMode,
+    ...(sim.capsuleStats?{capsule:{...recallCapsule(r.memory,sim.time),...sim.capsuleStats,beaconVisible:Boolean(r.lastObservation?.homeBeacon)}}:{}),
     memoryPct:memoryPercent(r.memory),knownTiles:r.memory.cells.size,lost:r.memory.lost,time:sim.time,mode:r.mode,
     distance:r.travelM,collisions:sim.stats.collisions,scans:r.scans,waterFound:sim.water.found,samples:sim.stats.samples,
     shutdowns:sim.stats.shutdowns,survey:sim.survey?surveySummary(sim.survey):null,activeSeconds:sim.stats.activeSeconds,sleepSeconds:sim.stats.sleepSeconds,

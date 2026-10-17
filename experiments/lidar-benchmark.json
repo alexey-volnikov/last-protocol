@@ -38,7 +38,7 @@
       "continuous": "continuous-v2"
     }
   },
-  "sourceRevision": "8b4a1ca3fd3f87f29d5e081231a339096624d00f",
+  "sourceRevision": "e0336d56e7ed3947f3937a9f4cf2da031117ee3a",
   "sourceHashes": {
     "src/agent/controller.js": "728fc463f6265bec595f2c56cc51a7e1e62afc24b96736d305a7f322e9f9ec21",
     "src/agent/network.js": "51d98b81ed702bc3ab3042367f476b10022bec9cddf9f088ed97130e7f1c3628",

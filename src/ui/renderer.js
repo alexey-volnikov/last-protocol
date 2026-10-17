@@ -1,4 +1,5 @@
 import {tileAt,sunlightAt,WORLD_W,WORLD_H} from '../sim/world.js';
+import {recallCapsule} from '../sim/capsule-memory.js';
 const TW=16;
 function fillCell(ctx,x,y,cell,brightness,known){
   const rock=cell?.rock;
@@ -43,12 +44,14 @@ export function drawWorld(canvas,sim,mapMode='memory',pose=sim.rover){
     fillCell(ctx,x,y,cell,sunlight,known);
     if(!known){ctx.fillStyle='#0c1721dd';ctx.fillRect(x*TW,y*TW,TW,TW);}
     else if(mapMode==='memory' && cell){
-      const age=Math.min(1,(sim.time-cell.seenAt)/1200);
+      const age=Math.min(1,(sim.time-(cell.seenAt??cell.capsuleSeenAt??sim.time))/1200);
       ctx.fillStyle=`rgba(0,0,0,${age*.25})`;ctx.fillRect(x*TW,y*TW,TW,TW);
     }
   }
   const homeKey=`${Math.floor(world.home.x)},${Math.floor(world.home.y)}`;
-  if(mapMode==='truth'||rover.memory.cells.has(homeKey))drawCapsule(ctx,world.home.x,world.home.y);
+  if(mapMode==='truth')drawCapsule(ctx,world.home.x,world.home.y);
+  else if(rover.capsuleMemoryEnabled){const recalled=recallCapsule(rover.memory,sim.time);if(recalled.known)drawCapsule(ctx,recalled.position.x,recalled.position.y);}
+  else if(rover.memory.cells.has(homeKey))drawCapsule(ctx,world.home.x,world.home.y);
   if(rover.lastObservation?.lidar?.length){
     ctx.lineWidth=1;
     for(const ray of rover.lastObservation.lidar){

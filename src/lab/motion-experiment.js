@@ -21,6 +21,7 @@ function run(controller,map,steps,simulationOptions={}){
   return {distance:sim.rover.travelM,visited:sim.rover.exploration.uniqueVisited,observed:sim.rover.exploration.uniqueObserved,
     shutdowns:sim.stats.shutdowns,collisions:sim.stats.collisions,energyWh:sim.stats.energySpentWh,activeSeconds:sim.stats.activeSeconds,
     sleepSeconds:sim.stats.sleepSeconds,samples:sim.stats.samples,candidate:sim.survey.confirmed,updates:info.updates,replaySize:info.replaySize,
+    ...(sim.capsuleStats?{capsule:{...sim.capsuleStats}}:{}),
     replayTerminals:info.replayTerminals,historySize:info.historySize,deferredFailure:info.deferredFailure,motion:info.motion,
     ...(info.awaitingDecision!=null?{awaitingDecision:info.awaitingDecision,discardedTruncations:info.discardedTruncations}: {}),
     early:windows[0],spinWindows:windows.filter(w=>w.spin).length,stalledWindows:windows.filter(w=>w.stalled).length,badWindows:windows.filter(w=>w.bad).length,windows};
@@ -40,11 +41,11 @@ export function evaluateMotion(model,set=MOTION_PROTOCOL.validation,{masked=fals
   for(const map of set.maps)for(const seed of set.seeds){onProgress({map,seed});cases.push(runMotionCase(model,map,seed,{masked,learning}));}
   return {summary:summarizeOnline(cases),candidates:cases.reduce((n,c)=>n+[...c.restarts,c.life].filter(r=>r.candidate).length,0),cases};
 }
-export async function trainMotion({model,masked=false,trainingSeed=1601,protocol=MOTION_PROTOCOL,onProgress=()=>{},createController=createMotionController}){
+export async function trainMotion({model,masked=false,trainingSeed=1601,protocol=MOTION_PROTOCOL,onProgress=()=>{},createController=createMotionController,simulationOptions={}}){
   const controller=createController({model,masked,seed:trainingSeed,learning:true}),history=[];
   for(let e=0;e<protocol.episodes;e++){
     controller.setExploration(Math.max(.06,.65*(1-e/(protocol.episodes*.85))));controller.newTrial();
-    const result=run(controller,protocol.trainMaps[e%protocol.trainMaps.length],protocol.steps);
+    const result=run(controller,protocol.trainMaps[e%protocol.trainMaps.length],protocol.steps,simulationOptions);
     const {windows,...metrics}=result;history.push(metrics);controller.finishLabTrial();
     if((e+1)%10===0||e+1===protocol.episodes){
       onProgress({episode:e+1,total:protocol.episodes,updates:controller.info().updates,successes:history.filter(r=>r.candidate).length,

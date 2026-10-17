@@ -7,18 +7,20 @@ import {createDepositController,transferSurfaceModel} from './agent/deposit-cont
 import {createCuriosityController,transferDepositModel,CURIOSITY_EXPERIMENT} from './agent/curiosity-controller.js';
 import {createMotionController,transferCuriosityModel,MOTION_EXPERIMENT} from './agent/motion-controller.js';
 import {createSequentialController,transferMotionModel,SEQUENTIAL_EXPERIMENT} from './agent/sequential-controller.js';
+import {createCapsuleController,transferSequentialModel,CAPSULE_EXPERIMENT} from './agent/capsule-controller.js';
 const $=id=>document.getElementById(id);
 const profiles={
   [SURFACE_PRESET]:{key:'last-protocol-water-dqn-v1',file:'water-dqn-v1',report:'water-benchmark',create:createNeuralController},
   [DEPOSIT_PRESET]:{key:'last-protocol-deposit-dqn-v1',file:'deposit-dqn-v1',report:'deposit-benchmark',create:createDepositController},
   [CURIOSITY_EXPERIMENT]:{key:'last-protocol-curiosity-dqn-v1',file:'curiosity-dqn-v1',report:'curiosity-benchmark',create:createCuriosityController,world:DEPOSIT_PRESET,curiosity:true},
   [MOTION_EXPERIMENT]:{key:'last-protocol-motion-dqn-v1',file:'motion-context-dqn-v1',report:'motion-benchmark',create:createMotionController,world:DEPOSIT_PRESET,curiosity:true},
-  [SEQUENTIAL_EXPERIMENT]:{key:'last-protocol-motion-dqn-v2',file:'motion-decision-dqn-v2',report:'lidar-benchmark',create:createSequentialController,world:DEPOSIT_PRESET,curiosity:true}
+  [SEQUENTIAL_EXPERIMENT]:{key:'last-protocol-motion-dqn-v2',file:'motion-decision-dqn-v2',report:'lidar-benchmark',create:createSequentialController,world:DEPOSIT_PRESET,curiosity:true},
+  [CAPSULE_EXPERIMENT]:{key:'last-protocol-capsule-dqn-v1',file:'capsule-memory-dqn-v1',report:'capsule-benchmark',create:createCapsuleController,world:DEPOSIT_PRESET,curiosity:true,capsuleMemory:true}
 };
 let rememberedProfile=null;try{rememberedProfile=localStorage.getItem('last-protocol-active-experiment');}catch{}
 let preset=profiles[rememberedProfile]?rememberedProfile:CURIOSITY_EXPERIMENT,brain=profiles[preset].create({seed:71,epsilon:.06}),worker=null;
 const brains=new Map();
-let seed=42,sim=createSimulation(seed,{controller:brain,preset:profiles[preset].world||preset,curiosity:Boolean(profiles[preset].curiosity)}),paused=false,speed=20,mapMode='memory',accumulator=0,last=performance.now(),lastUI=0,lastSave=0;
+let seed=42,sim=createSimulation(seed,{controller:brain,preset:profiles[preset].world||preset,curiosity:Boolean(profiles[preset].curiosity),capsuleMemory:Boolean(profiles[preset].capsuleMemory)}),paused=false,speed=20,mapMode='memory',accumulator=0,last=performance.now(),lastUI=0,lastSave=0;
 $('presetSelect').value=preset;
 const canvas=$('worldCanvas');
 let previousPose=roverPose(sim.rover),presentedPose=previousPose,pausePose=previousPose,pauseAt=0;
@@ -33,8 +35,8 @@ function timeStr(seconds){const s=Math.floor(seconds);return [Math.floor(s/3600)
 function updateUI(){
   const s=status(sim),r=sim.rover;
   const motion=preset===MOTION_EXPERIMENT||preset===SEQUENTIAL_EXPERIMENT;
-  $('labTitle').textContent=motion?'Что дали последние действия?':sim.rover.exploration?'Новые данные. Новые пути.':sim.survey?'По следам — к большому пласту.':'Поверхностный лёд: малый опыт.';
-  $('labEyebrow').textContent=motion?`ОПЫТ LP-043 · ПАМЯТЬ ДВИЖЕНИЯ${preset===SEQUENTIAL_EXPERIMENT?' / ВЕРСИЯ 2':''}`:sim.rover.exploration?'ОПЫТ LP-028 · ЛЮБОПЫТСТВО И РАЗВЕДКА':sim.survey?'ОПЫТ LP-045 / 046 · ДЛИТЕЛЬНАЯ РАЗВЕДКА':'ОПЫТ LP-003 · ЕДИНИЧНАЯ ПРОБА';
+  $('labTitle').textContent=s.capsule?'Помнить, откуда начал.':motion?'Что дали последние действия?':sim.rover.exploration?'Новые данные. Новые пути.':sim.survey?'По следам — к большому пласту.':'Поверхностный лёд: малый опыт.';
+  $('labEyebrow').textContent=s.capsule?'ОПЫТ LP-050 · ПАМЯТЬ О КАПСУЛЕ':motion?`ОПЫТ LP-043 · ПАМЯТЬ ДВИЖЕНИЯ${preset===SEQUENTIAL_EXPERIMENT?' / ВЕРСИЯ 2':''}`:sim.rover.exploration?'ОПЫТ LP-028 · ЛЮБОПЫТСТВО И РАЗВЕДКА':sim.survey?'ОПЫТ LP-045 / 046 · ДЛИТЕЛЬНАЯ РАЗВЕДКА':'ОПЫТ LP-003 · ЕДИНИЧНАЯ ПРОБА';
   $('modeBadge').textContent=s.mode;
   $('modeBadge').style.color=s.mode==='ACTIVE'?'#73c79b':'#eeb36b';
   $('batteryTxt').textContent=`${s.batteryPct.toFixed(1)}%`;setBar('batteryBar',s.batteryPct);
@@ -56,6 +58,13 @@ function updateUI(){
   $('timeDisplay').textContent=`T+${timeStr(s.time)}`;
   $('seedShow').textContent=seed;
   const neural=Boolean(sim.controller),info=s.controller;
+  $('capsulePanel').hidden=!s.capsule;
+  if(s.capsule){
+    const c=s.capsule;
+    $('capsuleState').textContent=c.known?'ПОЛОЖЕНИЕ В ПАМЯТИ':'ЗАПИСЬ УТРАЧЕНА';
+    $('capsuleDetail').textContent=`${c.known?`Измерение ${timeStr(c.ageSeconds)} назад · 384 Б общей карты.`:'Нужен новый скан в пределах видимости.'} Маяк: ${c.beaconVisible?'есть сигнал':'сигнала нет'}.`;
+    $('capsuleLosses').textContent=`Потерь: ${c.losses} · повторных измерений: ${c.reacquired} · оценка потери за последний шаг: ${(info.components?.capsuleLoss||0).toFixed(1)}`;
+  }
   $('motionPanel').hidden=!info.motion;
   if(info.motion){
     const m=info.motion;
@@ -127,7 +136,7 @@ function frame(now){
   if(now-lastSave>10000){persistBrain();lastSave=now;}
   requestAnimationFrame(frame);
 }
-function restart(s){persistBrain();seed=s;brain.newTrial();sim=createSimulation(s,{controller:$('controllerMode').value==='neural'?brain:null,preset:profiles[preset].world||preset,curiosity:Boolean(profiles[preset].curiosity)});accumulator=0;previousPose=presentedPose=pausePose=roverPose(sim.rover);updateUI();drawWorld(canvas,sim,mapMode);}
+function restart(s){persistBrain();seed=s;brain.newTrial();sim=createSimulation(s,{controller:$('controllerMode').value==='neural'?brain:null,preset:profiles[preset].world||preset,curiosity:Boolean(profiles[preset].curiosity),capsuleMemory:Boolean(profiles[preset].capsuleMemory)});accumulator=0;previousPose=presentedPose=pausePose=roverPose(sim.rover);updateUI();drawWorld(canvas,sim,mapMode);}
 $('pauseBtn').addEventListener('click',()=>{setPaused(!paused);updateUI();});
 $('stepBtn').addEventListener('click',()=>{setPaused(true);step(sim,STEP_SECONDS);updateUI();});
 $('resetBtn').addEventListener('click',()=>restart(seed));
@@ -195,7 +204,7 @@ $('trainBtn').addEventListener('click',()=>{
 function finishTraining(){worker?.terminate();worker=null;$('trainBtn').disabled=false;$('brainFile').disabled=false;$('restoreBrainBtn').disabled=false;$('cancelTrainingBtn').hidden=true;updateUI();}
 $('cancelTrainingBtn').addEventListener('click',()=>{finishTraining();$('trainingStatus').textContent='Обучение остановлено. Текущий мозг и ровер сохранены.';});
 $('exportBtn').addEventListener('click',()=>{
-  const report={schema_version:4,kind:'summary-and-model-not-replay',simulator:SIM_VERSION,experiment:preset,preset:sim.world.preset,policy:sim.controller?.id||'baseline-heuristic-v0',seed,sim_time_seconds:sim.time,status:status(sim),water:sim.water,
+  const report={schema_version:sim.capsuleStats?5:4,kind:'summary-and-model-not-replay',simulator:SIM_VERSION,experiment:preset,preset:sim.world.preset,policy:sim.controller?.id||'baseline-heuristic-v0',seed,sim_time_seconds:sim.time,status:status(sim),water:sim.water,
     survey:sim.survey?{summary:status(sim).survey,probes:sim.survey.probes,confirmedAt:sim.survey.confirmedAt}:null,model:brain.save(),events:[...sim.events].reverse(),worldSize:{w:sim.world.w,h:sim.world.h},
     note:'Лабораторная физика и условные единицы. Это сводка текущего запуска, не полный replay.'};
   download(report,`last-protocol-seed-${seed}.json`);
@@ -209,12 +218,19 @@ async function loadBrain(profile){
   try{
     const response=await fetch(`./models/${config.file}.json`,{cache:'no-store'});
     if(response.ok){const model=await response.json(),loaded=config.create({...options,model});
-      $('trainingStatus').textContent=profile===SEQUENTIAL_EXPERIMENT?
+      $('trainingStatus').textContent=profile===CAPSULE_EXPERIMENT?
+        'Память о капсуле делит накопитель с картой. Утрата записи даёт разовую оценку −2; способ сохранить сведения выбирает сеть.':profile===SEQUENTIAL_EXPERIMENT?
         'Загружен мозг версии 2. Последствия действий связываются с показаниями следующего реального решения. Итог сравнения показан ниже.':profile===MOTION_EXPERIMENT?
         'LAB-мозг с памятью последних 32 действий загружен. История начинается пустой; результат проверки показан ниже.':profile===CURIOSITY_EXPERIMENT?
         'Локальный мозг опыта «Любопытство» загружен. Оценки новизны получены из собственных сканов, выбор действий делает сеть.':profile===DEPOSIT_PRESET&&model.updates===model.meta?.pretrainingUpdates?
         'Перенесён навык малого опыта. Новый навык поиска по концентрации пока не подтверждён.':'Комплектный локальный мозг загружен. Поиск пласта не гарантирован.';return loaded;}
   }catch{}
+  if(profile===CAPSULE_EXPERIMENT){
+    try{
+      const response=await fetch('./models/motion-decision-dqn-v2.json');
+      if(response.ok){$('trainingStatus').textContent='Явный перенос прежнего мозга: восемь новых входов о капсуле ещё не обучены.';return config.create({...options,model:transferSequentialModel(await response.json())});}
+    }catch{}
+  }
   if(profile===SEQUENTIAL_EXPERIMENT){
     try{
       const response=await fetch('./models/motion-context-dqn-v1.json');
@@ -246,13 +262,14 @@ async function showBenchmark(){
   try{
     const response=await fetch(`./experiments/${profiles[preset].report}.json`,{cache:'no-store'});
     if(response.ok){const report=await response.json();
-      $('benchmarkStatus').textContent=preset===SEQUENTIAL_EXPERIMENT?
+      $('benchmarkStatus').textContent=preset===CAPSULE_EXPERIMENT?
+        `Со штрафом / без штрафа: потерь записи ${report.test.penalty.summary.capsuleLosses} / ${report.test.control.summary.capsuleLosses}; проблемных окон ${report.test.penalty.summary.badWindows} / ${report.test.control.summary.badWindows}; посещено за жизнь ${report.test.penalty.summary.lifeVisited.toFixed(1)} / ${report.test.control.summary.lifeVisited.toFixed(1)}. ${report.criteria.accepted?'Критерий сравнения выполнен.':'Полный критерий не выполнен; выученный возврат не подтверждён.'} ${report.selection.bundled==='initial'?'Комплект — исходный перенос, новые входы ещё предстоит освоить.':'Комплект выбран по validation.'} Зарядка у капсулы пока не реализована.`:preset===SEQUENTIAL_EXPERIMENT?
         `Проверка исправленного лидара, ${report.test.continuous.cases.length} новых сценариев с обучением: столкновений ${report.test.continuous.summary.resetCollisions+report.test.continuous.summary.lifeCollisions} против ${report.test.sampled.summary.resetCollisions+report.test.sampled.summary.lifeCollisions}. Проблемных окон ${report.test.continuous.summary.badWindows} против ${report.test.sampled.summary.badWindows}; посещено за сутки ${report.test.continuous.summary.lifeVisited.toFixed(1)} против ${report.test.sampled.summary.lifeVisited.toFixed(1)}. ${report.criteria.accepted?'Критерий этого сравнения выполнен.':'Полный критерий улучшения не выполнен; безопасная разведка ещё не освоена.'} Исходные веса одинаковы, готового объезда нет.`:preset===MOTION_EXPERIMENT?
         `Живое обучение, ${report.test.context.cases.length} новых сценариев: проблемных окон ${report.test.context.summary.badWindows}, без доступа к истории ${report.test.masked.summary.badWindows}, из исходных весов ${report.test.initial.summary.badWindows}. Окно — 10 минут симуляции; спячка не считается застоем. За 24 ч посещено в среднем ${report.test.context.summary.lifeVisited.toFixed(1)} против ${report.test.masked.summary.lifeVisited.toFixed(1)} без истории. ${report.promotion.accepted?'Критерий опыта выполнен.':'Критерий устойчивого улучшения не выполнен; это отдельный LAB-опыт.'} Кандидатов пласта: ${report.test.context.candidates}.`:preset===CURIOSITY_EXPERIMENT?
         `На ${report.test.trained.total} новых картах: наблюдено в среднем ${report.test.trained.observed.toFixed(0)} клеток, до обучения ${report.test.transferred.observed.toFixed(0)}; посещено ${report.test.trained.visited.toFixed(1)} против ${report.test.transferred.visited.toFixed(1)}. Отключений всего ${report.test.trained.trials.reduce((n,t)=>n+t.shutdowns,0)} против ${report.test.transferred.trials.reduce((n,t)=>n+t.shutdowns,0)}. Столкновений стало больше; безопасная разведка ещё не освоена. Кандидатов пласта: ${report.test.trained.candidates}/${report.test.trained.total}.` :preset===DEPOSIT_PRESET?
         `Кандидатов на новых картах: ${report.test.trained.candidates}/${report.test.trained.total}. Две тренировки не улучшили проверку; комплектный мозг оставлен исходным переносом. Навык долгой разведки пока не освоен.`:
         `Малый опыт: ${report.test.trained.found}/${report.test.trained.total} карт; до обучения: ${report.test.untrained.found}/${report.test.untrained.total}. Это не поиск большого пласта.`;
-      if(preset!==SEQUENTIAL_EXPERIMENT)$('benchmarkStatus').textContent=`Историческая проверка 0.3.0, до исправления лидара. ${$('benchmarkStatus').textContent}`;
+      if(preset!==CAPSULE_EXPERIMENT)$('benchmarkStatus').textContent=`Историческая проверка ${preset===SEQUENTIAL_EXPERIMENT?'0.3.1':'0.3.0'}. ${$('benchmarkStatus').textContent}`;
     }
   }catch{}
 }

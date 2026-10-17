@@ -3,8 +3,17 @@ import {trainDeposit,evaluateDeposit} from './deposit-experiment.js';
 import {trainCuriosity,evaluateCuriosity} from './curiosity-experiment.js';
 import {trainMotion,evaluateMotion,compareMotion} from './motion-experiment.js';
 import {trainSequential,evaluateSequential,compareSequential} from './sequential-experiment.js';
+import {trainCapsule,evaluateCapsule,capsulePasses} from './capsule-experiment.js';
 self.onmessage=async event=>{
   try{
+    if(event.data.preset==='capsule-memory-lab-v1'){
+      const result=await trainCapsule({model:event.data.model,onProgress:p=>self.postMessage({type:'progress',...p})});
+      const previous=evaluateCapsule(event.data.model),candidate=evaluateCapsule(result.model);
+      const improved=capsulePasses(candidate.summary,previous.summary),validation=improved?candidate:previous;
+      self.postMessage({type:'done',model:improved?result.model:event.data.model,validation:{found:validation.candidates,total:validation.cases.length*7,
+        note:`потерь памяти о капсуле ${validation.summary.capsuleLosses}; ${improved?'выбран новый checkpoint':'прежние веса сохранены'}`}});
+      return;
+    }
     if(event.data.preset==='motion-lab-v2'){
       const result=await trainSequential({model:event.data.model,onProgress:p=>self.postMessage({type:'progress',...p})});
       const previous=evaluateSequential(event.data.model),candidate=evaluateSequential(result.model);

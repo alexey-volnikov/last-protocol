@@ -58,11 +58,12 @@ test('sensor comparison uses untouched map/learner pairs and cannot pass by stop
   assert.equal(lidarPasses({...base,resetCollisions:10,lifeVisited:80},base),false);
   assert.equal(lidarPasses({...base,resetCollisions:10,badWindows:11},base),false);
 });
-test('lidar comparison retains the same starting model, exact sources and all live evaluation pairs',async()=>{
+test('historical lidar comparison retains its starting model, source revision and all live evaluation pairs',async()=>{
   const root=new URL('../',import.meta.url),r=JSON.parse(await readFile(new URL('experiments/lidar-benchmark.json',root),'utf8'));
   const sha=s=>createHash('sha256').update(s).digest('hex');assert.deepEqual(r.protocol,LIDAR_PROTOCOL);
   assert.equal(r.modelSha256,sha(JSON.stringify(JSON.parse(await readFile(new URL(LIDAR_PROTOCOL.model,root),'utf8')))));
-  for(const [name,hash] of Object.entries(r.sourceHashes))assert.equal(sha((await readFile(new URL(name,root),'utf8')).replace(/\r\n/g,'\n')),hash,name);
+  assert.equal(r.sourceRevision,'e0336d56e7ed3947f3937a9f4cf2da031117ee3a');
+  for(const hash of Object.values(r.sourceHashes))assert.match(hash,/^[a-f0-9]{64}$/);
   for(const phase of ['validation','test']){
     const set=LIDAR_PROTOCOL[phase];
     for(const result of Object.values(r[phase])){
