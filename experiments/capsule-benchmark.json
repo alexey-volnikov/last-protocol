@@ -59,7 +59,7 @@
       "capsuleMemory": true
     }
   },
-  "sourceRevision": "e0336d56e7ed3947f3937a9f4cf2da031117ee3a",
+  "sourceRevision": "5464e8c919907014aebd8f50d18a6119011faae7",
   "sourceHashes": {
     "src/agent/controller.js": "728fc463f6265bec595f2c56cc51a7e1e62afc24b96736d305a7f322e9f9ec21",
     "src/agent/network.js": "51d98b81ed702bc3ab3042367f476b10022bec9cddf9f088ed97130e7f1c3628",
@@ -46963,7 +46963,7 @@
   },
   "rawDetails": {
     "path": "runs/capsule-full.json",
-    "sha256": "211dbb180bbbd9950bba36429285617869e46cfccf57a59bda24fcca3fdb52cd",
+    "sha256": "f312ef76a308cc035a988ab0ac463d79f91ca5048300e1aad5f1022103063040",
     "scope": "JSON content excluding final LF; local window log intentionally excluded from Git"
   }
 }
