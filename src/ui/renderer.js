@@ -1,4 +1,5 @@
 import {tileAt,sunlightAt,WORLD_W,WORLD_H} from '../sim/world.js';
+import {recallCapsule} from '../sim/capsule-memory.js';
 const TW=16;
 function fillCell(ctx,x,y,cell,brightness,known){
   const rock=cell?.rock;
@@ -8,9 +9,10 @@ function fillCell(ctx,x,y,cell,brightness,known){
   const g=Math.max(13,Math.round((colorBase+5+crater*-17+rim*18+brightness*16)));
   const b=Math.max(19,Math.round((colorBase+10+crater*-12+rim*14+brightness*15)));
   ctx.fillStyle=`rgb(${r},${g},${b})`;ctx.fillRect(x*TW,y*TW,TW,TW);
+  if(known&&cell?.iceFraction>0){ctx.fillStyle=`rgba(86,186,211,${Math.min(.8,cell.iceFraction*.8)})`;ctx.fillRect(x*TW,y*TW,TW,TW);}
   ctx.strokeStyle=known?'rgba(145,165,177,0.035)':'rgba(130,155,177,0.015)';ctx.strokeRect(x*TW+.5,y*TW+.5,TW,TW);
   if(rock){ctx.fillStyle=known?'#899199':'#52606d';ctx.beginPath();ctx.ellipse((x+.5)*TW,(y+.5)*TW,5,3.5,.5,0,Math.PI*2);ctx.fill();ctx.fillStyle='#384755';ctx.fillRect((x+.48)*TW,(y+.42)*TW,4,3);}
-  if(cell?.ice && known){ctx.fillStyle='#5ea8c0';ctx.fillRect(x*TW+7,y*TW+6,2,2);}
+  if(cell?.ice && known){ctx.fillStyle='#7cdeeb';ctx.beginPath();ctx.moveTo(x*TW+8,y*TW+3);ctx.lineTo(x*TW+13,y*TW+8);ctx.lineTo(x*TW+8,y*TW+13);ctx.lineTo(x*TW+3,y*TW+8);ctx.closePath();ctx.fill();}
 }
 function drawCapsule(ctx,x,y){
   ctx.save();ctx.translate(x*TW,y*TW);
@@ -32,7 +34,7 @@ function drawRover(ctx,x,y,heading){
   ctx.strokeStyle='#f3ca78';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(4,0);ctx.lineTo(14,0);ctx.stroke();ctx.beginPath();ctx.moveTo(10,-4);ctx.lineTo(15,0);ctx.lineTo(10,4);ctx.stroke();ctx.restore();
   ctx.beginPath();ctx.arc(x*TW,y*TW,17,0,Math.PI*2);ctx.strokeStyle='#efbc6b70';ctx.lineWidth=1;ctx.stroke();
 }
-export function drawWorld(canvas,sim,mapMode='memory'){
+export function drawWorld(canvas,sim,mapMode='memory',pose=sim.rover){
   const ctx=canvas.getContext('2d'),{world,rover}=sim;
   const sunlight=sunlightAt(world,rover.x,rover.y,sim.time);
   ctx.clearRect(0,0,canvas.width,canvas.height);
@@ -42,21 +44,35 @@ export function drawWorld(canvas,sim,mapMode='memory'){
     fillCell(ctx,x,y,cell,sunlight,known);
     if(!known){ctx.fillStyle='#0c1721dd';ctx.fillRect(x*TW,y*TW,TW,TW);}
     else if(mapMode==='memory' && cell){
-      const age=Math.min(1,(sim.time-cell.seenAt)/1200);
+      const age=Math.min(1,(sim.time-(cell.seenAt??cell.capsuleSeenAt??sim.time))/1200);
       ctx.fillStyle=`rgba(0,0,0,${age*.25})`;ctx.fillRect(x*TW,y*TW,TW,TW);
     }
   }
   const homeKey=`${Math.floor(world.home.x)},${Math.floor(world.home.y)}`;
-  if(mapMode==='truth'||rover.memory.cells.has(homeKey))drawCapsule(ctx,world.home.x,world.home.y);
+  if(mapMode==='truth')drawCapsule(ctx,world.home.x,world.home.y);
+  else if(rover.capsuleMemoryEnabled){const recalled=recallCapsule(rover.memory,sim.time);if(recalled.known)drawCapsule(ctx,recalled.position.x,recalled.position.y);}
+  else if(rover.memory.cells.has(homeKey))drawCapsule(ctx,world.home.x,world.home.y);
   if(rover.lastObservation?.lidar?.length){
     ctx.lineWidth=1;
     for(const ray of rover.lastObservation.lidar){
       ctx.strokeStyle=ray.hit?'#d5ac6260':'#75b6c860';
-      ctx.beginPath();ctx.moveTo(rover.x*TW,rover.y*TW);
+      ctx.beginPath();ctx.moveTo(pose.x*TW,pose.y*TW);
       ctx.lineTo((rover.x+Math.cos(ray.angle)*ray.distance)*TW,(rover.y+Math.sin(ray.angle)*ray.distance)*TW);ctx.stroke();
     }
   }
-  drawRover(ctx,rover.x,rover.y,rover.heading);
+  drawRover(ctx,pose.x,pose.y,pose.heading);
+  if(sim.water.found&&!sim.survey){
+    const p=sim.water.sample;ctx.strokeStyle='#84efcd';ctx.lineWidth=2;
+    ctx.beginPath();ctx.arc(p.x*TW,p.y*TW,23,0,Math.PI*2);ctx.stroke();
+    ctx.fillStyle='#b5f5e5';ctx.font='bold 12px monospace';ctx.fillText('H₂O ✓',p.x*TW+27,p.y*TW-10);
+  }
+  if(sim.survey){
+    for(const p of sim.survey.probes){ctx.fillStyle=p.concentration>=.65?'#b7f5db':'#e6c184';ctx.beginPath();ctx.arc(p.x*TW,p.y*TW,3,0,Math.PI*2);ctx.fill();}
+    if(mapMode==='truth'&&world.deposit){
+      const d=world.deposit;ctx.strokeStyle='#83cfdf90';ctx.setLineDash([4,5]);ctx.beginPath();ctx.ellipse(d.x*TW,d.y*TW,d.rx*TW,d.ry*TW,0,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);
+      ctx.fillStyle='#a7d9e5';ctx.font='11px monospace';ctx.fillText('ПЛАСТ / DEV',d.x*TW-35,d.y*TW-10);
+    }
+  }
   const gradient=ctx.createLinearGradient(0,0,canvas.width,0);
   gradient.addColorStop(0,'#0f182900');gradient.addColorStop(1,'#0308131b');
   ctx.fillStyle=gradient;ctx.fillRect(0,0,canvas.width,canvas.height);

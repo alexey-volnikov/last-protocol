@@ -1,0 +1,2271 @@
+{
+  "schema_version": 1,
+  "sourceRevision": "143bc805a738c9b77b2509e8d9b439dbc3839d4e",
+  "sourceHashScope": "Canonical LF source at sourceRevision; historical 0.2.0 training, not current expanded sources",
+  "kind": "deposit-lab-v1: limited-horizon trials, not full lifetime",
+  "runtime": "v24.14.0",
+  "protocol": {
+    "id": "deposit-lab-v1",
+    "episodes": 80,
+    "steps": 2400,
+    "validationEvery": 20,
+    "trainingSeeds": [
+      431,
+      991
+    ],
+    "trainSeeds": [
+      4001,
+      4002,
+      4003,
+      4004,
+      4005,
+      4006,
+      4007,
+      4008,
+      4009,
+      4010,
+      4011,
+      4012
+    ],
+    "validationSeeds": [
+      5001,
+      5002,
+      5003,
+      5004,
+      5005,
+      5006
+    ],
+    "testSeeds": [
+      6001,
+      6002,
+      6003,
+      6004,
+      6005,
+      6006,
+      6007,
+      6008,
+      6009,
+      6010,
+      6011,
+      6012
+    ]
+  },
+  "modelSha256": "c9d71eb81d635c880c91ee6fd041f2f086c1f30098627b630fa6485e2029c341",
+  "initialization": "Explicit transfer of surface-water-v1; concentration inputs initially zero",
+  "runs": [
+    {
+      "trainingSeed": 431,
+      "history": [
+        {
+          "seed": 4001,
+          "candidate": false,
+          "steps": 1917,
+          "bestConcentration": 0.11375581692009752,
+          "uniqueProbes": 6,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 21.149999999999974
+        },
+        {
+          "seed": 4002,
+          "candidate": false,
+          "steps": 2137,
+          "bestConcentration": 0.02734667462966748,
+          "uniqueProbes": 10,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 25.109999999999967
+        },
+        {
+          "seed": 4003,
+          "candidate": false,
+          "steps": 2001,
+          "bestConcentration": 0.022744189915946605,
+          "uniqueProbes": 8,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 21.419999999999973
+        },
+        {
+          "seed": 4004,
+          "candidate": false,
+          "steps": 2143,
+          "bestConcentration": 0.03177105662520282,
+          "uniqueProbes": 8,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 26.729999999999965
+        },
+        {
+          "seed": 4005,
+          "candidate": false,
+          "steps": 2115,
+          "bestConcentration": 0.02952525670491346,
+          "uniqueProbes": 9,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 22.10879572864194
+        },
+        {
+          "seed": 4006,
+          "candidate": false,
+          "steps": 2101,
+          "bestConcentration": 0.027382275086404,
+          "uniqueProbes": 4,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 16.82999999999998
+        },
+        {
+          "seed": 4007,
+          "candidate": false,
+          "steps": 2136,
+          "bestConcentration": 0.028271243049267158,
+          "uniqueProbes": 15,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 26.729999999999965
+        },
+        {
+          "seed": 4008,
+          "candidate": false,
+          "steps": 1968,
+          "bestConcentration": 0.029460021040190392,
+          "uniqueProbes": 5,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 15.899860412022186
+        },
+        {
+          "seed": 4009,
+          "candidate": false,
+          "steps": 1948,
+          "bestConcentration": 0.08434329239748102,
+          "uniqueProbes": 7,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 16.998687801702506
+        },
+        {
+          "seed": 4010,
+          "candidate": false,
+          "steps": 1893,
+          "bestConcentration": 0.027383957984008497,
+          "uniqueProbes": 17,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 16.48616900285031
+        },
+        {
+          "seed": 4011,
+          "candidate": false,
+          "steps": 2071,
+          "bestConcentration": 0.029068490351952806,
+          "uniqueProbes": 18,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 24.809598827535865
+        },
+        {
+          "seed": 4012,
+          "candidate": false,
+          "steps": 1985,
+          "bestConcentration": 0.030723282078552603,
+          "uniqueProbes": 13,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 16.73999999999998
+        },
+        {
+          "seed": 4001,
+          "candidate": false,
+          "steps": 1965,
+          "bestConcentration": 0.11375581692009752,
+          "uniqueProbes": 6,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 18.809999999999977
+        },
+        {
+          "seed": 4002,
+          "candidate": false,
+          "steps": 2102,
+          "bestConcentration": 0.03502520698438427,
+          "uniqueProbes": 17,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 19.5182934243795
+        },
+        {
+          "seed": 4003,
+          "candidate": false,
+          "steps": 1894,
+          "bestConcentration": 0.02747126764904854,
+          "uniqueProbes": 8,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 27.313762945328012
+        },
+        {
+          "seed": 4004,
+          "candidate": false,
+          "steps": 2146,
+          "bestConcentration": 0.029915894130000505,
+          "uniqueProbes": 7,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 26.369999999999965
+        },
+        {
+          "seed": 4005,
+          "candidate": false,
+          "steps": 2156,
+          "bestConcentration": 0.030377446940559095,
+          "uniqueProbes": 15,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 20.009648543145904
+        },
+        {
+          "seed": 4006,
+          "candidate": false,
+          "steps": 2031,
+          "bestConcentration": 0.02844776775706518,
+          "uniqueProbes": 8,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 14.595745384139954
+        },
+        {
+          "seed": 4007,
+          "candidate": false,
+          "steps": 2141,
+          "bestConcentration": 0.024434557558194084,
+          "uniqueProbes": 6,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 25.199999999999967
+        },
+        {
+          "seed": 4008,
+          "candidate": false,
+          "steps": 2092,
+          "bestConcentration": 0.029460021040190392,
+          "uniqueProbes": 5,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 12.991275772032502
+        },
+        {
+          "seed": 4009,
+          "candidate": false,
+          "steps": 2148,
+          "bestConcentration": 0.028022957311058642,
+          "uniqueProbes": 17,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 24.945665719051192
+        },
+        {
+          "seed": 4010,
+          "candidate": false,
+          "steps": 1955,
+          "bestConcentration": 0.02900939775662968,
+          "uniqueProbes": 10,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 13.64498474677671
+        },
+        {
+          "seed": 4011,
+          "candidate": false,
+          "steps": 2118,
+          "bestConcentration": 0.030386388382973802,
+          "uniqueProbes": 22,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 25.92452749472606
+        },
+        {
+          "seed": 4012,
+          "candidate": false,
+          "steps": 2028,
+          "bestConcentration": 0.02960539394403261,
+          "uniqueProbes": 4,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 14.309999999999983
+        },
+        {
+          "seed": 4001,
+          "candidate": false,
+          "steps": 2018,
+          "bestConcentration": 0.06375120942031687,
+          "uniqueProbes": 2,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 13.409999999999984
+        },
+        {
+          "seed": 4002,
+          "candidate": false,
+          "steps": 2166,
+          "bestConcentration": 0.029493601673609447,
+          "uniqueProbes": 11,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 20.429999999999975
+        },
+        {
+          "seed": 4003,
+          "candidate": false,
+          "steps": 1784,
+          "bestConcentration": 0.03311842901574218,
+          "uniqueProbes": 13,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 18.105342277538302
+        },
+        {
+          "seed": 4004,
+          "candidate": false,
+          "steps": 2080,
+          "bestConcentration": 0.029915894130000505,
+          "uniqueProbes": 17,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 25.535331319146295
+        },
+        {
+          "seed": 4005,
+          "candidate": false,
+          "steps": 2094,
+          "bestConcentration": 0.02952525670491346,
+          "uniqueProbes": 7,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 19.502678235131942
+        },
+        {
+          "seed": 4006,
+          "candidate": false,
+          "steps": 2077,
+          "bestConcentration": 0.02844776775706518,
+          "uniqueProbes": 8,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 13.280976150229726
+        },
+        {
+          "seed": 4007,
+          "candidate": false,
+          "steps": 2217,
+          "bestConcentration": 0.02169849157876005,
+          "uniqueProbes": 4,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 19.709999999999976
+        },
+        {
+          "seed": 4008,
+          "candidate": false,
+          "steps": 2230,
+          "bestConcentration": 0.028226730093857864,
+          "uniqueProbes": 5,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 11.269046174864341
+        },
+        {
+          "seed": 4009,
+          "candidate": false,
+          "steps": 2105,
+          "bestConcentration": 0.18484664594935551,
+          "uniqueProbes": 8,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 15.020455149297067
+        },
+        {
+          "seed": 4010,
+          "candidate": false,
+          "steps": 1956,
+          "bestConcentration": 0.021399318796823337,
+          "uniqueProbes": 5,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 14.05141011793001
+        },
+        {
+          "seed": 4011,
+          "candidate": false,
+          "steps": 2259,
+          "bestConcentration": 0.029665616785993488,
+          "uniqueProbes": 11,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 22.699087976389695
+        },
+        {
+          "seed": 4012,
+          "candidate": false,
+          "steps": 2185,
+          "bestConcentration": 0.02960539394403261,
+          "uniqueProbes": 4,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 9.80999999999999
+        },
+        {
+          "seed": 4001,
+          "candidate": false,
+          "steps": 2124,
+          "bestConcentration": 0.06375120942031687,
+          "uniqueProbes": 2,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 9.89999999999999
+        },
+        {
+          "seed": 4002,
+          "candidate": false,
+          "steps": 2081,
+          "bestConcentration": 0.031675689288380784,
+          "uniqueProbes": 15,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 24.934186729071364
+        },
+        {
+          "seed": 4003,
+          "candidate": false,
+          "steps": 2025,
+          "bestConcentration": 0.022966044086622738,
+          "uniqueProbes": 7,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 23.66999999999997
+        },
+        {
+          "seed": 4004,
+          "candidate": false,
+          "steps": 2215,
+          "bestConcentration": 0.030318720920245897,
+          "uniqueProbes": 9,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 23.84999999999997
+        },
+        {
+          "seed": 4005,
+          "candidate": false,
+          "steps": 2250,
+          "bestConcentration": 0.03637562988598263,
+          "uniqueProbes": 9,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 17.015951384579644
+        },
+        {
+          "seed": 4006,
+          "candidate": false,
+          "steps": 2223,
+          "bestConcentration": 0.02844776775706518,
+          "uniqueProbes": 6,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 15.350161078811375
+        },
+        {
+          "seed": 4007,
+          "candidate": false,
+          "steps": 2336,
+          "bestConcentration": 0.026590239852742607,
+          "uniqueProbes": 8,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 17.90999999999998
+        },
+        {
+          "seed": 4008,
+          "candidate": false,
+          "steps": 2185,
+          "bestConcentration": 0.03081789666723661,
+          "uniqueProbes": 12,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 14.02146227668969
+        },
+        {
+          "seed": 4009,
+          "candidate": false,
+          "steps": 2156,
+          "bestConcentration": 0.18484664594935551,
+          "uniqueProbes": 6,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 7.102196269485519
+        },
+        {
+          "seed": 4010,
+          "candidate": false,
+          "steps": 2136,
+          "bestConcentration": 0.02088509405265656,
+          "uniqueProbes": 9,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 15.368238214141428
+        },
+        {
+          "seed": 4011,
+          "candidate": false,
+          "steps": 2316,
+          "bestConcentration": 0.027592214230128673,
+          "uniqueProbes": 11,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 12.82104607584557
+        },
+        {
+          "seed": 4012,
+          "candidate": false,
+          "steps": 2124,
+          "bestConcentration": 0.02960539394403261,
+          "uniqueProbes": 5,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 5.129999999999996
+        },
+        {
+          "seed": 4001,
+          "candidate": false,
+          "steps": 2148,
+          "bestConcentration": 0.11375581692009752,
+          "uniqueProbes": 4,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 10.799999999999988
+        },
+        {
+          "seed": 4002,
+          "candidate": false,
+          "steps": 2158,
+          "bestConcentration": 0.029493601673609447,
+          "uniqueProbes": 5,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 18.899999999999977
+        },
+        {
+          "seed": 4003,
+          "candidate": false,
+          "steps": 2037,
+          "bestConcentration": 0.022179494004159285,
+          "uniqueProbes": 7,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 17.90999999999998
+        },
+        {
+          "seed": 4004,
+          "candidate": false,
+          "steps": 2153,
+          "bestConcentration": 0.030318720920245897,
+          "uniqueProbes": 10,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 25.613134359234035
+        },
+        {
+          "seed": 4005,
+          "candidate": false,
+          "steps": 2343,
+          "bestConcentration": 0.029675141482868032,
+          "uniqueProbes": 6,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 11.663987280816398
+        },
+        {
+          "seed": 4006,
+          "candidate": false,
+          "steps": 2236,
+          "bestConcentration": 0.035549951601875227,
+          "uniqueProbes": 5,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 9.021732707456481
+        },
+        {
+          "seed": 4007,
+          "candidate": false,
+          "steps": 2304,
+          "bestConcentration": 0.03792465640873073,
+          "uniqueProbes": 7,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 12.419999999999986
+        },
+        {
+          "seed": 4008,
+          "candidate": false,
+          "steps": 2227,
+          "bestConcentration": 0.029460021040190392,
+          "uniqueProbes": 3,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 3.9126362249191926
+        },
+        {
+          "seed": 4009,
+          "candidate": false,
+          "steps": 1706,
+          "bestConcentration": 0.12115599138957256,
+          "uniqueProbes": 4,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 4.102666299497538
+        },
+        {
+          "seed": 4010,
+          "candidate": false,
+          "steps": 2054,
+          "bestConcentration": 0.02088509405265656,
+          "uniqueProbes": 2,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 5.142765232103257
+        },
+        {
+          "seed": 4011,
+          "candidate": false,
+          "steps": 2394,
+          "bestConcentration": 0.026790543904820614,
+          "uniqueProbes": 7,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 10.619999999999989
+        },
+        {
+          "seed": 4012,
+          "candidate": false,
+          "steps": 2228,
+          "bestConcentration": 0.028901410300843228,
+          "uniqueProbes": 2,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 1.6200000000000003
+        },
+        {
+          "seed": 4001,
+          "candidate": false,
+          "steps": 2162,
+          "bestConcentration": 0.06375120942031687,
+          "uniqueProbes": 3,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 3.689999999999998
+        },
+        {
+          "seed": 4002,
+          "candidate": false,
+          "steps": 2162,
+          "bestConcentration": 0.029493601673609447,
+          "uniqueProbes": 6,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 22.319999999999972
+        },
+        {
+          "seed": 4003,
+          "candidate": false,
+          "steps": 2214,
+          "bestConcentration": 0.022179494004159285,
+          "uniqueProbes": 3,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 11.879999999999987
+        },
+        {
+          "seed": 4004,
+          "candidate": false,
+          "steps": 2400,
+          "bestConcentration": 0.029478101012415023,
+          "uniqueProbes": 3,
+          "collisions": 0,
+          "shutdowns": 0,
+          "distance": 10.619999999999989
+        },
+        {
+          "seed": 4005,
+          "candidate": false,
+          "steps": 2363,
+          "bestConcentration": 0.03268280407859089,
+          "uniqueProbes": 5,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 13.49961735939663
+        },
+        {
+          "seed": 4006,
+          "candidate": false,
+          "steps": 2215,
+          "bestConcentration": 0.033873529378778015,
+          "uniqueProbes": 4,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 11.683562338319913
+        },
+        {
+          "seed": 4007,
+          "candidate": false,
+          "steps": 2363,
+          "bestConcentration": 0.025471206886720055,
+          "uniqueProbes": 5,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 8.369999999999992
+        },
+        {
+          "seed": 4008,
+          "candidate": false,
+          "steps": 2184,
+          "bestConcentration": 0.029460021040190392,
+          "uniqueProbes": 2,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 1.4815631816095423
+        },
+        {
+          "seed": 4009,
+          "candidate": false,
+          "steps": 2098,
+          "bestConcentration": 0.04526879714610376,
+          "uniqueProbes": 4,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 2.4458298808236
+        },
+        {
+          "seed": 4010,
+          "candidate": false,
+          "steps": 2121,
+          "bestConcentration": 0.02088509405265656,
+          "uniqueProbes": 4,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 8.16783379409373
+        },
+        {
+          "seed": 4011,
+          "candidate": false,
+          "steps": 2400,
+          "bestConcentration": 0.02554067171486899,
+          "uniqueProbes": 5,
+          "collisions": 0,
+          "shutdowns": 0,
+          "distance": 7.649999999999992
+        },
+        {
+          "seed": 4012,
+          "candidate": false,
+          "steps": 2284,
+          "bestConcentration": 0.030723282078552603,
+          "uniqueProbes": 3,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 2.52
+        },
+        {
+          "seed": 4001,
+          "candidate": false,
+          "steps": 2101,
+          "bestConcentration": 0.06375120942031687,
+          "uniqueProbes": 2,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 9.53999999999999
+        },
+        {
+          "seed": 4002,
+          "candidate": false,
+          "steps": 2176,
+          "bestConcentration": 0.028296024658694536,
+          "uniqueProbes": 7,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 23.03999999999997
+        },
+        {
+          "seed": 4003,
+          "candidate": false,
+          "steps": 2090,
+          "bestConcentration": 0.023617774805612935,
+          "uniqueProbes": 11,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 18.17999999999998
+        },
+        {
+          "seed": 4004,
+          "candidate": false,
+          "steps": 2325,
+          "bestConcentration": 0.037313538154736293,
+          "uniqueProbes": 7,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 12.059999999999986
+        },
+        {
+          "seed": 4005,
+          "candidate": false,
+          "steps": 2293,
+          "bestConcentration": 0.03268280407859089,
+          "uniqueProbes": 5,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 7.40317628261054
+        },
+        {
+          "seed": 4006,
+          "candidate": false,
+          "steps": 2166,
+          "bestConcentration": 0.027382275086404,
+          "uniqueProbes": 5,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 7.563440719207585
+        },
+        {
+          "seed": 4007,
+          "candidate": false,
+          "steps": 2327,
+          "bestConcentration": 0.0213884205095467,
+          "uniqueProbes": 6,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 12.149999999999986
+        },
+        {
+          "seed": 4008,
+          "candidate": false,
+          "steps": 2356,
+          "bestConcentration": 0.027728485769822467,
+          "uniqueProbes": 2,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 6.6650689964203425
+        }
+      ],
+      "checkpoints": [
+        {
+          "episode": 0,
+          "updates": 67704,
+          "score": 0.21477400860523282
+        },
+        {
+          "episode": 20,
+          "updates": 77936,
+          "score": 0
+        },
+        {
+          "episode": 40,
+          "updates": 88402,
+          "score": 0
+        },
+        {
+          "episode": 60,
+          "updates": 99330,
+          "score": 0
+        },
+        {
+          "episode": 80,
+          "updates": 110530,
+          "score": 0
+        }
+      ],
+      "validation": {
+        "trials": [
+          {
+            "seed": 5001,
+            "candidate": false,
+            "steps": 1758,
+            "bestConcentration": 0.03532820433059559,
+            "uniqueProbes": 1,
+            "collisions": 0,
+            "shutdowns": 1,
+            "distance": 6.749999999999994
+          },
+          {
+            "seed": 5002,
+            "candidate": false,
+            "steps": 2400,
+            "bestConcentration": 0,
+            "uniqueProbes": 0,
+            "collisions": 0,
+            "shutdowns": 0,
+            "distance": 19.169999999999977
+          },
+          {
+            "seed": 5003,
+            "candidate": false,
+            "steps": 1829,
+            "bestConcentration": 0.02610399825097425,
+            "uniqueProbes": 2,
+            "collisions": 0,
+            "shutdowns": 1,
+            "distance": 16.10999999999998
+          },
+          {
+            "seed": 5004,
+            "candidate": false,
+            "steps": 2400,
+            "bestConcentration": 0,
+            "uniqueProbes": 0,
+            "collisions": 0,
+            "shutdowns": 0,
+            "distance": 9.102565294075301
+          },
+          {
+            "seed": 5005,
+            "candidate": false,
+            "steps": 2259,
+            "bestConcentration": 0,
+            "uniqueProbes": 0,
+            "collisions": 0,
+            "shutdowns": 1,
+            "distance": 0
+          },
+          {
+            "seed": 5006,
+            "candidate": false,
+            "steps": 2400,
+            "bestConcentration": 0,
+            "uniqueProbes": 0,
+            "collisions": 0,
+            "shutdowns": 0,
+            "distance": 12.779999999999985
+          }
+        ],
+        "total": 6,
+        "candidates": 0,
+        "meanBestConcentration": 0.01023870043026164,
+        "meanUniqueProbes": 0.5,
+        "meanCollisions": 0,
+        "score": 0.21477400860523282
+      }
+    },
+    {
+      "trainingSeed": 991,
+      "history": [
+        {
+          "seed": 4001,
+          "candidate": false,
+          "steps": 1897,
+          "bestConcentration": 0.11375581692009752,
+          "uniqueProbes": 6,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 20.339999999999975
+        },
+        {
+          "seed": 4002,
+          "candidate": false,
+          "steps": 1949,
+          "bestConcentration": 0.029343957619156296,
+          "uniqueProbes": 14,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 16.693371196165728
+        },
+        {
+          "seed": 4003,
+          "candidate": false,
+          "steps": 1954,
+          "bestConcentration": 0.02747126764904854,
+          "uniqueProbes": 12,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 22.049999999999972
+        },
+        {
+          "seed": 4004,
+          "candidate": false,
+          "steps": 2144,
+          "bestConcentration": 0.029915894130000505,
+          "uniqueProbes": 12,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 24.749999999999968
+        },
+        {
+          "seed": 4005,
+          "candidate": false,
+          "steps": 2049,
+          "bestConcentration": 0.029682686441275412,
+          "uniqueProbes": 24,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 26.776107298977426
+        },
+        {
+          "seed": 4006,
+          "candidate": false,
+          "steps": 2056,
+          "bestConcentration": 0.02960339111600559,
+          "uniqueProbes": 10,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 17.403885710376844
+        },
+        {
+          "seed": 4007,
+          "candidate": false,
+          "steps": 2091,
+          "bestConcentration": 0.0213884205095467,
+          "uniqueProbes": 18,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 28.169999999999963
+        },
+        {
+          "seed": 4008,
+          "candidate": false,
+          "steps": 2060,
+          "bestConcentration": 0.029460021040190392,
+          "uniqueProbes": 7,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 19.708589907250204
+        },
+        {
+          "seed": 4009,
+          "candidate": false,
+          "steps": 2081,
+          "bestConcentration": 0.18484664594935551,
+          "uniqueProbes": 8,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 17.374788636636957
+        },
+        {
+          "seed": 4010,
+          "candidate": false,
+          "steps": 2070,
+          "bestConcentration": 0.021399318796823337,
+          "uniqueProbes": 8,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 18.254506419857098
+        },
+        {
+          "seed": 4011,
+          "candidate": false,
+          "steps": 2025,
+          "bestConcentration": 0.0316699693913669,
+          "uniqueProbes": 12,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 19.93662774477259
+        },
+        {
+          "seed": 4012,
+          "candidate": false,
+          "steps": 2029,
+          "bestConcentration": 0.030723282078552603,
+          "uniqueProbes": 10,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 19.169999999999977
+        },
+        {
+          "seed": 4001,
+          "candidate": false,
+          "steps": 1999,
+          "bestConcentration": 0.06375120942031687,
+          "uniqueProbes": 2,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 18.989999999999977
+        },
+        {
+          "seed": 4002,
+          "candidate": false,
+          "steps": 2106,
+          "bestConcentration": 0.02734667462966748,
+          "uniqueProbes": 6,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 27.899999999999963
+        },
+        {
+          "seed": 4003,
+          "candidate": false,
+          "steps": 1564,
+          "bestConcentration": 0.028301045104378305,
+          "uniqueProbes": 14,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 16.990955403529423
+        },
+        {
+          "seed": 4004,
+          "candidate": false,
+          "steps": 2130,
+          "bestConcentration": 0.03278802185259942,
+          "uniqueProbes": 25,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 30.50999999999996
+        },
+        {
+          "seed": 4005,
+          "candidate": false,
+          "steps": 2015,
+          "bestConcentration": 0.029682686441275412,
+          "uniqueProbes": 22,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 25.7401424446365
+        },
+        {
+          "seed": 4006,
+          "candidate": false,
+          "steps": 1899,
+          "bestConcentration": 0.02844776775706518,
+          "uniqueProbes": 18,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 23.52936000355309
+        },
+        {
+          "seed": 4007,
+          "candidate": false,
+          "steps": 2118,
+          "bestConcentration": 0.026590239852742607,
+          "uniqueProbes": 13,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 25.289999999999967
+        },
+        {
+          "seed": 4008,
+          "candidate": false,
+          "steps": 2147,
+          "bestConcentration": 0.029460021040190392,
+          "uniqueProbes": 5,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 10.315577629628958
+        },
+        {
+          "seed": 4009,
+          "candidate": false,
+          "steps": 2075,
+          "bestConcentration": 0.18484664594935551,
+          "uniqueProbes": 5,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 15.775861437559664
+        },
+        {
+          "seed": 4010,
+          "candidate": false,
+          "steps": 1858,
+          "bestConcentration": 0.029805294648594344,
+          "uniqueProbes": 12,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 20.78897548368803
+        },
+        {
+          "seed": 4011,
+          "candidate": false,
+          "steps": 2117,
+          "bestConcentration": 0.028147129747033203,
+          "uniqueProbes": 12,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 30.23999999999996
+        },
+        {
+          "seed": 4012,
+          "candidate": false,
+          "steps": 2211,
+          "bestConcentration": 0.030723282078552603,
+          "uniqueProbes": 6,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 13.949999999999983
+        },
+        {
+          "seed": 4001,
+          "candidate": false,
+          "steps": 2038,
+          "bestConcentration": 0.06375120942031687,
+          "uniqueProbes": 3,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 15.389999999999981
+        },
+        {
+          "seed": 4002,
+          "candidate": false,
+          "steps": 2166,
+          "bestConcentration": 0.029493601673609447,
+          "uniqueProbes": 8,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 24.553318662147312
+        },
+        {
+          "seed": 4003,
+          "candidate": false,
+          "steps": 1911,
+          "bestConcentration": 0.027977418347276475,
+          "uniqueProbes": 11,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 20.717333284979897
+        },
+        {
+          "seed": 4004,
+          "candidate": false,
+          "steps": 2180,
+          "bestConcentration": 0.030318720920245897,
+          "uniqueProbes": 9,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 22.67999999999997
+        },
+        {
+          "seed": 4005,
+          "candidate": false,
+          "steps": 2112,
+          "bestConcentration": 0.029682686441275412,
+          "uniqueProbes": 23,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 26.55529073977681
+        },
+        {
+          "seed": 4006,
+          "candidate": false,
+          "steps": 1881,
+          "bestConcentration": 0.030090035562931865,
+          "uniqueProbes": 8,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 15.435958815424629
+        },
+        {
+          "seed": 4007,
+          "candidate": false,
+          "steps": 2202,
+          "bestConcentration": 0.0213884205095467,
+          "uniqueProbes": 19,
+          "collisions": 14,
+          "shutdowns": 1,
+          "distance": 23.21999999999997
+        },
+        {
+          "seed": 4008,
+          "candidate": false,
+          "steps": 2097,
+          "bestConcentration": 0.027728485769822467,
+          "uniqueProbes": 2,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 10.683440645053835
+        },
+        {
+          "seed": 4009,
+          "candidate": false,
+          "steps": 1924,
+          "bestConcentration": 0.18484664594935551,
+          "uniqueProbes": 14,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 13.907501991111246
+        },
+        {
+          "seed": 4010,
+          "candidate": false,
+          "steps": 1956,
+          "bestConcentration": 0.02088509405265656,
+          "uniqueProbes": 12,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 21.833120385236793
+        },
+        {
+          "seed": 4011,
+          "candidate": false,
+          "steps": 2187,
+          "bestConcentration": 0.028955870980228948,
+          "uniqueProbes": 11,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 22.049999999999972
+        },
+        {
+          "seed": 4012,
+          "candidate": false,
+          "steps": 2100,
+          "bestConcentration": 0.02960539394403261,
+          "uniqueProbes": 6,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 10.619999999999989
+        },
+        {
+          "seed": 4001,
+          "candidate": false,
+          "steps": 1945,
+          "bestConcentration": 0.11375581692009752,
+          "uniqueProbes": 3,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 17.90999999999998
+        },
+        {
+          "seed": 4002,
+          "candidate": false,
+          "steps": 2101,
+          "bestConcentration": 0.02734667462966748,
+          "uniqueProbes": 9,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 25.649999999999967
+        },
+        {
+          "seed": 4003,
+          "candidate": false,
+          "steps": 2028,
+          "bestConcentration": 0.027715001119990174,
+          "uniqueProbes": 8,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 14.349491972387929
+        },
+        {
+          "seed": 4004,
+          "candidate": false,
+          "steps": 2219,
+          "bestConcentration": 0.029478101012415023,
+          "uniqueProbes": 9,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 21.869999999999973
+        },
+        {
+          "seed": 4005,
+          "candidate": false,
+          "steps": 2193,
+          "bestConcentration": 0.06300749103916657,
+          "uniqueProbes": 17,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 17.731495741052434
+        },
+        {
+          "seed": 4006,
+          "candidate": false,
+          "steps": 2217,
+          "bestConcentration": 0.027741518293341594,
+          "uniqueProbes": 6,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 10.564392681831947
+        },
+        {
+          "seed": 4007,
+          "candidate": false,
+          "steps": 2242,
+          "bestConcentration": 0.021920568064217657,
+          "uniqueProbes": 8,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 20.969999999999974
+        },
+        {
+          "seed": 4008,
+          "candidate": false,
+          "steps": 2267,
+          "bestConcentration": 0.029460021040190392,
+          "uniqueProbes": 4,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 6.172972562687718
+        },
+        {
+          "seed": 4009,
+          "candidate": false,
+          "steps": 2023,
+          "bestConcentration": 0.04196687320063627,
+          "uniqueProbes": 7,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 7.847170582517564
+        },
+        {
+          "seed": 4010,
+          "candidate": false,
+          "steps": 2182,
+          "bestConcentration": 0.021464960754628098,
+          "uniqueProbes": 10,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 22.769149558837757
+        },
+        {
+          "seed": 4011,
+          "candidate": false,
+          "steps": 2389,
+          "bestConcentration": 0.029068490351952806,
+          "uniqueProbes": 6,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 11.703527959539064
+        },
+        {
+          "seed": 4012,
+          "candidate": false,
+          "steps": 2251,
+          "bestConcentration": 0.02960539394403261,
+          "uniqueProbes": 5,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 10.799999999999988
+        },
+        {
+          "seed": 4001,
+          "candidate": false,
+          "steps": 2117,
+          "bestConcentration": 0.11375581692009752,
+          "uniqueProbes": 5,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 8.459999999999992
+        },
+        {
+          "seed": 4002,
+          "candidate": false,
+          "steps": 2155,
+          "bestConcentration": 0.02734667462966748,
+          "uniqueProbes": 5,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 23.12999999999997
+        },
+        {
+          "seed": 4003,
+          "candidate": false,
+          "steps": 2148,
+          "bestConcentration": 0.022744189915946605,
+          "uniqueProbes": 5,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 16.82999999999998
+        },
+        {
+          "seed": 4004,
+          "candidate": false,
+          "steps": 2304,
+          "bestConcentration": 0.03125883728427397,
+          "uniqueProbes": 7,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 21.689999999999973
+        },
+        {
+          "seed": 4005,
+          "candidate": false,
+          "steps": 2400,
+          "bestConcentration": 0.029682686441275412,
+          "uniqueProbes": 8,
+          "collisions": 0,
+          "shutdowns": 0,
+          "distance": 12.661655406591432
+        },
+        {
+          "seed": 4006,
+          "candidate": false,
+          "steps": 2136,
+          "bestConcentration": 0.02980086219362522,
+          "uniqueProbes": 4,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 9.748408417459617
+        },
+        {
+          "seed": 4007,
+          "candidate": false,
+          "steps": 2400,
+          "bestConcentration": 0.02169849157876005,
+          "uniqueProbes": 6,
+          "collisions": 0,
+          "shutdowns": 0,
+          "distance": 9.26999999999999
+        },
+        {
+          "seed": 4008,
+          "candidate": false,
+          "steps": 2376,
+          "bestConcentration": 0.027255788243708876,
+          "uniqueProbes": 3,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 6.659999999999994
+        },
+        {
+          "seed": 4009,
+          "candidate": false,
+          "steps": 2246,
+          "bestConcentration": 0.0252105782282716,
+          "uniqueProbes": 4,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 4.932240746174227
+        },
+        {
+          "seed": 4010,
+          "candidate": false,
+          "steps": 2157,
+          "bestConcentration": 0.02088509405265656,
+          "uniqueProbes": 3,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 4.457341165580572
+        },
+        {
+          "seed": 4011,
+          "candidate": false,
+          "steps": 2384,
+          "bestConcentration": 0.029665616785993488,
+          "uniqueProbes": 5,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 15.24999846382317
+        },
+        {
+          "seed": 4012,
+          "candidate": false,
+          "steps": 2238,
+          "bestConcentration": 0.02900449506155528,
+          "uniqueProbes": 5,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 3.149999999999999
+        },
+        {
+          "seed": 4001,
+          "candidate": false,
+          "steps": 2193,
+          "bestConcentration": 0.028180537045359753,
+          "uniqueProbes": 4,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 6.435787069742242
+        },
+        {
+          "seed": 4002,
+          "candidate": false,
+          "steps": 2345,
+          "bestConcentration": 0.029493601673609447,
+          "uniqueProbes": 5,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 11.879999999999987
+        },
+        {
+          "seed": 4003,
+          "candidate": false,
+          "steps": 2232,
+          "bestConcentration": 0.021758507688726936,
+          "uniqueProbes": 5,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 10.923601721194936
+        },
+        {
+          "seed": 4004,
+          "candidate": false,
+          "steps": 2400,
+          "bestConcentration": 0.029915894130000505,
+          "uniqueProbes": 4,
+          "collisions": 0,
+          "shutdowns": 0,
+          "distance": 9.98999999999999
+        },
+        {
+          "seed": 4005,
+          "candidate": false,
+          "steps": 2386,
+          "bestConcentration": 0.03308551660902089,
+          "uniqueProbes": 7,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 11.395367729350033
+        },
+        {
+          "seed": 4006,
+          "candidate": false,
+          "steps": 2292,
+          "bestConcentration": 0.027741518293341594,
+          "uniqueProbes": 5,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 9.443208692907081
+        },
+        {
+          "seed": 4007,
+          "candidate": false,
+          "steps": 2400,
+          "bestConcentration": 0.022804327964868504,
+          "uniqueProbes": 6,
+          "collisions": 0,
+          "shutdowns": 0,
+          "distance": 8.459999999999992
+        },
+        {
+          "seed": 4008,
+          "candidate": false,
+          "steps": 2219,
+          "bestConcentration": 0.029460021040190392,
+          "uniqueProbes": 3,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 2.9807675740448216
+        },
+        {
+          "seed": 4009,
+          "candidate": false,
+          "steps": 2118,
+          "bestConcentration": 0.04526879714610376,
+          "uniqueProbes": 4,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 2.1340710051765344
+        },
+        {
+          "seed": 4010,
+          "candidate": false,
+          "steps": 2056,
+          "bestConcentration": 0.02088509405265656,
+          "uniqueProbes": 4,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 8.042232959200991
+        },
+        {
+          "seed": 4011,
+          "candidate": false,
+          "steps": 2369,
+          "bestConcentration": 0.027431829013776516,
+          "uniqueProbes": 6,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 6.659999999999994
+        },
+        {
+          "seed": 4012,
+          "candidate": false,
+          "steps": 2206,
+          "bestConcentration": 0.02960539394403261,
+          "uniqueProbes": 4,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 4.499999999999997
+        },
+        {
+          "seed": 4001,
+          "candidate": false,
+          "steps": 2276,
+          "bestConcentration": 0.07905706446860797,
+          "uniqueProbes": 5,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 3.689999999999998
+        },
+        {
+          "seed": 4002,
+          "candidate": false,
+          "steps": 2267,
+          "bestConcentration": 0.029493601673609447,
+          "uniqueProbes": 3,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 13.405233903470654
+        },
+        {
+          "seed": 4003,
+          "candidate": false,
+          "steps": 2142,
+          "bestConcentration": 0.02392174855249557,
+          "uniqueProbes": 5,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 7.5599999999999925
+        },
+        {
+          "seed": 4004,
+          "candidate": false,
+          "steps": 2400,
+          "bestConcentration": 0.030318720920245897,
+          "uniqueProbes": 5,
+          "collisions": 0,
+          "shutdowns": 0,
+          "distance": 13.049999999999985
+        },
+        {
+          "seed": 4005,
+          "candidate": false,
+          "steps": 2302,
+          "bestConcentration": 0.03308551660902089,
+          "uniqueProbes": 6,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 14.298903605716186
+        },
+        {
+          "seed": 4006,
+          "candidate": false,
+          "steps": 2203,
+          "bestConcentration": 0.02844776775706518,
+          "uniqueProbes": 9,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 13.236603749832915
+        },
+        {
+          "seed": 4007,
+          "candidate": false,
+          "steps": 2400,
+          "bestConcentration": 0.0213884205095467,
+          "uniqueProbes": 4,
+          "collisions": 0,
+          "shutdowns": 0,
+          "distance": 8.009999999999993
+        },
+        {
+          "seed": 4008,
+          "candidate": false,
+          "steps": 2374,
+          "bestConcentration": 0.029460021040190392,
+          "uniqueProbes": 3,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 4.288389999814549
+        }
+      ],
+      "checkpoints": [
+        {
+          "episode": 0,
+          "updates": 67704,
+          "score": 0.21477400860523282
+        },
+        {
+          "episode": 20,
+          "updates": 77796,
+          "score": 0
+        },
+        {
+          "episode": 40,
+          "updates": 88123,
+          "score": 0
+        },
+        {
+          "episode": 60,
+          "updates": 99329,
+          "score": 0
+        },
+        {
+          "episode": 80,
+          "updates": 110724,
+          "score": 0
+        }
+      ],
+      "validation": {
+        "trials": [
+          {
+            "seed": 5001,
+            "candidate": false,
+            "steps": 1758,
+            "bestConcentration": 0.03532820433059559,
+            "uniqueProbes": 1,
+            "collisions": 0,
+            "shutdowns": 1,
+            "distance": 6.749999999999994
+          },
+          {
+            "seed": 5002,
+            "candidate": false,
+            "steps": 2400,
+            "bestConcentration": 0,
+            "uniqueProbes": 0,
+            "collisions": 0,
+            "shutdowns": 0,
+            "distance": 19.169999999999977
+          },
+          {
+            "seed": 5003,
+            "candidate": false,
+            "steps": 1829,
+            "bestConcentration": 0.02610399825097425,
+            "uniqueProbes": 2,
+            "collisions": 0,
+            "shutdowns": 1,
+            "distance": 16.10999999999998
+          },
+          {
+            "seed": 5004,
+            "candidate": false,
+            "steps": 2400,
+            "bestConcentration": 0,
+            "uniqueProbes": 0,
+            "collisions": 0,
+            "shutdowns": 0,
+            "distance": 9.102565294075301
+          },
+          {
+            "seed": 5005,
+            "candidate": false,
+            "steps": 2259,
+            "bestConcentration": 0,
+            "uniqueProbes": 0,
+            "collisions": 0,
+            "shutdowns": 1,
+            "distance": 0
+          },
+          {
+            "seed": 5006,
+            "candidate": false,
+            "steps": 2400,
+            "bestConcentration": 0,
+            "uniqueProbes": 0,
+            "collisions": 0,
+            "shutdowns": 0,
+            "distance": 12.779999999999985
+          }
+        ],
+        "total": 6,
+        "candidates": 0,
+        "meanBestConcentration": 0.01023870043026164,
+        "meanUniqueProbes": 0.5,
+        "meanCollisions": 0,
+        "score": 0.21477400860523282
+      }
+    }
+  ],
+  "test": {
+    "trained": {
+      "trials": [
+        {
+          "seed": 6001,
+          "candidate": false,
+          "steps": 2400,
+          "bestConcentration": 0,
+          "uniqueProbes": 0,
+          "collisions": 0,
+          "shutdowns": 0,
+          "distance": 3.4199999999999986
+        },
+        {
+          "seed": 6002,
+          "candidate": false,
+          "steps": 2400,
+          "bestConcentration": 0,
+          "uniqueProbes": 0,
+          "collisions": 0,
+          "shutdowns": 0,
+          "distance": 2.52
+        },
+        {
+          "seed": 6003,
+          "candidate": false,
+          "steps": 2400,
+          "bestConcentration": 0,
+          "uniqueProbes": 0,
+          "collisions": 0,
+          "shutdowns": 0,
+          "distance": 1.5300000000000002
+        },
+        {
+          "seed": 6004,
+          "candidate": false,
+          "steps": 1642,
+          "bestConcentration": 0.03267401591000439,
+          "uniqueProbes": 1,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 3.386573373228829
+        },
+        {
+          "seed": 6005,
+          "candidate": false,
+          "steps": 2400,
+          "bestConcentration": 0,
+          "uniqueProbes": 0,
+          "collisions": 0,
+          "shutdowns": 0,
+          "distance": 1.9800000000000006
+        },
+        {
+          "seed": 6006,
+          "candidate": false,
+          "steps": 2400,
+          "bestConcentration": 0,
+          "uniqueProbes": 0,
+          "collisions": 0,
+          "shutdowns": 0,
+          "distance": 1.6200000000000003
+        },
+        {
+          "seed": 6007,
+          "candidate": false,
+          "steps": 1685,
+          "bestConcentration": 0.19393385719181036,
+          "uniqueProbes": 1,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 3.697270633190796
+        },
+        {
+          "seed": 6008,
+          "candidate": false,
+          "steps": 2400,
+          "bestConcentration": 0,
+          "uniqueProbes": 0,
+          "collisions": 0,
+          "shutdowns": 0,
+          "distance": 0.6299999999999999
+        },
+        {
+          "seed": 6009,
+          "candidate": false,
+          "steps": 1756,
+          "bestConcentration": 0.030316223643914626,
+          "uniqueProbes": 1,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 5.206620398599156
+        },
+        {
+          "seed": 6010,
+          "candidate": false,
+          "steps": 1695,
+          "bestConcentration": 0.03056049546977525,
+          "uniqueProbes": 1,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 4.270893654712983
+        },
+        {
+          "seed": 6011,
+          "candidate": false,
+          "steps": 1754,
+          "bestConcentration": 0.21636904829116604,
+          "uniqueProbes": 2,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 14.086901530497505
+        },
+        {
+          "seed": 6012,
+          "candidate": false,
+          "steps": 1707,
+          "bestConcentration": 0.026554219923125604,
+          "uniqueProbes": 2,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 3.9599999999999977
+        }
+      ],
+      "total": 12,
+      "candidates": 0,
+      "meanBestConcentration": 0.044200655035816355,
+      "meanUniqueProbes": 0.6666666666666666,
+      "meanCollisions": 0,
+      "score": 0.8973464340496604
+    },
+    "transferred": {
+      "trials": [
+        {
+          "seed": 6001,
+          "candidate": false,
+          "steps": 2400,
+          "bestConcentration": 0,
+          "uniqueProbes": 0,
+          "collisions": 0,
+          "shutdowns": 0,
+          "distance": 3.4199999999999986
+        },
+        {
+          "seed": 6002,
+          "candidate": false,
+          "steps": 2400,
+          "bestConcentration": 0,
+          "uniqueProbes": 0,
+          "collisions": 0,
+          "shutdowns": 0,
+          "distance": 2.52
+        },
+        {
+          "seed": 6003,
+          "candidate": false,
+          "steps": 2400,
+          "bestConcentration": 0,
+          "uniqueProbes": 0,
+          "collisions": 0,
+          "shutdowns": 0,
+          "distance": 1.5300000000000002
+        },
+        {
+          "seed": 6004,
+          "candidate": false,
+          "steps": 1642,
+          "bestConcentration": 0.03267401591000439,
+          "uniqueProbes": 1,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 3.386573373228829
+        },
+        {
+          "seed": 6005,
+          "candidate": false,
+          "steps": 2400,
+          "bestConcentration": 0,
+          "uniqueProbes": 0,
+          "collisions": 0,
+          "shutdowns": 0,
+          "distance": 1.9800000000000006
+        },
+        {
+          "seed": 6006,
+          "candidate": false,
+          "steps": 2400,
+          "bestConcentration": 0,
+          "uniqueProbes": 0,
+          "collisions": 0,
+          "shutdowns": 0,
+          "distance": 1.6200000000000003
+        },
+        {
+          "seed": 6007,
+          "candidate": false,
+          "steps": 1685,
+          "bestConcentration": 0.19393385719181036,
+          "uniqueProbes": 1,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 3.697270633190796
+        },
+        {
+          "seed": 6008,
+          "candidate": false,
+          "steps": 2400,
+          "bestConcentration": 0,
+          "uniqueProbes": 0,
+          "collisions": 0,
+          "shutdowns": 0,
+          "distance": 0.6299999999999999
+        },
+        {
+          "seed": 6009,
+          "candidate": false,
+          "steps": 1756,
+          "bestConcentration": 0.030316223643914626,
+          "uniqueProbes": 1,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 5.206620398599156
+        },
+        {
+          "seed": 6010,
+          "candidate": false,
+          "steps": 1695,
+          "bestConcentration": 0.03056049546977525,
+          "uniqueProbes": 1,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 4.270893654712983
+        },
+        {
+          "seed": 6011,
+          "candidate": false,
+          "steps": 1754,
+          "bestConcentration": 0.21636904829116604,
+          "uniqueProbes": 2,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 14.086901530497505
+        },
+        {
+          "seed": 6012,
+          "candidate": false,
+          "steps": 1707,
+          "bestConcentration": 0.026554219923125604,
+          "uniqueProbes": 2,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 3.9599999999999977
+        }
+      ],
+      "total": 12,
+      "candidates": 0,
+      "meanBestConcentration": 0.044200655035816355,
+      "meanUniqueProbes": 0.6666666666666666,
+      "meanCollisions": 0,
+      "score": 0.8973464340496604
+    },
+    "random": {
+      "trials": [
+        {
+          "seed": 6001,
+          "candidate": false,
+          "steps": 2195,
+          "bestConcentration": 0.026315045702126894,
+          "uniqueProbes": 22,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 36.361433832852576
+        },
+        {
+          "seed": 6002,
+          "candidate": false,
+          "steps": 2121,
+          "bestConcentration": 0.03209753852385363,
+          "uniqueProbes": 29,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 31.536029731905646
+        },
+        {
+          "seed": 6003,
+          "candidate": false,
+          "steps": 2017,
+          "bestConcentration": 0.04182112189371652,
+          "uniqueProbes": 29,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 31.235784684274165
+        },
+        {
+          "seed": 6004,
+          "candidate": false,
+          "steps": 2055,
+          "bestConcentration": 0.02570396853692144,
+          "uniqueProbes": 36,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 34.0234424482141
+        },
+        {
+          "seed": 6005,
+          "candidate": false,
+          "steps": 2184,
+          "bestConcentration": 0.024730239276130224,
+          "uniqueProbes": 38,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 35.464099088400324
+        },
+        {
+          "seed": 6006,
+          "candidate": false,
+          "steps": 2204,
+          "bestConcentration": 0.019516859800905985,
+          "uniqueProbes": 35,
+          "collisions": 24,
+          "shutdowns": 1,
+          "distance": 38.26001979325209
+        },
+        {
+          "seed": 6007,
+          "candidate": false,
+          "steps": 2160,
+          "bestConcentration": 0.020940568423193834,
+          "uniqueProbes": 45,
+          "collisions": 0,
+          "shutdowns": 1,
+          "distance": 38.230003606803656
+        },
+        {
+          "seed": 6008,
+          "candidate": false,
+          "steps": 2055,
+          "bestConcentration": 0.03411534026568955,
+          "uniqueProbes": 22,
+          "collisions": 27,
+          "shutdowns": 1,
+          "distance": 33.297721945305724
+        },
+        {
+          "seed": 6009,
+          "candidate": false,
+          "steps": 2204,
+          "bestConcentration": 0.15287262522291126,
+          "uniqueProbes": 32,
+          "collisions": 11,
+          "shutdowns": 1,
+          "distance": 36.65254593933631
+        },
+        {
+          "seed": 6010,
+          "candidate": false,
+          "steps": 2160,
+          "bestConcentration": 0.030035597042119104,
+          "uniqueProbes": 22,
+          "collisions": 132,
+          "shutdowns": 1,
+          "distance": 28.22707941770989
+        },
+        {
+          "seed": 6011,
+          "candidate": false,
+          "steps": 2154,
+          "bestConcentration": 0.02620839627792249,
+          "uniqueProbes": 24,
+          "collisions": 147,
+          "shutdowns": 1,
+          "distance": 25.67037862115038
+        },
+        {
+          "seed": 6012,
+          "candidate": false,
+          "steps": 2155,
+          "bestConcentration": 0.020786604908886733,
+          "uniqueProbes": 34,
+          "collisions": 5,
+          "shutdowns": 1,
+          "distance": 36.406244382206864
+        }
+      ],
+      "total": 12,
+      "candidates": 0,
+      "meanBestConcentration": 0.0379286588228648,
+      "meanUniqueProbes": 30.666666666666668,
+      "meanCollisions": 28.833333333333332,
+      "score": 1.3719065097906293
+    }
+  },
+  "limitations": [
+    "Candidate means three rich measured probes, not proven mineable reserves.",
+    "LAB trials stop on first shutdown or time budget; live expedition continues through passive recovery.",
+    "No scripted steering, hidden target distance or guaranteed search success."
+  ],
+  "sourceHashes": {
+    "src/sim/world.js": "bd3f008fdd29b60c09056e4592da24a91a2f58fb5b31a04704abec8877e6dd58",
+    "src/sim/sensors.js": "a668b6c7685e7e60807e174fc02b4329956c207e9748ea91354f99488b5720f4",
+    "src/sim/engine.js": "37702ccc161302e3f979a279cdbe63cc1aa99169114f2c9582651f799779dc3a",
+    "src/sim/survey.js": "85e751c36511175d146b4378dac929389cc2591404d8837a376582a1d87ff029",
+    "src/sim/memory.js": "a78b6be342df963541915415cf759a94513588e69e33cdd07bba865214154c2c",
+    "src/agent/network.js": "51d98b81ed702bc3ab3042367f476b10022bec9cddf9f088ed97130e7f1c3628",
+    "src/agent/controller.js": "90d2554e2f3d1624038c4723993c065bf75a31fa9dc16cc4a60d62417bded0da",
+    "src/agent/deposit-controller.js": "8d720638fa90d6866855a5ad07dd742236dea7ca4b4970fa5cd90e7523c7457c",
+    "src/agent/random.js": "a5e587d1c34a365ae2bddf330fa2ddd866c58c960dd8e73f18f4d2eff83a7af5",
+    "src/lab/deposit-experiment.js": "fe28c55b2bf1713981d07c95f9e41c72b95f81838ad4f6dca42442ccc92710d3",
+    "experiments/train-deposit.mjs": "03e2e8352e3f7ca0fa82f2b6c9278186be9a9061fc01fa9e47f09bd9062535a1"
+  }
+}

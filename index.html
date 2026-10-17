@@ -10,12 +10,12 @@
 <body>
   <main class="shell">
     <header class="topbar">
-      <div class="brand"><span class="brand-icon">☾</span><div><div class="brand-title">LAST<span>PROTOCOL</span><small>LAB / 0.0.1</small></div><div class="brand-sub">ЛУННАЯ АВТОНОМНАЯ ЛАБОРАТОРИЯ</div></div></div>
-      <div class="top-right"><span class="tag live"><i></i> СИМУЛЯЦИЯ АКТИВНА</span><span class="tag">ТЕСТОВАЯ ФИЗИКА</span><a class="doc-link" href="./docs/VISION.md" target="_blank" rel="noopener">Концепция ↗</a></div>
+      <div class="brand"><span class="brand-icon">☾</span><div><div class="brand-title">LAST<span>PROTOCOL</span><small>LAB / 0.4.0</small></div><div class="brand-sub">ЛУННАЯ АВТОНОМНАЯ ЛАБОРАТОРИЯ</div></div></div>
+      <div class="top-right"><span class="tag live" id="runState">СИМУЛЯЦИЯ АКТИВНА</span><span class="tag">ТЕСТОВАЯ ФИЗИКА</span><a class="doc-link" href="./docs/VISION.md" target="_blank" rel="noopener">Концепция ↗</a></div>
     </header>
     <section class="headline">
-      <div><div class="eyebrow">ОПЫТ LP-001 · ОДИН РОВЕР</div><h1>Пробуждение на Луне</h1><p>Процедурная поверхность. Ограниченные сенсоры. Настоящий расход энергии и памяти. Пока <strong>эвристический контроллер, без нейрообучения</strong>.</p></div>
-      <div class="run-label">ПЕРВЫЙ ЭКСПЕРИМЕНТ <span>●</span></div>
+      <div><div class="eyebrow" id="labEyebrow">ОПЫТ LP-045 / 046 · ДЛИТЕЛЬНАЯ РАЗВЕДКА</div><h1 id="labTitle">По следам — к большому пласту.</h1><p>Измерения, пробы, ожидание света. <strong>Один ровер сохраняет опыт и продолжает исследование.</strong></p></div>
+      <div class="run-label">РАЗВЕДКА МЕСТОРОЖДЕНИЯ / LAB <span>●</span></div>
     </section>
     <section class="layout">
       <aside class="leftpanel">
@@ -25,18 +25,63 @@
         <div class="meter"><div class="rowlabel"><span>▤ НАКОПИТЕЛЬ КАРТЫ</span><strong id="memoryTxt">0%</strong></div><div class="bar"><div id="memoryBar" class="fill memory"></div></div><div class="hint" id="memoryDetail">192 KiB · известные клетки</div></div>
         <div class="meter"><div class="rowlabel"><span>☀ ОСВЕЩЁННОСТЬ</span><strong id="sunTxt">0%</strong></div><div class="bar"><div id="sunBar" class="fill light"></div></div><div class="hint">День и тень = выработка энергии</div></div>
         <div class="stats-grid"><div class="stat"><label>ТЕЛО / °C</label><strong id="tempTxt">-10°</strong></div><div class="stat"><label>ПУТЬ / м</label><strong id="distanceTxt">0.0</strong></div><div class="stat"><label>СКАНЫ</label><strong id="scansTxt">0</strong></div><div class="stat"><label>ПОТЕРЯНО ЗАПИСЕЙ</label><strong id="lostTxt">0</strong></div></div>
-        <div class="panel-heading lower">02 / ПОСЛЕДНЕЕ РЕШЕНИЕ</div><div class="thought"><div class="thought-caption">BASELINE POLICY · HEURISTIC</div><p id="actionTxt">Инициализация...</p></div>
-        <div class="disclaimer">Важно: ровер пока <b>не обучается</b>. Мы проверяем мир, датчики, память и энергетику. Нейросеть и поколения — следующие этапы.</div>
+        <div class="meter"><div class="rowlabel"><span>КОНТАКТЫ С ПРЕГРАДАМИ</span><strong id="collisionTxt">0</strong></div><p class="hint" id="lidarDetail">Лидар ожидает первый оплаченный скан.</p></div>
+        <section id="capsulePanel" class="meter" aria-label="Память о капсуле" hidden><div class="rowlabel"><span>ПАМЯТЬ О КАПСУЛЕ</span></div><strong id="capsuleState">ПОЛОЖЕНИЕ В ПАМЯТИ</strong><p id="capsuleDetail" class="hint"></p><p id="capsuleLosses" class="hint"></p><p class="hint">Запись может вытесниться новыми данными. Разовая оценка −2 за потерю; автоматического возвращения нет.</p></section>
+        <div class="panel-heading lower">02 / ПОСЛЕДНЕЕ РЕШЕНИЕ</div><div class="thought"><div class="thought-caption" id="policyCaption">ЛОКАЛЬНАЯ НЕЙРОСЕТЬ</div><p id="actionTxt">Инициализация...</p><div class="hint" id="brainDetail"></div></div>
+        <div class="disclaimer">Сеть видит показания приборов и запомненные наблюдения. <b>Скрытая карта ей недоступна.</b> E считает обновления весов. Крупный источник требует разнесённых проб; добыча и ремонт ещё впереди.</div>
+        <details class="decision-details"><summary>Оценки действий сети</summary><p id="decisionDetail"></p></details>
       </aside>
       <section class="mapsection">
         <div class="maptop"><span>◈ СЕКТОР / SELENE-01</span><span class="mapcoordinates" id="timeDisplay">T+00:00:00</span></div>
-        <div class="map-holder"><canvas id="worldCanvas" width="1088" height="704" aria-label="Визуализация лунной поверхности и положения ровера"></canvas><div class="mapoverlay upper"><span class="signal-dot">●</span> LIVE TELEMETRY <span class="slash">/</span> SEED <span id="seedShow">42</span></div><div class="mapoverlay bottom">+ НЕИЗВЕСТНО <span>◇ ЗАПОМНЕНО</span><span>● РОВЕР</span><span>▣ КАПСУЛА</span></div></div>
+        <div class="map-holder"><canvas id="worldCanvas" width="1088" height="704" aria-label="Визуализация лунной поверхности и положения ровера"></canvas><div class="mapoverlay upper"><span class="signal-dot">●</span> LIVE TELEMETRY <span class="slash">/</span> SEED <span id="seedShow">42</span></div><div class="mapoverlay bottom">+ НЕИЗВЕСТНО <span>◇ ЗАПОМНЕНО</span><span>● РОВЕР</span><span>▣ КАПСУЛА</span><span class="ice-key">◆ ЛЁД</span></div></div>
         <div class="mapfoot"><span id="lightState">☀ Световой цикл</span><span id="mapState">КАРТА РОВЕРА / ОГРАНИЧЕННОЕ ЗНАНИЕ</span></div>
-        <div class="controls"><div class="control-group"><button id="pauseBtn" class="primary">Ⅱ Пауза</button><button id="stepBtn">→ Шаг</button><button id="resetBtn">↻ Сброс</button></div><div class="control-group right"><label for="speed">СКОРОСТЬ</label><select id="speed"><option value="1">1×</option><option value="20" selected>20×</option><option value="100">100×</option><option value="500">500×</option></select><label for="mapMode">КАРТА</label><select id="mapMode"><option value="memory" selected>Глазами ровера</option><option value="truth">Истина (dev)</option></select></div></div>
+        <div class="controls"><div class="control-group"><button id="pauseBtn" class="primary">Ⅱ Пауза</button><button id="stepBtn">→ Шаг</button><button id="resetBtn">↻ LAB-сброс</button></div><div class="control-group right"><label for="speed">СКОРОСТЬ</label><select id="speed"><option value="1">1×</option><option value="20" selected>20×</option><option value="100">100×</option><option value="500">500×</option><option value="1000">1000×</option></select><label for="mapMode">КАРТА</label><select id="mapMode"><option value="memory" selected>Глазами ровера</option><option value="truth">Истина (dev)</option></select></div></div>
+        <section id="curiosityPanel" class="survey-panel" aria-label="Любопытство и новые данные">
+          <div class="panel-heading">ЛЮБОПЫТСТВО <span>ПО СОБСТВЕННЫМ НАБЛЮДЕНИЯМ</span></div>
+          <div class="survey-meters"><div><span>НОВОЕ В ПОСЛЕДНЕМ СКАНЕ</span><strong id="newDataTxt">—</strong></div><div><span>ВСЕГО НАБЛЮДЕНО КЛЕТОК</span><strong id="observedTxt">0</strong></div></div>
+          <p id="curiosityDetail" class="hint"></p>
+          <div id="noveltyDirections" class="novelty-directions" role="img" aria-label="Оценка неизвестного по 12 направлениям относительно курса: 0 градусов вперёд, 90 вправо, 180 назад, 270 влево"></div>
+          <p class="hint">Высота столбика — ожидаемое неизвестное у следующей точки обзора. Прогноз строится по памяти и дальностям лидара; препятствия дальше видимого могут его изменить. Повторный знакомый скан не даёт новый бонус.</p>
+        </section>
+        <section id="motionPanel" class="survey-panel" aria-label="Память последних действий" hidden>
+          <div class="panel-heading">ПАМЯТЬ ДВИЖЕНИЯ <span>32 ДЕЙСТВИЯ / 1 KiB RAM</span></div>
+          <div class="survey-meters"><div><span>ПУТЬ В ОКНЕ</span><strong id="motionPath">0.00 м</strong></div><div><span>СМЕЩЕНИЕ ОТ НАЧАЛА ОКНА</span><strong id="motionDisplacement">0.00 м</strong></div></div>
+          <p id="motionDetail" class="hint"></p>
+          <p class="hint">Измерения одометрии и последствия последних активных действий. Спячка сохраняет окно; LAB-сброс очищает его. Сеть сама выбирает действие с учётом истории.</p>
+        </section>
+        <section id="surveyPanel" class="survey-panel" aria-label="Ход длительной разведки">
+          <div class="panel-heading">ХОД РАЗВЕДКИ <span>ЖУРНАЛ ПРОБ / 64 ЗАПИСИ</span></div>
+          <div class="survey-meters"><div><span>МЕСТНОЕ ИЗМЕРЕНИЕ</span><strong id="concentrationTxt">—</strong></div><div><span>ЛУЧШАЯ ПРОБА</span><strong id="bestProbeTxt">—</strong></div></div>
+          <p id="surveyProgress" class="hint"></p><p id="expeditionAge" class="hint"></p>
+          <svg class="probe-chart" viewBox="0 0 260 70" role="img" aria-label="Концентрация в последних выполненных пробах от 0 до 100 процентов"><path d="M8 8V62H252" fill="none" stroke="#314859"/><path d="M8 27H252" stroke="#8cb8c0" stroke-dasharray="3 4" opacity=".4"/><polyline id="probeChartLine" points="" fill="none" stroke="#7cdeeb" stroke-width="2"/><text x="210" y="23" fill="#7896a5" font-size="7">65% · LAB</text></svg>
+          <ol id="surveyLog" class="survey-log" aria-label="Последние пробы"></ol><p class="hint">Показаны фактические измерения. Пустой журнал означает, что ровер ещё не выбирал пробу.</p>
+        </section>
       </section>
-      <aside class="rightpanel"><div class="panel-heading">03 / ПРОТОКОЛ ЭКСПЕДИЦИИ</div><div class="mission"><span>ОСНОВНАЯ ДИРЕКТИВА</span><strong>НАЙТИ ВОДУ.</strong><p>Текущая цель лаборатории: проверить энергетику, сенсоры и частичную карту. Поиск льда пока не реализован.</p></div><div class="panel-heading lower">04 / СОБЫТИЯ</div><ol id="eventLog" class="events"></ol><div class="panel-heading lower">05 / НОВЫЙ ЭКСПЕРИМЕНТ</div><div class="seed-control"><label for="seedInput">СИД КАРТЫ</label><input id="seedInput" type="number" value="42" min="1" max="999999" /><button id="newSeedBtn">Создать мир</button><button id="exportBtn" class="secondary">↓ Сохранить сводку JSON</button></div><div class="quote">«Мы не знаем, что обнаружит ровер. Но всегда должны знать, какие данные были ему доступны».</div></aside>
+      <aside class="rightpanel">
+        <section class="protocol-summary">
+        <div class="panel-heading">03 / ПРОТОКОЛ ЭКСПЕДИЦИИ</div>
+        <div class="mission"><span>ОСНОВНАЯ ДИРЕКТИВА</span><strong id="waterStatus" aria-live="polite">НАЙТИ ВОДУ.</strong><p id="waterHint">Спектральный сканер ищет признаки льда в пределах 4 м. Контактная проба подтверждает находку.</p></div>
+        </section>
+        <section class="expedition-events">
+        <div class="panel-heading lower">04 / СОБЫТИЯ</div><ol id="eventLog" class="events"></ol>
+        </section>
+        <section class="experiment-settings">
+        <div class="panel-heading lower">05 / МОЗГ И ЭКСПЕРИМЕНТ</div>
+        <div class="seed-control">
+          <label for="presetSelect">ЛАБОРАТОРНЫЙ ОПЫТ</label><select id="presetSelect"><option value="capsule-memory-lab-v1">Разведка · память капсулы</option><option value="curiosity-lab-v1">Далёкий пласт · любопытство</option><option value="motion-lab-v2">Разведка · версия 2</option><option value="motion-lab-v1">Память движения · прежний LAB</option><option value="deposit-lab-v1">Далёкий пласт · прежний мозг</option><option value="surface-water-v1">Единичная проба · малый тест</option></select>
+          <label for="controllerMode">УПРАВЛЕНИЕ</label><select id="controllerMode"><option value="neural">Локальная нейросеть</option><option value="baseline">Исходная эвристика</option></select>
+          <label class="check-label"><input type="checkbox" id="learningToggle" checked /> Учиться во время движения</label>
+          <label for="seedInput">СИД КАРТЫ</label><input id="seedInput" type="number" value="42" min="1" max="999999" />
+          <button id="newSeedBtn">Новый LAB-мир · сохранить мозг</button>
+          <button id="trainBtn">Обучить в лаборатории</button><button id="cancelTrainingBtn" hidden>Остановить обучение</button>
+          <p class="hint" id="trainingStatus" role="status">Загрузка локального мозга…</p><p class="hint" id="benchmarkStatus"></p>
+          <button id="saveBrainBtn" class="secondary">↓ Сохранить мозг</button><button id="restoreBrainBtn" class="secondary">Загрузить комплектный мозг</button><label for="brainFile">ЗАГРУЗИТЬ СОХРАНЁННЫЙ МОЗГ</label><input id="brainFile" type="file" accept=".json,application/json" /><button id="exportBtn" class="secondary">↓ Сохранить сводку JSON</button>
+        </div>
+        </section>
+        <div class="quote">Мозг сохраняется отдельно для каждого опыта. LAB-сброс и обновление страницы начинают мир заново. В самой экспедиции спячка сохраняет положение и историю.</div>
+      </aside>
     </section>
-    <footer><span>LAST PROTOCOL · ВЕРСИЯ 0.0.1 · ЭКСПЕРИМЕНТАЛЬНЫЙ СТЕНД</span><span>Длительность светового цикла условная и ускорена для тестирования.</span></footer>
+    <footer><span>LAST PROTOCOL · ВЕРСИЯ 0.4.0 · ЭКСПЕРИМЕНТАЛЬНЫЙ СТЕНД</span><span>Концентрация, спектрометр и световой цикл — лабораторные приближения.</span></footer>
   </main>
   <script type="module" src="./src/main.js"></script>
 </body>

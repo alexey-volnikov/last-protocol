@@ -1,10 +1,25 @@
 {
   "name": "last-protocol",
   "private": true,
-  "version": "0.0.1",
+  "version": "0.4.0",
   "type": "module",
   "scripts": {
     "dev": "node dev-server.mjs",
-    "test": "node --test tests/*.test.mjs"
+    "test": "node --test tests/*.test.mjs",
+    "train:water": "node experiments/train-water.mjs",
+    "benchmark:water": "node experiments/train-water.mjs --evaluate",
+    "train:deposit": "node experiments/train-deposit.mjs",
+    "benchmark:deposit": "node experiments/train-deposit.mjs --evaluate",
+    "train:curiosity": "node experiments/train-curiosity.mjs",
+    "benchmark:curiosity": "node experiments/train-curiosity.mjs --evaluate",
+    "audit:online": "node experiments/audit-online.mjs --stage=validate",
+    "audit:online:known": "node experiments/audit-online.mjs --stage=diagnose",
+    "audit:online:test": "node experiments/audit-online.mjs --stage=test",
+    "train:motion": "node experiments/train-motion.mjs",
+    "train:sequential": "node experiments/train-sequential.mjs",
+    "diagnose:sequential": "node experiments/diagnose-sequential.mjs",
+    "benchmark:lidar": "node experiments/benchmark-lidar.mjs",
+    "diagnose:lidar": "node experiments/diagnose-lidar.mjs",
+    "train:capsule": "node experiments/train-capsule.mjs"
   }
 }
