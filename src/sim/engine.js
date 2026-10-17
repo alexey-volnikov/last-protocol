@@ -4,7 +4,8 @@ import {createMemory,memoryPercent,remember} from './memory.js';
 import {sampleSensors} from './sensors.js';
 import {chooseBaselineAction} from './policy.js';
 import {createExploration,markVisited} from './exploration.js';
-export const SIM_VERSION='0.3.0';
+import {LIDAR_MODE,LEGACY_LIDAR_MODE} from './lidar.js';
+export const SIM_VERSION='0.3.1';
 export const STEP_SECONDS=2;
 
 function makeRover(world){
@@ -15,9 +16,11 @@ function makeRover(world){
     mission:{rememberedHome:{x,y}},
     generation:1,modelVersion:'baseline-heuristic-v0',storageLoss:0};
 }
-export function createSimulation(seed=42,{controller=null,preset=SURFACE_PRESET,curiosity=false}={}){
+export function createSimulation(seed=42,{controller=null,preset=SURFACE_PRESET,curiosity=false,lidarMode=LIDAR_MODE}={}){
+  if(![LIDAR_MODE,LEGACY_LIDAR_MODE].includes(lidarMode))throw new Error('Неизвестная версия лидара');
   const world=createWorld(seed,{preset});
   const rover=makeRover(world);
+  rover.lidarMode=lidarMode;
   if(curiosity){rover.exploration=createExploration();markVisited(rover.exploration,rover.estimatedX,rover.estimatedY);}
   const sim={world,rover,controller,preset,survey:preset===DEPOSIT_PRESET?createSurvey():null,time:145,events:[],tick:0,water:{found:false,sample:null},
     stats:{collisions:0,evictions:0,distance:0,samples:0,shutdowns:0,activeSeconds:0,sleepSeconds:0,energySpentWh:0},lastEvent:'Капсула раскрыта. Ровер активирован.'};
@@ -154,6 +157,7 @@ export function step(sim,dt=STEP_SECONDS){
 export function status(sim){
   const r=sim.rover;
   return {sun:sunlightAt(sim.world,r.x,r.y,sim.time),temp:r.bodyTempC,batteryPct:r.batteryWh/r.capacityWh*100,
+    lidarMode:r.lidarMode,
     memoryPct:memoryPercent(r.memory),knownTiles:r.memory.cells.size,lost:r.memory.lost,time:sim.time,mode:r.mode,
     distance:r.travelM,collisions:sim.stats.collisions,scans:r.scans,waterFound:sim.water.found,samples:sim.stats.samples,
     shutdowns:sim.stats.shutdowns,survey:sim.survey?surveySummary(sim.survey):null,activeSeconds:sim.stats.activeSeconds,sleepSeconds:sim.stats.sleepSeconds,

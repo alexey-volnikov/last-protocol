@@ -1,6 +1,7 @@
 import {sunlightAt,surfaceTempC,tileAt,DEPOSIT_PRESET} from './world.js';
 import {remember} from './memory.js';
 import {markObserved,explorationReading} from './exploration.js';
+import {traceLidar,LIDAR_MODE,LEGACY_LIDAR_MODE} from './lidar.js';
 export const LIDAR_RAYS=12;
 export const LIDAR_RANGE=7; // клетки = условные метры для первой лаборатории
 export const SPECTRAL_RANGE=4; // LAB: видимый поверхностный лёд; не поиск подземной воды.
@@ -42,10 +43,16 @@ export function sampleSensors(world,rover,time,{scan=true}={}){
       const angle=rover.heading+i*2*Math.PI/LIDAR_RAYS;
       const dx=Math.cos(angle),dy=Math.sin(angle);
       let distance=LIDAR_RANGE,hit=false;
-      for(let d=.35;d<=LIDAR_RANGE;d+=.32){
+      const exact=rover.lidarMode===LEGACY_LIDAR_MODE?null:traceLidar(world,rover.x,rover.y,angle,LIDAR_RANGE);
+      if(exact){distance=exact.distance;hit=exact.hit;}
+      const samples=[];
+      for(let d=.35;d<=LIDAR_RANGE&&(!exact||d<exact.distance);d+=.32)samples.push(d);
+      // Небольшой сдвиг внутрь измеренной клетки нужен только для записи карты.
+      if(exact?.hit)samples.push(exact.distance+1e-8);
+      for(const d of samples){
         const tx=rover.x+dx*d,ty=rover.y+dy*d;
         const t=tileAt(world,tx,ty);
-        if(!t){distance=d;hit=true;break;}
+        if(!t){if(!exact){distance=d;hit=true;}break;}
         if(rover.exploration)markObserved(rover.exploration,rover.estimatedX+dx*d,rover.estimatedY+dy*d);
         const record={rock:t.rock,crater:t.crater,rim:t.rim,seenAt:time};
         if(d<=SPECTRAL_RANGE&&spectrum&&(!deposit||!t.rock)){
@@ -54,12 +61,13 @@ export function sampleSensors(world,rover,time,{scan=true}={}){
           if(t.ice)record.waterPosition={x:rover.estimatedX+Math.floor(tx)+.5-rover.x,y:rover.estimatedY+Math.floor(ty)+.5-rover.y};
         }
         evicted+=remember(rover.memory,tx,ty,record);
-        if(t.rock){distance=d;hit=true;break;}
+        if(t.rock){if(!exact){distance=d;hit=true;}break;}
       }
       rays.push({angle,distance,hit});
     }
     reading.lidar=rays; reading.scanFresh=true; reading.evicted=evicted;
     rover.lastLidar=rays;
+    rover.lidarMode??=LIDAR_MODE;
     if(rover.exploration){rover.exploration.lastGain=rover.exploration.uniqueObserved-observedBefore;rover.exploration.scans++;}
   }
   // Только записи реально измеренных участков, исчезают при вытеснении карты.

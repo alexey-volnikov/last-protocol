@@ -13,7 +13,7 @@ const profiles={
   [DEPOSIT_PRESET]:{key:'last-protocol-deposit-dqn-v1',file:'deposit-dqn-v1',report:'deposit-benchmark',create:createDepositController},
   [CURIOSITY_EXPERIMENT]:{key:'last-protocol-curiosity-dqn-v1',file:'curiosity-dqn-v1',report:'curiosity-benchmark',create:createCuriosityController,world:DEPOSIT_PRESET,curiosity:true},
   [MOTION_EXPERIMENT]:{key:'last-protocol-motion-dqn-v1',file:'motion-context-dqn-v1',report:'motion-benchmark',create:createMotionController,world:DEPOSIT_PRESET,curiosity:true},
-  [SEQUENTIAL_EXPERIMENT]:{key:'last-protocol-motion-dqn-v2',file:'motion-decision-dqn-v2',report:'sequential-benchmark',create:createSequentialController,world:DEPOSIT_PRESET,curiosity:true}
+  [SEQUENTIAL_EXPERIMENT]:{key:'last-protocol-motion-dqn-v2',file:'motion-decision-dqn-v2',report:'lidar-benchmark',create:createSequentialController,world:DEPOSIT_PRESET,curiosity:true}
 };
 let rememberedProfile=null;try{rememberedProfile=localStorage.getItem('last-protocol-active-experiment');}catch{}
 let preset=profiles[rememberedProfile]?rememberedProfile:CURIOSITY_EXPERIMENT,brain=profiles[preset].create({seed:71,epsilon:.06}),worker=null;
@@ -45,6 +45,12 @@ function updateUI(){
   $('distanceTxt').textContent=s.distance.toFixed(1);
   $('scansTxt').textContent=s.scans;
   $('lostTxt').textContent=s.lost;
+  $('collisionTxt').textContent=s.collisions;
+  const forward=r.lastObservation?.lidar?.reduce((best,ray)=>{
+    const delta=Math.abs(Math.atan2(Math.sin(ray.angle-r.heading),Math.cos(ray.angle-r.heading)));
+    return !best||delta<best.delta?{...ray,delta}:best;
+  },null);
+  $('lidarDetail').textContent=forward?`Последний луч по курсу: ${forward.distance.toFixed(2)} м · ${forward.hit?'преграда':'свободно до предела'}. Скан каждые 6 с; показание может устареть после движения.`:'Лидар ожидает первый оплаченный скан.';
   $('actionTxt').textContent=s.action;
   $('pos').textContent=`X ${r.estimatedX.toFixed(1)} · Y ${r.estimatedY.toFixed(1)} (одометрия)`;
   $('timeDisplay').textContent=`T+${timeStr(s.time)}`;
@@ -241,11 +247,12 @@ async function showBenchmark(){
     const response=await fetch(`./experiments/${profiles[preset].report}.json`,{cache:'no-store'});
     if(response.ok){const report=await response.json();
       $('benchmarkStatus').textContent=preset===SEQUENTIAL_EXPERIMENT?
-        `С включённым обучением: вращение ${report.test.decision.summary.spinWindows} окон против ${report.test.after.summary.spinWindows} у старого алгоритма; вращение или застой ${report.test.decision.summary.badWindows} против ${report.test.after.summary.badWindows}. Посещено за сутки ${report.test.decision.summary.lifeVisited.toFixed(1)} против ${report.test.after.summary.lifeVisited.toFixed(1)}. ${report.promotion.accepted?'Критерий сравнения выполнен.':'Критерий устойчивости не выполнен; это отдельный опыт.'} Окно — 10 минут, сон исключён из застоя.`:preset===MOTION_EXPERIMENT?
+        `Проверка исправленного лидара, ${report.test.continuous.cases.length} новых сценариев с обучением: столкновений ${report.test.continuous.summary.resetCollisions+report.test.continuous.summary.lifeCollisions} против ${report.test.sampled.summary.resetCollisions+report.test.sampled.summary.lifeCollisions}. Проблемных окон ${report.test.continuous.summary.badWindows} против ${report.test.sampled.summary.badWindows}; посещено за сутки ${report.test.continuous.summary.lifeVisited.toFixed(1)} против ${report.test.sampled.summary.lifeVisited.toFixed(1)}. ${report.criteria.accepted?'Критерий этого сравнения выполнен.':'Полный критерий улучшения не выполнен; безопасная разведка ещё не освоена.'} Исходные веса одинаковы, готового объезда нет.`:preset===MOTION_EXPERIMENT?
         `Живое обучение, ${report.test.context.cases.length} новых сценариев: проблемных окон ${report.test.context.summary.badWindows}, без доступа к истории ${report.test.masked.summary.badWindows}, из исходных весов ${report.test.initial.summary.badWindows}. Окно — 10 минут симуляции; спячка не считается застоем. За 24 ч посещено в среднем ${report.test.context.summary.lifeVisited.toFixed(1)} против ${report.test.masked.summary.lifeVisited.toFixed(1)} без истории. ${report.promotion.accepted?'Критерий опыта выполнен.':'Критерий устойчивого улучшения не выполнен; это отдельный LAB-опыт.'} Кандидатов пласта: ${report.test.context.candidates}.`:preset===CURIOSITY_EXPERIMENT?
         `На ${report.test.trained.total} новых картах: наблюдено в среднем ${report.test.trained.observed.toFixed(0)} клеток, до обучения ${report.test.transferred.observed.toFixed(0)}; посещено ${report.test.trained.visited.toFixed(1)} против ${report.test.transferred.visited.toFixed(1)}. Отключений всего ${report.test.trained.trials.reduce((n,t)=>n+t.shutdowns,0)} против ${report.test.transferred.trials.reduce((n,t)=>n+t.shutdowns,0)}. Столкновений стало больше; безопасная разведка ещё не освоена. Кандидатов пласта: ${report.test.trained.candidates}/${report.test.trained.total}.` :preset===DEPOSIT_PRESET?
         `Кандидатов на новых картах: ${report.test.trained.candidates}/${report.test.trained.total}. Две тренировки не улучшили проверку; комплектный мозг оставлен исходным переносом. Навык долгой разведки пока не освоен.`:
         `Малый опыт: ${report.test.trained.found}/${report.test.trained.total} карт; до обучения: ${report.test.untrained.found}/${report.test.untrained.total}. Это не поиск большого пласта.`;
+      if(preset!==SEQUENTIAL_EXPERIMENT)$('benchmarkStatus').textContent=`Историческая проверка 0.3.0, до исправления лидара. ${$('benchmarkStatus').textContent}`;
     }
   }catch{}
 }

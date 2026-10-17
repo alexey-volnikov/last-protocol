@@ -5,7 +5,8 @@ import {createHash} from 'node:crypto';
 import {createSimulation,step} from '../src/sim/engine.js';
 import {sampleSensors} from '../src/sim/sensors.js';
 import {createCuriosityController} from '../src/agent/curiosity-controller.js';
-import {auditController,ONLINE_PROTOCOL,ONLINE_VARIANTS,runOnlineCase,summarizeOnline} from '../src/lab/online-audit.js';
+import {auditController,ONLINE_PROTOCOL,ONLINE_VARIANTS,summarizeOnline} from '../src/lab/online-audit.js';
+import {runMotionCase} from '../src/lab/motion-experiment.js';
 const root=new URL('../',import.meta.url),model=JSON.parse(await readFile(new URL('models/curiosity-dqn-v1.json',root),'utf8'));
 const fixture=controller=>createSimulation(4233,{preset:'deposit-lab-v1',curiosity:true,controller});
 test('LAB reset retains a deferred failure without performing unpowered learning',()=>{
@@ -55,8 +56,9 @@ test('online validation and held-out maps and learner seeds are disjoint',()=>{
   assert.ok(ONLINE_PROTOCOL.test.seeds.every(s=>!ONLINE_PROTOCOL.validation.seeds.includes(s)));
 });
 test('reported map 4233 reproduces legacy spinning; bounded historical replay avoids that six-reset regression',()=>{
-  const old=runOnlineCase(model,'legacy',4233,71,{lifeSteps:0});
-  const candidate=runOnlineCase(model,'history',4233,71,{lifeSteps:0});
+  const legacyCase=variant=>runMotionCase(model,4233,71,{lifeSteps:0,simulationOptions:{lidarMode:'sampled-v1'},
+    createController:options=>auditController(options.model,variant,options.seed,options.learning)});
+  const old=legacyCase('legacy'),candidate=legacyCase('history');
   assert.equal(old.restarts[4].early.spin,true);assert.ok(old.restarts[4].early.distance<1);
   assert.ok(candidate.restarts.every(r=>!r.early.spin&&r.early.distance>1));
   assert.equal(candidate.deferredDropped,0);assert.ok(old.deferredDropped>0);

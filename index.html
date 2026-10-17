@@ -10,7 +10,7 @@
 <body>
   <main class="shell">
     <header class="topbar">
-      <div class="brand"><span class="brand-icon">☾</span><div><div class="brand-title">LAST<span>PROTOCOL</span><small>LAB / 0.3.0</small></div><div class="brand-sub">ЛУННАЯ АВТОНОМНАЯ ЛАБОРАТОРИЯ</div></div></div>
+      <div class="brand"><span class="brand-icon">☾</span><div><div class="brand-title">LAST<span>PROTOCOL</span><small>LAB / 0.3.1</small></div><div class="brand-sub">ЛУННАЯ АВТОНОМНАЯ ЛАБОРАТОРИЯ</div></div></div>
       <div class="top-right"><span class="tag live" id="runState">СИМУЛЯЦИЯ АКТИВНА</span><span class="tag">ТЕСТОВАЯ ФИЗИКА</span><a class="doc-link" href="./docs/VISION.md" target="_blank" rel="noopener">Концепция ↗</a></div>
     </header>
     <section class="headline">
@@ -25,6 +25,7 @@
         <div class="meter"><div class="rowlabel"><span>▤ НАКОПИТЕЛЬ КАРТЫ</span><strong id="memoryTxt">0%</strong></div><div class="bar"><div id="memoryBar" class="fill memory"></div></div><div class="hint" id="memoryDetail">192 KiB · известные клетки</div></div>
         <div class="meter"><div class="rowlabel"><span>☀ ОСВЕЩЁННОСТЬ</span><strong id="sunTxt">0%</strong></div><div class="bar"><div id="sunBar" class="fill light"></div></div><div class="hint">День и тень = выработка энергии</div></div>
         <div class="stats-grid"><div class="stat"><label>ТЕЛО / °C</label><strong id="tempTxt">-10°</strong></div><div class="stat"><label>ПУТЬ / м</label><strong id="distanceTxt">0.0</strong></div><div class="stat"><label>СКАНЫ</label><strong id="scansTxt">0</strong></div><div class="stat"><label>ПОТЕРЯНО ЗАПИСЕЙ</label><strong id="lostTxt">0</strong></div></div>
+        <div class="meter"><div class="rowlabel"><span>КОНТАКТЫ С ПРЕГРАДАМИ</span><strong id="collisionTxt">0</strong></div><p class="hint" id="lidarDetail">Лидар ожидает первый оплаченный скан.</p></div>
         <div class="panel-heading lower">02 / ПОСЛЕДНЕЕ РЕШЕНИЕ</div><div class="thought"><div class="thought-caption" id="policyCaption">ЛОКАЛЬНАЯ НЕЙРОСЕТЬ</div><p id="actionTxt">Инициализация...</p><div class="hint" id="brainDetail"></div></div>
         <div class="disclaimer">Сеть видит показания приборов и запомненные наблюдения. <b>Скрытая карта ей недоступна.</b> E считает обновления весов. Крупный источник требует разнесённых проб; добыча и ремонт ещё впереди.</div>
         <details class="decision-details"><summary>Оценки действий сети</summary><p id="decisionDetail"></p></details>
@@ -79,7 +80,7 @@
         <div class="quote">Мозг сохраняется отдельно для каждого опыта. LAB-сброс и обновление страницы начинают мир заново. В самой экспедиции спячка сохраняет положение и историю.</div>
       </aside>
     </section>
-    <footer><span>LAST PROTOCOL · ВЕРСИЯ 0.3.0 · ЭКСПЕРИМЕНТАЛЬНЫЙ СТЕНД</span><span>Концентрация, спектрометр и световой цикл — лабораторные приближения.</span></footer>
+    <footer><span>LAST PROTOCOL · ВЕРСИЯ 0.3.1 · ЭКСПЕРИМЕНТАЛЬНЫЙ СТЕНД</span><span>Концентрация, спектрометр и световой цикл — лабораторные приближения.</span></footer>
   </main>
   <script type="module" src="./src/main.js"></script>
 </body>

@@ -68,7 +68,9 @@ test('sequential report retains matched controls, selection, all held-out pairs 
   const r=JSON.parse(await readFile(new URL('experiments/sequential-benchmark.json',root),'utf8')),sha=s=>createHash('sha256').update(s).digest('hex');
   assert.deepEqual(r.protocol,SEQUENTIAL_PROTOCOL);assert.equal(r.originSha256,sha(JSON.stringify(origin)));assert.equal(r.initialSha256,sha(JSON.stringify(model)));
   assert.equal(r.training.length,4);
-  for(const [name,hash] of Object.entries(r.sourceHashes))assert.equal(sha((await readFile(new URL(name,root),'utf8')).replace(/\r\n/g,'\n')),hash,name);
+  // Исторический опыт закреплён за ревизией до исправления геометрии лидара.
+  assert.equal(r.sourceRevision,'8b4a1ca3fd3f87f29d5e081231a339096624d00f');
+  for(const hash of Object.values(r.sourceHashes))assert.match(hash,/^[a-f0-9]{64}$/);
   for(const group of ['after','decision']){
     const selected=r.protocol.trainingSeeds.map(s=>`${group}-${s}`).sort((a,b)=>compareSequential(r.validation[a].summary,r.validation[b].summary))[0];
     assert.equal(r.selection[group],selected);
@@ -86,8 +88,8 @@ test('sequential report retains matched controls, selection, all held-out pairs 
 });
 test('reported map 4295 starts with actual exploration instead of the packaged stationary-turn regression',async()=>{
   const selected=JSON.parse(await readFile(new URL('models/motion-decision-dqn-v2.json',root),'utf8'));
-  const before=runMotionCase(model,4295,71,{steps:300,resets:1,lifeSteps:0,createController:sequentialFactory('initial')});
-  const after=runMotionCase(selected,4295,71,{steps:300,resets:1,lifeSteps:0,createController:sequentialFactory('decision')});
+  const before=runMotionCase(model,4295,71,{steps:300,resets:1,lifeSteps:0,createController:sequentialFactory('initial'),simulationOptions:{lidarMode:'sampled-v1'}});
+  const after=runMotionCase(selected,4295,71,{steps:300,resets:1,lifeSteps:0,createController:sequentialFactory('decision'),simulationOptions:{lidarMode:'sampled-v1'}});
   assert.equal(before.restarts[0].early.spin,true);assert.ok(before.restarts[0].distance<1);
   assert.equal(after.restarts[0].early.spin,false);assert.ok(after.restarts[0].distance>3);
   const diagnostic=JSON.parse(await readFile(new URL('experiments/sequential-known.json',root),'utf8'));

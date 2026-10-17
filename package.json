@@ -1,7 +1,7 @@
 {
   "name": "last-protocol",
   "private": true,
-  "version": "0.3.0",
+  "version": "0.3.1",
   "type": "module",
   "scripts": {
     "dev": "node dev-server.mjs",
@@ -17,6 +17,8 @@
     "audit:online:test": "node experiments/audit-online.mjs --stage=test",
     "train:motion": "node experiments/train-motion.mjs",
     "train:sequential": "node experiments/train-sequential.mjs",
-    "diagnose:sequential": "node experiments/diagnose-sequential.mjs"
+    "diagnose:sequential": "node experiments/diagnose-sequential.mjs",
+    "benchmark:lidar": "node experiments/benchmark-lidar.mjs",
+    "diagnose:lidar": "node experiments/diagnose-lidar.mjs"
   }
 }

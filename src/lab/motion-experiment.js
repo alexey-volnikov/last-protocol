@@ -4,8 +4,8 @@ import {summarizeOnline,compareOnline} from './online-audit.js';
 export const MOTION_PROTOCOL={id:'motion-context-v1',experiment:MOTION_EXPERIMENT,trainingSeeds:[1601,2909],episodes:80,steps:2400,
   trainMaps:Array.from({length:16},(_,i)=>12001+i),validation:{maps:[13001,13002,13003],seeds:[101,907]},test:{maps:[14001,14002,14003,14004],seeds:[103,919]},
   resets:6,lifeSteps:43200,window:300};
-function run(controller,map,steps){
-  const sim=createSimulation(map,{controller,preset:'deposit-lab-v1',curiosity:true}),windows=[];
+function run(controller,map,steps,simulationOptions={}){
+  const sim=createSimulation(map,{...simulationOptions,controller,preset:'deposit-lab-v1',curiosity:true}),windows=[];
   let distance=0,observed=0,visited=1,active=0,turns=0;
   for(let i=0;i<steps;i++){
     const before=sim.rover.steps;step(sim);
@@ -25,15 +25,15 @@ function run(controller,map,steps){
     ...(info.awaitingDecision!=null?{awaitingDecision:info.awaitingDecision,discardedTruncations:info.discardedTruncations}: {}),
     early:windows[0],spinWindows:windows.filter(w=>w.spin).length,stalledWindows:windows.filter(w=>w.stalled).length,badWindows:windows.filter(w=>w.bad).length,windows};
 }
-export function runMotionCase(model,map,seed,{masked=false,learning=true,resets=MOTION_PROTOCOL.resets,steps=MOTION_PROTOCOL.steps,lifeSteps=MOTION_PROTOCOL.lifeSteps,createController=createMotionController}={}){
+export function runMotionCase(model,map,seed,{masked=false,learning=true,resets=MOTION_PROTOCOL.resets,steps=MOTION_PROTOCOL.steps,lifeSteps=MOTION_PROTOCOL.lifeSteps,createController=createMotionController,simulationOptions={}}={}){
   const controller=createController({model,seed,masked,learning,epsilon:.06}),restarts=[];let deferredDropped=0;
   for(let i=0;i<resets;i++){
     const pending=controller.info().deferredFailure;controller.newTrial();
     if(pending&&!controller.info().deferredFailure)deferredDropped++;
-    restarts.push(run(controller,map,steps));
+    restarts.push(run(controller,map,steps,simulationOptions));
   }
   const living=createController({model,seed,masked,learning,epsilon:.06});
-  return {map,seed,masked,learning,deferredDropped,restarts,life:run(living,map,lifeSteps)};
+  return {map,seed,masked,learning,deferredDropped,restarts,life:run(living,map,lifeSteps,simulationOptions)};
 }
 export function evaluateMotion(model,set=MOTION_PROTOCOL.validation,{masked=false,learning=true,onProgress=()=>{}}={}){
   const cases=[];

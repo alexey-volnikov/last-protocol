@@ -9,7 +9,7 @@ const report={kind:'diagnostic-only-not-model-selection',maps:[42,4295],seed:71,
 for(const [variant,model] of [['initial',old],['decision',next]]){
   report.cases[variant]=[];
   for(const map of report.maps){
-    const c=runMotionCase(model,map,71,{createController:sequentialFactory(variant),lifeSteps:0});
+    const c=runMotionCase(model,map,71,{createController:sequentialFactory(variant),lifeSteps:0,simulationOptions:{lidarMode:'sampled-v1'}});
     for(const run of [...c.restarts,c.life])delete run.windows;
     report.cases[variant].push(c);
     console.log(JSON.stringify({variant,map,earlyDistance:c.restarts.map(r=>+r.early.distance.toFixed(2)),earlySpin:c.restarts.map(r=>r.early.spin),visited:c.restarts.map(r=>r.visited)}));
