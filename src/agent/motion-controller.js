@@ -37,10 +37,13 @@ export function createMotionMemory(){
   };
 }
 export function createMotionController({masked=false,...options}={}){
+  return createMotionQController(options,{id:MOTION_POLICY,schema:4,masked});
+}
+export function createMotionQController(options,{id,schema,masked=false,decisionNext=false}){
   const memory=createMotionMemory();let action=0;
-  const controller=createQController(options,{id:MOTION_POLICY,schema:4,inputs:61,
+  const controller=createQController(options,{id,schema,inputs:61,
     encode(obs,lastAction){const x=new Float32Array(61);x.set(encodeCuriosityObservation(obs,lastAction));if(!masked)x.set(memory.features(),49);return x;},
-    reward:curiosityReward,terminal:f=>f.newDeposit||f.shutdown,training:{history:true}});
+    reward:curiosityReward,terminal:f=>f.newDeposit||f.shutdown,training:{history:true,decisionNext}});
   return {...controller,
     act(obs){const selected=controller.act(obs);action=selected.type==='turn'?(selected.amount<0?1:2):ACTIONS.indexOf(selected.type);return selected;},
     observe(event){memory.record(event.before,event.after,event.feedback,action);controller.observe(event);},

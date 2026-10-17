@@ -33,7 +33,7 @@ function drawRover(ctx,x,y,heading){
   ctx.strokeStyle='#f3ca78';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(4,0);ctx.lineTo(14,0);ctx.stroke();ctx.beginPath();ctx.moveTo(10,-4);ctx.lineTo(15,0);ctx.lineTo(10,4);ctx.stroke();ctx.restore();
   ctx.beginPath();ctx.arc(x*TW,y*TW,17,0,Math.PI*2);ctx.strokeStyle='#efbc6b70';ctx.lineWidth=1;ctx.stroke();
 }
-export function drawWorld(canvas,sim,mapMode='memory'){
+export function drawWorld(canvas,sim,mapMode='memory',pose=sim.rover){
   const ctx=canvas.getContext('2d'),{world,rover}=sim;
   const sunlight=sunlightAt(world,rover.x,rover.y,sim.time);
   ctx.clearRect(0,0,canvas.width,canvas.height);
@@ -53,11 +53,11 @@ export function drawWorld(canvas,sim,mapMode='memory'){
     ctx.lineWidth=1;
     for(const ray of rover.lastObservation.lidar){
       ctx.strokeStyle=ray.hit?'#d5ac6260':'#75b6c860';
-      ctx.beginPath();ctx.moveTo(rover.x*TW,rover.y*TW);
+      ctx.beginPath();ctx.moveTo(pose.x*TW,pose.y*TW);
       ctx.lineTo((rover.x+Math.cos(ray.angle)*ray.distance)*TW,(rover.y+Math.sin(ray.angle)*ray.distance)*TW);ctx.stroke();
     }
   }
-  drawRover(ctx,rover.x,rover.y,rover.heading);
+  drawRover(ctx,pose.x,pose.y,pose.heading);
   if(sim.water.found&&!sim.survey){
     const p=sim.water.sample;ctx.strokeStyle='#84efcd';ctx.lineWidth=2;
     ctx.beginPath();ctx.arc(p.x*TW,p.y*TW,23,0,Math.PI*2);ctx.stroke();

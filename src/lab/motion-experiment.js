@@ -22,21 +22,26 @@ function run(controller,map,steps){
     shutdowns:sim.stats.shutdowns,collisions:sim.stats.collisions,energyWh:sim.stats.energySpentWh,activeSeconds:sim.stats.activeSeconds,
     sleepSeconds:sim.stats.sleepSeconds,samples:sim.stats.samples,candidate:sim.survey.confirmed,updates:info.updates,replaySize:info.replaySize,
     replayTerminals:info.replayTerminals,historySize:info.historySize,deferredFailure:info.deferredFailure,motion:info.motion,
+    ...(info.awaitingDecision!=null?{awaitingDecision:info.awaitingDecision,discardedTruncations:info.discardedTruncations}: {}),
     early:windows[0],spinWindows:windows.filter(w=>w.spin).length,stalledWindows:windows.filter(w=>w.stalled).length,badWindows:windows.filter(w=>w.bad).length,windows};
 }
-export function runMotionCase(model,map,seed,{masked=false,learning=true,resets=MOTION_PROTOCOL.resets,steps=MOTION_PROTOCOL.steps,lifeSteps=MOTION_PROTOCOL.lifeSteps}={}){
-  const controller=createMotionController({model,seed,masked,learning,epsilon:.06}),restarts=[];
-  for(let i=0;i<resets;i++){controller.newTrial();restarts.push(run(controller,map,steps));}
-  const living=createMotionController({model,seed,masked,learning,epsilon:.06});
-  return {map,seed,masked,learning,deferredDropped:0,restarts,life:run(living,map,lifeSteps)};
+export function runMotionCase(model,map,seed,{masked=false,learning=true,resets=MOTION_PROTOCOL.resets,steps=MOTION_PROTOCOL.steps,lifeSteps=MOTION_PROTOCOL.lifeSteps,createController=createMotionController}={}){
+  const controller=createController({model,seed,masked,learning,epsilon:.06}),restarts=[];let deferredDropped=0;
+  for(let i=0;i<resets;i++){
+    const pending=controller.info().deferredFailure;controller.newTrial();
+    if(pending&&!controller.info().deferredFailure)deferredDropped++;
+    restarts.push(run(controller,map,steps));
+  }
+  const living=createController({model,seed,masked,learning,epsilon:.06});
+  return {map,seed,masked,learning,deferredDropped,restarts,life:run(living,map,lifeSteps)};
 }
 export function evaluateMotion(model,set=MOTION_PROTOCOL.validation,{masked=false,learning=true,onProgress=()=>{}}={}){
   const cases=[];
   for(const map of set.maps)for(const seed of set.seeds){onProgress({map,seed});cases.push(runMotionCase(model,map,seed,{masked,learning}));}
   return {summary:summarizeOnline(cases),candidates:cases.reduce((n,c)=>n+[...c.restarts,c.life].filter(r=>r.candidate).length,0),cases};
 }
-export async function trainMotion({model,masked=false,trainingSeed=1601,protocol=MOTION_PROTOCOL,onProgress=()=>{}}){
-  const controller=createMotionController({model,masked,seed:trainingSeed,learning:true}),history=[];
+export async function trainMotion({model,masked=false,trainingSeed=1601,protocol=MOTION_PROTOCOL,onProgress=()=>{},createController=createMotionController}){
+  const controller=createController({model,masked,seed:trainingSeed,learning:true}),history=[];
   for(let e=0;e<protocol.episodes;e++){
     controller.setExploration(Math.max(.06,.65*(1-e/(protocol.episodes*.85))));controller.newTrial();
     const result=run(controller,protocol.trainMaps[e%protocol.trainMaps.length],protocol.steps);

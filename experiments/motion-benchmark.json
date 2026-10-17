@@ -54,7 +54,7 @@
     "lifeSteps": 43200,
     "window": 300
   },
-  "sourceRevision": "27e2b17c6493aab74ca9d965e9a4a0421327ae9c",
+  "sourceRevision": "dee8a83cfca0e9f3683873c1dd1fc1dace5577dc",
   "sourceHashes": {
     "src/agent/controller.js": "aad1dab614a722ca788d665f79185447b6f390dc2170ba3bc0727bb195814daa",
     "src/agent/network.js": "51d98b81ed702bc3ab3042367f476b10022bec9cddf9f088ed97130e7f1c3628",

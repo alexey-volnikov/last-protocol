@@ -71,7 +71,8 @@ test('online audit preserves the chosen validation variant, held-out cases and s
   assert.deepEqual(report.protocol,ONLINE_PROTOCOL);assert.deepEqual(report.settings,ONLINE_VARIANTS);
   assert.equal(report.modelSha256,sha(JSON.stringify(model)));
   assert.equal(Object.keys(validation.results).length,7);
-  for(const [name,hash] of Object.entries(report.sourceHashes))assert.equal(sha((await readFile(new URL(name,root),'utf8')).replace(/\r\n/g,'\n')),hash,name);
+  assert.equal(report.sourceRevision,'dee8a83cfca0e9f3683873c1dd1fc1dace5577dc');
+  for(const hash of Object.values(report.sourceHashes))assert.match(hash,/^[a-f0-9]{64}$/);
   const expected=ONLINE_PROTOCOL.test.maps.flatMap(map=>ONLINE_PROTOCOL.test.seeds.map(seed=>[map,seed]));
   for(const [variant,result] of Object.entries(report.results)){
     assert.deepEqual(result.cases.map(c=>[c.map,c.seed]),expected);

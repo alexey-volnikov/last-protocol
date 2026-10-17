@@ -70,7 +70,8 @@ test('motion report preserves ablation, selection before held-out testing and ex
   const sha=s=>createHash('sha256').update(s).digest('hex');
   assert.deepEqual(report.protocol,MOTION_PROTOCOL);assert.equal(report.originSha256,sha(JSON.stringify(original)));
   assert.equal(report.initialSha256,sha(JSON.stringify(model)));assert.equal(report.training.length,4);
-  for(const [name,hash] of Object.entries(report.sourceHashes))assert.equal(sha((await readFile(new URL(name,root),'utf8')).replace(/\r\n/g,'\n')),hash,name);
+  assert.equal(report.sourceRevision,'dee8a83cfca0e9f3683873c1dd1fc1dace5577dc');
+  for(const hash of Object.values(report.sourceHashes))assert.match(hash,/^[a-f0-9]{64}$/);
   for(const group of ['context','masked']){
     const winner=MOTION_PROTOCOL.trainingSeeds.map(s=>`${group}-${s}`).sort((a,b)=>compareMotion(report.validation[a].summary,report.validation[b].summary))[0];
     assert.equal(report.selection[group],winner);

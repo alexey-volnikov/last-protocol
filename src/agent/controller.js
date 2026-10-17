@@ -51,7 +51,7 @@ export function createNeuralController({model=null,seed=71,learning=true,epsilon
 }
 export function createQController({model=null,seed=71,learning=true,epsilon=.12}={},spec){
   const random=makeRandom(seed);
-  const training={rate:.003,every:4,batchSize:8,preservePending:true,history:false,...spec.training};
+  const training={rate:.003,every:4,batchSize:8,preservePending:true,history:false,decisionNext:false,...spec.training};
   const historyRandom=makeRandom(seed^0x64A17),recentCapacity=training.history?REPLAY_CAPACITY/2:REPLAY_CAPACITY;
   const architecture={inputs:spec.inputs,hidden:32,outputs:5};
   if(model&&(model.schema_version!==spec.schema||model.policy!==spec.id||!Number.isSafeInteger(model.updates)||model.updates<0))throw new Error('Несовместимый формат мозга или режим опыта');
@@ -61,6 +61,7 @@ export function createQController({model=null,seed=71,learning=true,epsilon=.12}
   const replay=[],history=[];
   let replayIndex=0,historySeen=0,replayTerminals=0,lastAction=-1,chosen=0,updates=model?.updates||0,transitions=0,lastReward=0,lastComponents={},qValues=[];
   let pending=null,chosenInput=null; // Опыт при потере питания; обучение только после пробуждения.
+  let awaiting=null,discardedTruncations=0;
   function learn(item){
     const displaced=replay[replayIndex];
     if(displaced)replayTerminals-=Number(displaced.done);
@@ -86,6 +87,10 @@ export function createQController({model=null,seed=71,learning=true,epsilon=.12}
     act(obs){
       if(pending&&learning){learn(pending);pending=null;}
       const x=spec.encode(obs,lastAction);
+      if(awaiting){
+        if(!awaiting.next)awaiting.next=x.slice();
+        if(learning){learn(awaiting);awaiting=null;}
+      }
       chosenInput=x;
       qValues=network.forward(x).q;
       chosen=learning&&random()<epsilon?Math.floor(random()*5):qValues.indexOf(Math.max(...qValues));
@@ -97,18 +102,24 @@ export function createQController({model=null,seed=71,learning=true,epsilon=.12}
     observe({before,after,feedback}){
       const reward=spec.reward(before,after,feedback);lastReward=reward.total;lastComponents=reward.components;
       if(!learning)return;
+      const done=Boolean(spec.terminal(feedback));
       const item={x:chosenInput.slice(),action:chosen,reward:reward.total,
-        next:spec.encode(after,chosen),done:Boolean(spec.terminal(feedback))};
+        next:training.decisionNext&&!done?null:spec.encode(after,chosen),done};
       if(feedback.shutdown)pending=item;
+      else if(training.decisionNext&&!done)awaiting=item;
       else learn(item);
     },
     setExploration(value){epsilon=clamp(value,0,1);},
     setLearning(value){learning=Boolean(value);},
-    newTrial(){lastAction=-1;if(!training.preservePending)pending=null;},
-    finishLabTrial(){if(pending&&learning){learn(pending);pending=null;}},
+    newTrial(){lastAction=-1;if(!training.preservePending)pending=null;if(awaiting&&!awaiting.next){awaiting=null;discardedTruncations++;}},
+    finishLabTrial(){
+      if(pending&&learning){learn(pending);pending=null;}
+      if(awaiting){if(awaiting.next&&learning)learn(awaiting);if(!awaiting.next)discardedTruncations++;awaiting=null;}
+    },
     info(){return {id:spec.id,updates,replaySize:replay.length+history.length,replayCapacity:REPLAY_CAPACITY,
       replayTerminals,historySize:history.length,deferredFailure:Boolean(pending),training:{...training},
-      learning,epsilon,lastReward,components:{...lastComponents},qValues:[...qValues],lastAction};},
+      learning,epsilon,lastReward,components:{...lastComponents},qValues:[...qValues],lastAction,
+      ...(training.decisionNext?{awaitingDecision:Boolean(awaiting),discardedTruncations}: {})};},
     save(){return {schema_version:spec.schema,policy:spec.id,updates,network:network.save(),...(meta?{meta:structuredClone(meta)}:{})};}
   };
 }
