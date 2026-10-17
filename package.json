@@ -14,6 +14,7 @@
     "benchmark:curiosity": "node experiments/train-curiosity.mjs --evaluate",
     "audit:online": "node experiments/audit-online.mjs --stage=validate",
     "audit:online:known": "node experiments/audit-online.mjs --stage=diagnose",
-    "audit:online:test": "node experiments/audit-online.mjs --stage=test"
+    "audit:online:test": "node experiments/audit-online.mjs --stage=test",
+    "train:motion": "node experiments/train-motion.mjs"
   }
 }

@@ -41,6 +41,12 @@
           <div id="noveltyDirections" class="novelty-directions" role="img" aria-label="Оценка неизвестного по 12 направлениям относительно курса: 0 градусов вперёд, 90 вправо, 180 назад, 270 влево"></div>
           <p class="hint">Высота столбика — ожидаемое неизвестное у следующей точки обзора. Прогноз строится по памяти и дальностям лидара; препятствия дальше видимого могут его изменить. Повторный знакомый скан не даёт новый бонус.</p>
         </section>
+        <section id="motionPanel" class="survey-panel" aria-label="Память последних действий" hidden>
+          <div class="panel-heading">ПАМЯТЬ ДВИЖЕНИЯ <span>32 ДЕЙСТВИЯ / 1 KiB RAM</span></div>
+          <div class="survey-meters"><div><span>ПУТЬ В ОКНЕ</span><strong id="motionPath">0.00 м</strong></div><div><span>СМЕЩЕНИЕ ОТ НАЧАЛА ОКНА</span><strong id="motionDisplacement">0.00 м</strong></div></div>
+          <p id="motionDetail" class="hint"></p>
+          <p class="hint">Измерения одометрии и последствия последних активных действий. Спячка сохраняет окно; LAB-сброс очищает его. Сеть сама выбирает действие с учётом истории.</p>
+        </section>
         <section id="surveyPanel" class="survey-panel" aria-label="Ход длительной разведки">
           <div class="panel-heading">ХОД РАЗВЕДКИ <span>ЖУРНАЛ ПРОБ / 64 ЗАПИСИ</span></div>
           <div class="survey-meters"><div><span>МЕСТНОЕ ИЗМЕРЕНИЕ</span><strong id="concentrationTxt">—</strong></div><div><span>ЛУЧШАЯ ПРОБА</span><strong id="bestProbeTxt">—</strong></div></div>
@@ -60,7 +66,7 @@
         <section class="experiment-settings">
         <div class="panel-heading lower">05 / МОЗГ И ЭКСПЕРИМЕНТ</div>
         <div class="seed-control">
-          <label for="presetSelect">ЛАБОРАТОРНЫЙ ОПЫТ</label><select id="presetSelect"><option value="curiosity-lab-v1">Далёкий пласт · любопытство</option><option value="deposit-lab-v1">Далёкий пласт · прежний мозг</option><option value="surface-water-v1">Единичная проба · малый тест</option></select>
+          <label for="presetSelect">ЛАБОРАТОРНЫЙ ОПЫТ</label><select id="presetSelect"><option value="curiosity-lab-v1">Далёкий пласт · любопытство</option><option value="motion-lab-v1">Память движения · LAB</option><option value="deposit-lab-v1">Далёкий пласт · прежний мозг</option><option value="surface-water-v1">Единичная проба · малый тест</option></select>
           <label for="controllerMode">УПРАВЛЕНИЕ</label><select id="controllerMode"><option value="neural">Локальная нейросеть</option><option value="baseline">Исходная эвристика</option></select>
           <label class="check-label"><input type="checkbox" id="learningToggle" checked /> Учиться во время движения</label>
           <label for="seedInput">СИД КАРТЫ</label><input id="seedInput" type="number" value="42" min="1" max="999999" />

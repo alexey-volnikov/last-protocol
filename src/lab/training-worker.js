@@ -1,8 +1,17 @@
 import {trainWater,PROTOCOL,evaluate} from './experiment.js';
 import {trainDeposit,evaluateDeposit} from './deposit-experiment.js';
 import {trainCuriosity,evaluateCuriosity} from './curiosity-experiment.js';
+import {trainMotion,evaluateMotion,compareMotion} from './motion-experiment.js';
 self.onmessage=async event=>{
   try{
+    if(event.data.preset==='motion-lab-v1'){
+      const result=await trainMotion({model:event.data.model,onProgress:p=>self.postMessage({type:'progress',...p})});
+      const previous=evaluateMotion(event.data.model),candidate=evaluateMotion(result.model);
+      const improved=compareMotion(candidate.summary,previous.summary)<0,validation=improved?candidate:previous;
+      self.postMessage({type:'done',model:improved?result.model:event.data.model,validation:{found:validation.candidates,total:validation.cases.length*7,
+        note:`живая проверка: ${validation.summary.badWindows} проблемных окон, за 24 ч посещено ${validation.summary.lifeVisited.toFixed(1)}; ${improved?'выбран новый checkpoint':'прежние веса сохранены'}`}});
+      return;
+    }
     if(event.data.preset==='curiosity-lab-v1'){
       const result=await trainCuriosity({model:event.data.model,onProgress:p=>self.postMessage({type:'progress',...p})});
       const validation=evaluateCuriosity(result.model);
